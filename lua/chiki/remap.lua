@@ -1,9 +1,6 @@
 local keymap = vim.keymap.set
-keymap('v', '<', '<gv')
 keymap('v', '>', '>gv')
-keymap("v", "J", ":m '>+1<CR>gv=gv")
-keymap("n", "J", "mzJ'z")
-keymap("v", "K", ":m '<-2<CR>gv=gv")
+keymap('v', '<', '<gv')
 keymap('n', 'n', 'nzzzv')
 keymap('n', 'N', 'Nzzzv')
 keymap("n", "<C-d>", "<C-d>zz")

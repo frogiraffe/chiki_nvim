@@ -76,6 +76,14 @@ return {
 		version = false,
 		config = function()
 			require("mini.ai").setup()
+			require("mini.move").setup({
+				mappings = {
+					up = "<S-k>",
+					left = "<S-h>",
+					right = "<S-l>",
+					down = "<S-j>",
+				},
+			})
 			require("mini.indentscope").setup({
 				draw = {
 					delay = 200,
@@ -104,7 +112,7 @@ return {
 				end,
 				desc = "Previous todo comment",
 			},
-			{ "<leader>xt", "<cmd>TodoTrouble<cr>", desc = "Todo (Trouble)" },
+			{ "<leader>xt", "<cmd>TodoTrouble<cr>",                         desc = "Todo (Trouble)" },
 			{ "<leader>xT", "<cmd>TodoTrouble keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme (Trouble)" },
 		},
 		opts = {},
@@ -189,8 +197,8 @@ return {
 		event = "BufRead",
 		dependencies = "kevinhwang91/promise-async",
 		config = function()
-			vim.keymap.set("n", "zR", require("ufo").openAllFolds)
-			vim.keymap.set("n", "zM", require("ufo").closeAllFolds)
+			vim.keymap.set("n", "zO", require("ufo").openAllFolds)
+			vim.keymap.set("n", "zC", require("ufo").closeAllFolds)
 			local handler = function(virtText, lnum, endLnum, width, truncate)
 				local newVirtText = {}
 				local suffix = ("  %d "):format(endLnum - lnum)
@@ -238,32 +246,20 @@ return {
 		"folke/persistence.nvim",
 		event = "BufReadPre",
 		opts = { options = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp" } },
-        -- stylua: ignore
-        keys = {
-            { "<leader>qs", function() require("persistence").load() end,                desc = "Restore Session" },
-            { "<leader>ql", function() require("persistence").load({ last = true }) end, desc = "Restore Last Session" },
-            {
-                "<leader>qd",
-                function() require("persistence").stop() end,
-                desc =
-                "Don't Save Current Session"
-            },
-        }
-,
+		-- stylua: ignore
+		keys = {
+			{ "<leader>qs", function() require("persistence").load() end,                desc = "Restore Session" },
+			{ "<leader>ql", function() require("persistence").load({ last = true }) end, desc = "Restore Last Session" },
+			{
+				"<leader>qd",
+				function() require("persistence").stop() end,
+				desc =
+				"Don't Save Current Session"
+			},
+		}
+		,
 	},
 	{ "tpope/vim-repeat", event = "VeryLazy" },
-	{
-		"cappyzawa/trim.nvim",
-		event = "BufWrite",
-		opts = {
-			-- ft_blocklist = {"typescript"},
-			trim_on_write = true,
-			trim_trailing = true,
-			trim_last_line = false,
-			trim_first_line = false,
-			-- patterns = {[[%s/\(\n\n\)\n\+/\1/]]}, -- Only one consecutive bl
-		},
-	},
 	{
 		"AckslD/nvim-neoclip.lua",
 		config = function()
@@ -279,6 +275,20 @@ return {
 				neovim_image_text = "Spoiler for the escape room: <escape>:q<cr>",
 				line_number_text = "Line %s/%s",
 			})
+		end,
+	},
+	{
+		"nmac427/guess-indent.nvim",
+		config = function()
+			require("guess-indent").setup({
+				ignored_filetypes = { "markdown", "text", "txt" },
+			})
+		end,
+	},
+	{
+		"ahmedkhalf/project.nvim",
+		config = function()
+			require("project_nvim").setup({})
 		end,
 	},
 }

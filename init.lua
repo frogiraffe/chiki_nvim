@@ -16,7 +16,19 @@ if not vim.loop.fs_stat(lazypath) then
         lazypath,
     }
 end
+
+if vim.g.neovide then
+    vim.o.guifont = "FiraCode Nerd Font:h12"
+    vim.g.neovide_transparency = 0.8
+    vim.g.neovide_cursor_animate_in_insert_mode = true
+end
+
 vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
     { import = 'chiki.plugins' },
 })
+
+
+
+
+

@@ -82,6 +82,7 @@ return {
 		})
 		require("telescope").load_extension("fzf")
 		require("telescope").load_extension("undo")
+		require('telescope').load_extension('projects')
 		vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "find files" })
 		vim.keymap.set("n", "<leader>fs", builtin.live_grep, { desc = "grep" })
 		vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "buffers" })
@@ -91,6 +92,7 @@ return {
 		vim.keymap.set("n", "<leader>fgs", builtin.git_status, { desc = "git status" })
 		vim.keymap.set("n", "<leader>fgb", builtin.git_branches, { desc = "git branches" })
 		vim.keymap.set("n", "<leader>fgf", builtin.git_files, { desc = "git files" })
+		vim.keymap.set('n', '<leader>fp', '<cmd>Telescope projects<cr>', { desc = "projects" })
 		vim.keymap.set(
 			"n",
 			"<leader>fy",

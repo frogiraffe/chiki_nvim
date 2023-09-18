@@ -25,12 +25,12 @@ return {
             },
             {
                 "L3MON4D3/LuaSnip",
-                dependencies = { 'rafamadriz/friendly-snippets' },
+                dependencies = { "rafamadriz/friendly-snippets" },
                 -- install jsregexp (optional!).
-                build = "make install_jsregexp"
+                build = "make install_jsregexp",
             },
             {
-                "hrsh7th/cmp-nvim-lsp-signature-help"
+                "hrsh7th/cmp-nvim-lsp-signature-help",
             },
             {
                 "zbirenbaum/copilot.lua",
@@ -39,7 +39,7 @@ return {
                 config = function()
                     require("copilot").setup({
                         suggestion = { enabled = false },
-                        panel      = { enabled = false },
+                        panel = { enabled = false },
                     })
                 end,
             },
@@ -47,29 +47,64 @@ return {
                 "zbirenbaum/copilot-cmp",
                 config = function()
                     require("copilot_cmp").setup()
-                end
-
+                end,
             },
-
         },
         opts = function()
             local cmp = require("cmp")
             local cmp_autopairs = require("nvim-autopairs.completion.cmp")
             cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+            local handlers = require("nvim-autopairs.completion.handlers")
+
+            cmp.event:on(
+                "confirm_done",
+                cmp_autopairs.on_confirm_done({
+                    filetypes = {
+                        -- "*" is a alias to all filetypes
+                        ["*"] = {
+                            ["("] = {
+                                kind = {
+                                    cmp.lsp.CompletionItemKind.Function,
+                                    cmp.lsp.CompletionItemKind.Method,
+                                },
+                                handler = handlers["*"],
+                            },
+                        },
+                        lua = {
+                            ["("] = {
+                                kind = {
+                                    cmp.lsp.CompletionItemKind.Function,
+                                    cmp.lsp.CompletionItemKind.Method,
+                                },
+                                ---@param char string
+                                ---@param item table item completion
+                                ---@param bufnr number buffer number
+                                ---@param rules table
+                                ---@param commit_character table<string>
+                                handler = function(char, item, bufnr, rules, commit_character)
+                                    -- Your handler function. Inpect with print(vim.inspect{char, item, bufnr, rules, commit_character})
+                                end,
+                            },
+                        },
+                        -- Disable for tex
+                        tex = false,
+                    },
+                })
+            )
 
             return {
                 formatting = {
-                    format = require('lspkind').cmp_format({
-                        mode = 'symbol',       -- show only symbol annotations
-                        maxwidth = 50,         -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-                        ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+                    format = require("lspkind").cmp_format({
+                        mode = "symbol", -- show only symbol annotations
+                        maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+                        ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
 
-                        -- The function below will be called before any actual modifications from lspkind
+                        -- The function below will be called befjjore any actual modifications from lspkind
                         -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
                         before = function(entry, vim_item)
                             return vim_item
                         end,
-                    })
+                    }),
                 },
                 completion = {
                     completeopt = "menu,menuone,noinsert",
@@ -82,17 +117,17 @@ return {
                 mapping = cmp.mapping.preset.insert({
                     ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
                     ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
-                    ["<C-d>"] = cmp.mapping.scroll_docs(-4),
-                    ["<C-u>"] = cmp.mapping.scroll_docs(4),
+                    ["<C-d>"] = cmp.mapping.scroll_docs(4),
+                    ["<C-u>"] = cmp.mapping.scroll_docs(-4),
                     ["<C-k>"] = cmp.mapping.complete(),
                     ["<C-e>"] = cmp.mapping.abort(),
                     ["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
                 }),
                 require("luasnip.loaders.from_vscode").lazy_load(),
                 sources = cmp.config.sources({
-                    { name = "nvim_lsp" },
-                    { name = "luasnip" },
-                    { name = "copilot",                group_index = 1 },
+                    { name = "nvim_lsp",               priority = 1000 },
+                    { name = "luasnip",                priority = 750 },
+                    { name = "copilot",                group_index = 2 },
                     { name = "nvim_lsp_signature_help" },
                     { name = "path" },
                     { name = "buffer",                 keyword_length = 5 },
@@ -104,8 +139,8 @@ return {
     {
         "onsails/lspkind.nvim",
         config = function()
-            require('lspkind').init({
-                mode = 'symbol_text',
+            require("lspkind").init({
+                mode = "symbol_text",
                 symbol_map = {
                     Text = "󰉿",
                     Method = "󰆧",
@@ -137,5 +172,5 @@ return {
             })
             vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = "#6CC644" })
         end,
-    }
+    },
 }
