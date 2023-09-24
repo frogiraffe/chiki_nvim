@@ -34,6 +34,7 @@ vim.opt.timeoutlen = 200
 vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.opt.undofile = true
 vim.opt.updatetime = 50
+vim.opt.lazyredraw = false
 vim.opt.wrap = false
 vim.opt.hidden = true
 vim.diagnostic.config({

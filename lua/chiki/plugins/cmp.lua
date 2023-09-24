@@ -45,8 +45,11 @@ return {
             },
             {
                 "zbirenbaum/copilot-cmp",
+                event = { "InsertEnter" , "LspAttach" },
                 config = function()
-                    require("copilot_cmp").setup()
+                    require("copilot_cmp").setup({
+                        fix_pairs = true,
+                    })
                 end,
             },
         },
@@ -95,8 +98,8 @@ return {
             return {
                 formatting = {
                     format = require("lspkind").cmp_format({
-                        mode = "symbol", -- show only symbol annotations
-                        maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+                        mode = "symbol",       -- show only symbol annotations
+                        maxwidth = 50,         -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
                         ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
 
                         -- The function below will be called befjjore any actual modifications from lspkind
@@ -114,13 +117,23 @@ return {
                         require("luasnip").lsp_expand(args.body)
                     end,
                 },
+                window = {
+                    completion = {
+                        border = "rounded",
+                        winhighlight = "Normal:Pmenu,NormalFloat:Pmenu,CursorLine:PmenuSel,Search:None"
+                    },
+                    documentation = {
+                        border = "rounded",
+                        winhighlight = "NormalFloat:Pmenu",
+                },
+            },
                 mapping = cmp.mapping.preset.insert({
                     ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
                     ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
                     ["<C-d>"] = cmp.mapping.scroll_docs(4),
                     ["<C-u>"] = cmp.mapping.scroll_docs(-4),
                     ["<C-k>"] = cmp.mapping.complete(),
-                    ["<C-e>"] = cmp.mapping.abort(),
+                    ["<C-a>"] = cmp.mapping.abort(),
                     ["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
                 }),
                 require("luasnip.loaders.from_vscode").lazy_load(),
@@ -135,7 +148,6 @@ return {
             }
         end,
     },
-
     {
         "onsails/lspkind.nvim",
         config = function()

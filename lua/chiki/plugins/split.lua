@@ -1,7 +1,6 @@
 return {
     {
         'mrjones2014/smart-splits.nvim',
-        event = { 'BufReadPre', 'BufNewFile' },
         config = function()
             require('smart-splits').setup({
                 resize_mode = {

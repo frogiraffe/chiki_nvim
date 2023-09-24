@@ -74,12 +74,19 @@ return {
 
     {
         "SmiteshP/nvim-navbuddy",
+        lazy = false,
         dependencies = {
             "SmiteshP/nvim-navic",
+            "neovim/nvim-lspconfig",
+            "MunifTanjim/nui.nvim",
         },
         opts = { lsp = { auto_attach = true } },
         config = function()
-            vim.keymap.set("n", "<leader>be", "<cmd>:Navbuddy<CR>")
+            local navbuddy = require("nvim-navbuddy")
+            navbuddy.setup({
+                lsp = { auto_attach = true, preference = { "nvim_lsp", "nvim-cmp", "nvim-lspconfig", "texlab", "lua_ls" } },
+            })
+            vim.keymap.set("n", "<leader>be", "<cmd>:Navbuddy<CR>", { desc = "Navbuddy" })
         end,
     },
     {

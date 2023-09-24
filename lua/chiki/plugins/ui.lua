@@ -42,7 +42,7 @@ return {
         "akinsho/bufferline.nvim",
         version = "*",
         dependencies = "nvim-tree/nvim-web-devicons",
-        evnt = "VeryLazy",
+        event = "VeryLazy",
         config = function()
             require("bufferline").setup({
                 vim.keymap.set({ "n", "v" }, "<S-L>", "<cmd>BufferLineCycleNext<CR>"),
@@ -65,7 +65,6 @@ return {
         "nvim-lualine/lualine.nvim",
         event = "VeryLazy",
         dependencies = { "nvim-tree/nvim-web-devicons" },
-        opt = true,
         config = function()
             require("lualine").setup({
                 options = {
@@ -169,7 +168,6 @@ return {
                     "<cmd>ToggleTerm direction=float<CR>",
                     { desc = "toggle floating terminal" }
                 )
-                vim.keymap.set({ "n", "t" }, "<leader>tt", "<cmd>ToggleTerm<CR>", { desc = "toggle floating terminal" })
             end,
         },
     },
@@ -234,6 +232,13 @@ return {
                 },
                 cmdline = {
                     -- view = "cmdline"
+                },
+                views = {
+                    mini = {
+                        win_options = {
+                            winblend = 0
+                        }
+                    }
                 }
             })
         end
