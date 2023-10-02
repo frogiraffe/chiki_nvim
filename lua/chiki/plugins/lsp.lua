@@ -52,6 +52,8 @@ return {
                             Lua = {
                                 diagnostics = {
                                     globals = { "vim" },
+                                    undefined_global = false,   -- remove this from diag!
+                                    missing_parameters = false, -- missing fields :)
                                 },
                             },
                         },
