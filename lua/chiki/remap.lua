@@ -55,7 +55,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         keymap('n', '[d', '<cmd>:lua vim.diagnostic.goto_prev()<CR>', { desc = "go to previous diagnostic" })
         keymap('n', ']d', '<cmd>:lua vim.diagnostic.goto_next()<CR>', { desc = "go to next diagnostic" })
         keymap('n', 'gl', '<cmd>:lua vim.diagnostic.open.float()()<CR>', { desc = "open diagnostic float" })
-        keymap('n', "<leader>gf", "<cmd>lua vim.lsp.buf.format()<CR>", { desc = "format" })
+        keymap('n', "<leader>gg", "<cmd>lua vim.lsp.buf.format()<CR>", { desc = "format" })
         keymap('n', 'gR', '<cmd>:lua vim.lsp.buf.rename()<CR>', { desc = "rename" })
         keymap('n', 'ca', '<cmd>:lua vim.lsp.buf.code_action()<CR>', { desc = "code action" })
     end,

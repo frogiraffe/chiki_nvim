@@ -3,6 +3,7 @@ return {
     {
         "williamboman/mason.nvim",
         build = ":MasonUpdate",
+        event = "BufReadPre",
         dependencies = {
             "williamboman/mason-lspconfig.nvim",
             {
@@ -40,7 +41,8 @@ return {
                             },
                         },
                         server = {
-                            on_attach = function(_, bufnr) end,
+                            on_attach = function(_, bufnr)
+                            end,
                         },
                     })
                 end,

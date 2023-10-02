@@ -47,9 +47,6 @@ return {
             require("bufferline").setup({
                 vim.keymap.set({ "n", "v" }, "<S-L>", "<cmd>BufferLineCycleNext<CR>"),
                 vim.keymap.set({ "n", "v" }, "<S-H>", "<cmd>BufferLineCyclePrev<CR>"),
-                vim.keymap.set({ "n", "v" }, "<leader>bcr", "<cmd>BufferLineCloseRight<CR>"),
-                vim.keymap.set({ "n", "v" }, "<leader>bcl", "<cmd>BufferLineCloseLeft<CR>"),
-                vim.keymap.set({ "n", "v" }, "<leader>bg", "<cmd>BufferlineGoToBuffer<CR>"),
             })
         end,
     },
@@ -180,11 +177,11 @@ return {
         config = function()
             vim.keymap.set(
                 { "n", "v" },
-                "<leader>zo",
+                "<leader>zZ",
                 '<cmd>:lua require("zen-mode").toggle({plugins = {twilight = {enabled = false}}})<CR>',
                 { desc = "zen mode" }
             )
-            vim.keymap.set({ "n", "v" }, "<leader>zO", "<cmd>ZenMode<CR>", { desc = "zen mode /twilight" })
+            vim.keymap.set({ "n", "v" }, "<leader>zz", "<cmd>ZenMode<CR>", { desc = "zen mode /twilight" })
         end,
     },
     {
@@ -211,7 +208,7 @@ return {
             -- OPTIONAL:
             --   `nvim-notify` is only needed, if you want to use the notification view.
             --   If not available, we use `mini` as the fallback
-            { "rcarriga/nvim-notify", opts = { background_colour = "#000000" } }
+            { "rcarriga/nvim-notify", event = "BufRead" , opts = { background_colour = "#000000" } }
         },
         config = function()
             require("noice").setup({

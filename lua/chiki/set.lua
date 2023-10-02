@@ -58,17 +58,12 @@ vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = "#6CC644" })
 vim.cmd([[
 autocmd BufEnter * if &ft ==# 'help' | wincmd L | endif
 ]])
-vim.o.foldcolumn = '1' -- '0' is not bad
-vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
+vim.o.foldcolumn = '0' -- '0' is not bad
 vim.o.foldlevel = 99   -- Using ufo provider need a large value, feel free to decrease the value
 vim.o.foldlevelstart = 99
 vim.o.foldenable = true
 vim.o.splitbelow = true
 vim.o.splitright = true
 vim.o.numberwidth = 3
-vim.cmd [[highlight IndentBlanklineIndent1 guifg=#E06C75 gui=nocombine]]
-vim.cmd [[highlight IndentBlanklineIndent2 guifg=#E5C07B gui=nocombine]]
-vim.cmd [[highlight IndentBlanklineIndent3 guifg=#98C379 gui=nocombine]]
-vim.cmd [[highlight IndentBlanklineIndent4 guifg=#56B6C2 gui=nocombine]]
-vim.cmd [[highlight IndentBlanklineIndent5 guifg=#61AFEF gui=nocombine]]
-vim.cmd [[highlight IndentBlanklineIndent6 guifg=#C678DD gui=nocombine]]
+-- vim.g.vimtex_compiler_method = 'latexrun'
+-- vim.g.vimtex_view_method = 'zathura'

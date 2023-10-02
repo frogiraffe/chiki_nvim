@@ -4,6 +4,10 @@ return {
         version = false, -- last release is way too old
         event = { "InsertEnter" },
         dependencies = {
+            -- {
+            --     "hrsh7th/cmp-omni",
+            --     event = { "BufReadPre", "BufNewFile" },
+            -- },
             {
                 "hrsh7th/cmp-nvim-lsp",
                 event = { "BufReadPre", "BufNewFile" },
@@ -28,6 +32,9 @@ return {
                 dependencies = { "rafamadriz/friendly-snippets" },
                 -- install jsregexp (optional!).
                 build = "make install_jsregexp",
+                config = function()
+                    require('luasnip').setup({ enable_autosnippets = true })
+                end,
             },
             {
                 "hrsh7th/cmp-nvim-lsp-signature-help",
@@ -45,7 +52,7 @@ return {
             },
             {
                 "zbirenbaum/copilot-cmp",
-                event = { "InsertEnter" , "LspAttach" },
+                event = { "InsertEnter", "LspAttach" },
                 config = function()
                     require("copilot_cmp").setup({
                         fix_pairs = true,
@@ -105,6 +112,11 @@ return {
                         -- The function below will be called befjjore any actual modifications from lspkind
                         -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
                         before = function(entry, vim_item)
+                            vim_item.menu = ({
+                                -- omni = (vim.inspect(vim_item.menu):gsub('%"', "")),
+                                -- buffer = "[Buffer]",
+                                -- -- formatting for other sources
+                            })[entry.source.name]
                             return vim_item
                         end,
                     }),
@@ -125,8 +137,8 @@ return {
                     documentation = {
                         border = "rounded",
                         winhighlight = "NormalFloat:Pmenu",
+                    },
                 },
-            },
                 mapping = cmp.mapping.preset.insert({
                     ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
                     ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
@@ -140,6 +152,7 @@ return {
                 sources = cmp.config.sources({
                     { name = "nvim_lsp",               priority = 1000 },
                     { name = "luasnip",                priority = 750 },
+                    -- { name = 'omni', priority = 750 },
                     { name = "copilot",                group_index = 2 },
                     { name = "nvim_lsp_signature_help" },
                     { name = "path" },

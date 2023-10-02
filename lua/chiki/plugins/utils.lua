@@ -86,11 +86,9 @@ return {
 			})
 			require("mini.indentscope").setup({
 				draw = {
-					delay = 200,
+					delay = 500,
 				},
 			})
-			require("mini.map").setup({})
-			vim.keymap.set("n", "<leader>tm", "<cmd>lua MiniMap.toggle()<CR>", { desc = "minimap toggle" })
 		end,
 	},
 	{
@@ -127,24 +125,6 @@ return {
 		"windwp/nvim-autopairs",
 		event = "InsertEnter",
 		opts = {},
-	},
-	{
-		"lukas-reineke/indent-blankline.nvim",
-		event = "BufEnter, BufReadPre",
-		config = function()
-			require("indent_blankline").setup({
-				space_char_blankline = " ",
-				char_highlight_list = {
-					"IndentBlanklineIndent1",
-					"IndentBlanklineIndent2",
-					"IndentBlanklineIndent3",
-					"IndentBlanklineIndent4",
-					"IndentBlanklineIndent5",
-					"IndentBlanklineIndent6",
-				},
-				show_end_of_line = true,
-			})
-		end,
 	},
 	{
 		"nacro90/numb.nvim",
@@ -197,8 +177,8 @@ return {
 		event = "BufRead",
 		dependencies = "kevinhwang91/promise-async",
 		config = function()
-			vim.keymap.set("n", "zO", require("ufo").openAllFolds)
-			vim.keymap.set("n", "zC", require("ufo").closeAllFolds)
+			vim.keymap.set("n", "zO", require("ufo").openAllFolds, {desc = "Open all folds"})
+			vim.keymap.set("n", "zC", require("ufo").closeAllFolds, {desc = "Close all folds"})
 			local handler = function(virtText, lnum, endLnum, width, truncate)
 				local newVirtText = {}
 				local suffix = ("  %d "):format(endLnum - lnum)
