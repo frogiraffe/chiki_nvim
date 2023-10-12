@@ -33,6 +33,7 @@ vim.opt.termguicolors = true
 vim.opt.timeoutlen = 200
 vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.opt.undofile = true
+vim.opt.mouse = 'a'
 vim.opt.updatetime = 50
 vim.opt.lazyredraw = false
 vim.opt.wrap = false
