@@ -1,5 +1,4 @@
 vim.o.background = "dark"
-vim.loader.enable()
 vim.g.netrw_browse_split = 0
 vim.api.nvim_command("autocmd FileType * setlocal formatoptions-=ro")
 vim.g.netrw_banner = 0
