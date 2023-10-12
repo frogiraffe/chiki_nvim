@@ -1,7 +1,7 @@
 return {
 	{
 		"folke/flash.nvim",
-		event = "VeryLazy",
+		event = "BufReadPost",
 		opts = {},
 		keys = {
 			{
@@ -72,7 +72,7 @@ return {
 	},
 	{
 		"echasnovski/mini.nvim",
-		event = "VeryLazy",
+		event = "BufReadPost",
 		version = false,
 		config = function()
 			require("mini.ai").setup()
@@ -118,7 +118,7 @@ return {
 	{
 		"kylechui/nvim-surround",
 		version = "*",
-		event = "VeryLazy",
+		event = "BufReadPost",
 		opts = {},
 	},
 	{
@@ -128,7 +128,7 @@ return {
 	},
 	{
 		"nacro90/numb.nvim",
-		event = "BufRead",
+		event = "BufReadPost",
 		opts = {},
 		-- config = function()
 		--     require('numb').setup()
@@ -153,7 +153,7 @@ return {
 	},
 	{
 		"numToStr/Comment.nvim",
-		event = "VeryLazy",
+		event = "BufReadPost",
 		opts = {},
 		-- config = function()
 		--     require("Comment").setup()
@@ -248,7 +248,7 @@ return {
 	},
 	{
 		"andweeb/presence.nvim",
-		lazy = false,
+		lazy = true,
 		priority = 900,
 		config = function()
 			require("presence").setup({
@@ -265,6 +265,7 @@ return {
 	},
 	{
 		"nmac427/guess-indent.nvim",
+		event = "BufRead",
 		config = function()
 			require("guess-indent").setup({
 				ignored_filetypes = { "markdown", "text", "txt" },
@@ -273,6 +274,7 @@ return {
 	},
 	{
 		"ahmedkhalf/project.nvim",
+		event = "VeryLazy",
 		config = function()
 			require("project_nvim").setup({})
 		end,

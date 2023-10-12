@@ -20,7 +20,7 @@ vim.opt.guicursor = ""
 vim.opt.hlsearch = false
 vim.opt.ignorecase = true
 vim.opt.incsearch = true
-vim.opt.cmdheight = 1
+vim.opt.cmdheight = 0
 vim.opt.isfname:append("@-@")
 vim.opt.list = true
 vim.opt.nu = true
@@ -55,13 +55,6 @@ vim.diagnostic.config({
 	severity_sort = true,
 	signs = true,
 })
--- vim.opt.fillchars = {
--- 	foldopen = "",
--- 	foldclose = "",
--- 	foldsep = " ",
--- 	diff = "╱",
--- 	eob = " ",
--- }
 vim.opt.smoothscroll = true
 
 --diagnostic icons

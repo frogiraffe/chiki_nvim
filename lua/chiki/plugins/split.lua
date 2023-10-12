@@ -1,49 +1,113 @@
 return {
-    {
-        'mrjones2014/smart-splits.nvim',
-        config = function()
-            require('smart-splits').setup({
-                resize_mode = {
-                    hooks = {
-                        on_leave = require('bufresize').register,
-                    },
-                },
-            })
-            -- recommended mappings
-            -- resizing splits
-            -- these keymaps will also accept a range,
-            -- for example `10<A-h>` will `resize_left` by `(10 * config.default_amount)`
-            vim.keymap.set({ 'n', 'v', 't' }, '<C-r>', require('smart-splits').start_resize_mode,
-                { desc = "resize mode" })
-            -- moving between splits
-            vim.keymap.set({ 'n', 't' }, '<C-h>', require('smart-splits').move_cursor_left)
-            vim.keymap.set({ 'n', 't' }, '<C-j>', require('smart-splits').move_cursor_down)
-            vim.keymap.set({ 'n', 't' }, '<C-k>', require('smart-splits').move_cursor_up)
-            vim.keymap.set({ 'n', 't' }, '<C-l>', require('smart-splits').move_cursor_right)
-            vim.keymap.set({ 'n', 't' }, '<C-M-h>', require('smart-splits').resize_left)
-            vim.keymap.set({ 'n', 't' }, '<C-M-j>', require('smart-splits').resize_down)
-            vim.keymap.set({ 'n', 't' }, '<C-M-k>', require('smart-splits').resize_up)
-            vim.keymap.set({ 'n', 't' }, '<C-M-l>', require('smart-splits').resize_right)
-
-            -- swapping buffers between windows
-            vim.keymap.set('n', '<leader><leader>h',
-                require('smart-splits').swap_buf_left, { desc = "swap buffer w left" })
-            vim.keymap.set('n', '<leader><leader>j',
-                require('smart-splits').swap_buf_down, { desc = "swap buffer w down" })
-            vim.keymap.set('n', '<leader><leader>k', require('smart-splits').swap_buf_up, { desc = "swap buffer w up" })
-            vim.keymap.set('n', '<leader><leader>l', require('smart-splits').swap_buf_right,
-                { desc = "swap buffer w up" })
-        end,
-    },
-    {
-        "kwkarlwang/bufresize.nvim",
-        config = function()
-            require('bufresize').setup({
-                resize = {
-                    keys = {},
-                    trigger_events = { "VimResized" },
-                }
-            })
-        end
-    }
+	{
+		"mrjones2014/smart-splits.nvim",
+		keys = {
+			{
+				"<C-h>",
+				function()
+					require("smart-splits").move_cursor_left()
+				end,
+			},
+			{
+				"<C-j>",
+				function()
+					require("smart-splits").move_cursor_down()
+				end,
+			},
+			{
+				"<C-k>",
+				function()
+					require("smart-splits").move_cursor_up()
+				end,
+			},
+			{
+				"<C-l>",
+				function()
+					require("smart-splits").move_cursor_right()
+				end,
+			},
+			{
+				"<C-M-h>",
+				function()
+					require("smart-splits").resize_left()
+				end,
+			},
+			{
+				"<C-M-j>",
+				function()
+					require("smart-splits").resize_down()
+				end,
+			},
+			{
+				"<C-M-k>",
+				function()
+					require("smart-splits").resize_up()
+				end,
+			},
+			{
+				"<C-M-l>",
+				function()
+					require("smart-splits").resize_right()
+				end,
+			},
+			{
+				"<C-r>",
+				function()
+					require("smart-splits").start_resize_mode()
+				end,
+				{ desc = "resize mode" },
+			},
+			{
+				"<leader><leader>h",
+				function()
+					require("smart-splits").swap_buf_left()
+				end,
+				{ desc = "swap buffer w left" },
+			},
+			{
+				"n",
+				"<leader><leader>j",
+				function()
+					require("smart-splits").swap_buf_down()
+				end,
+				{ desc = "swap buffer w down" },
+			},
+			{
+				"n",
+				"<leader><leader>l",
+				function()
+					require("smart-splits").swap_buf_right()
+				end,
+				{ desc = "swap buffer w up" },
+			},
+			{
+				"<leader><leader>k",
+				function()
+					require("smart-splits").swap_buf_up()
+				end,
+				{ desc = "swap buffer w up" },
+			},
+		},
+		config = function()
+			require("smart-splits").setup({
+				resize_mode = {
+					quit_key = "<ESC>",
+					hooks = {
+						on_leave = require("bufresize").register,
+					},
+				},
+			})
+		end,
+	},
+	{
+		"kwkarlwang/bufresize.nvim",
+		config = function()
+			require("bufresize").setup({
+				resize = {
+					keys = {},
+					trigger_events = { "VimResized" },
+				},
+			})
+		end,
+	},
 }

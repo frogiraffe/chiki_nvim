@@ -1,14 +1,45 @@
 return {
 	"nvim-telescope/telescope.nvim",
 	tag = "0.1.x",
+	cmd = "Telescope",
+	keys = {
+		{ "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "find files" } },
+		{ "<leader>fs", "<cmd>Telescope live_grep<cr>", { desc = "grep" } },
+		{ "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "buffers" } },
+		{ "<leader>fm", "<cmd>Telescope marks<cr>", { desc = "marks" } },
+		{
+
+			"n",
+			"<leader>fcs",
+			"<cmd>Telescope grep_string<cr>",
+			{ desc = "grep the string under the cursor" },
+		},
+		{ "n", "<leader>fgc", "<cmd>Telescope git_commits<cr>", { desc = "git commits" } },
+		{ "n", "<leader>fgs", "<cmd>Telescope git_status<cr>", { desc = "git status" } },
+		{ "n", "<leader>fgb", "<cmd>Telescope git_branches<cr>", { desc = "git branches" } },
+		{ "n", "<leader>fgf", "<cmd>Telescope git_files<cr>", { desc = "git files" } },
+		{ "n", "<leader>fp", "<cmd>Telescope projects<cr>", { desc = "projects" } },
+		{
+			"n",
+			"<leader>fy",
+			'<cmd>lua require("telescope").extensions.neoclip.default()<CR>',
+			{ desc = "yank" },
+		},
+		{
+			"n",
+			"<leader>?",
+			"<cmd>Telescope oldfiles<cr>",
+			{ desc = "[?] Find recently opened files" },
+		},
+		{ "n", "<leader>fu", "<cmd>:Telescope undo<CR>", { desc = "undo" } },
+	},
 	-- cmd = 'Telescope',
 	-- or                              , branch = '0.1.1',
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 		{
 			"nvim-telescope/telescope-fzf-native.nvim",
-			build =
-			"cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
+			build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
 		},
 		"debugloop/telescope-undo.nvim",
 	},
@@ -83,24 +114,6 @@ return {
 		})
 		require("telescope").load_extension("fzf")
 		require("telescope").load_extension("undo")
-		require('telescope').load_extension('projects')
-		vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "find files" })
-		vim.keymap.set("n", "<leader>fs", builtin.live_grep, { desc = "grep" })
-		vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "buffers" })
-		vim.keymap.set("n", "<leader>fm", builtin.marks, { desc = "marks" })
-		vim.keymap.set("n", "<leader>fcs", builtin.grep_string, { desc = "grep the string under the cursor" })
-		vim.keymap.set("n", "<leader>fgc", builtin.git_commits, { desc = "git commits" })
-		vim.keymap.set("n", "<leader>fgs", builtin.git_status, { desc = "git status" })
-		vim.keymap.set("n", "<leader>fgb", builtin.git_branches, { desc = "git branches" })
-		vim.keymap.set("n", "<leader>fgf", builtin.git_files, { desc = "git files" })
-		vim.keymap.set('n', '<leader>fp', '<cmd>Telescope projects<cr>', { desc = "projects" })
-		vim.keymap.set(
-			"n",
-			"<leader>fy",
-			'<cmd>lua require("telescope").extensions.neoclip.default()<CR>',
-			{ desc = "yank" }
-		)
-		vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
-		vim.keymap.set("n", "<leader>fu", "<cmd>:Telescope undo<CR>", { desc = "undo" })
+		require("telescope").load_extension("projects")
 	end,
 }

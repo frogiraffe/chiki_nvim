@@ -42,17 +42,16 @@ return {
 		"akinsho/bufferline.nvim",
 		version = "*",
 		dependencies = "nvim-tree/nvim-web-devicons",
-		event = "VeryLazy",
+		keys = {
+			{ "<S-L>", "<cmd>BufferLineCycleNext<CR>" },
+			{ "<S-H>", "<cmd>BufferLineCyclePrev<CR>" },
+		},
 		config = function()
-			require("bufferline").setup({
-				vim.keymap.set({ "n", "v" }, "<S-L>", "<cmd>BufferLineCycleNext<CR>"),
-				vim.keymap.set({ "n", "v" }, "<S-H>", "<cmd>BufferLineCyclePrev<CR>"),
-			})
+			require("bufferline").setup({})
 		end,
 	},
 	{
 		"nvim-lualine/lualine.nvim",
-		event = "VeryLazy",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
 			require("lualine").setup({
@@ -167,15 +166,18 @@ return {
 		-- cmd = { "ZenMode" },
 		dependencies = "folke/twilight.nvim",
 		opts = {},
-		config = function()
-			vim.keymap.set(
-				{ "n", "v" },
+		keys = {
+			{
 				"<leader>zZ",
 				'<cmd>:lua require("zen-mode").toggle({plugins = {twilight = {enabled = false}}})<CR>',
-				{ desc = "zen mode" }
-			)
-			vim.keymap.set({ "n", "v" }, "<leader>zz", "<cmd>ZenMode<CR>", { desc = "zen mode /twilight" })
-		end,
+				{ desc = "zen mode" },
+			},
+			{
+				"<leader>zz",
+				"<cmd>ZenMode<CR>",
+				{ desc = "zen mode /twilight" },
+			},
+		},
 	},
 	{
 		"j-hui/fidget.nvim",
@@ -222,7 +224,7 @@ return {
 					lsp_doc_border = false, -- add a border to hover docs and signature help
 				},
 				cmdline = {
-					view = "cmdline",
+					-- view = "cmdline",
 				},
 				views = {
 					mini = {

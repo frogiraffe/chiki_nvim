@@ -11,7 +11,6 @@ return {
 				event = { "BufReadPre", "BufNewFile" },
 				config = function() end,
 			},
-			{ "simrat39/rust-tools.nvim", event = { "BufReadPre", "BufNewFile" } },
 		},
 		config = function()
 			require("mason").setup()
@@ -76,27 +75,8 @@ return {
 	},
 
 	{
-		"SmiteshP/nvim-navbuddy",
-		lazy = false,
-		dependencies = {
-			"SmiteshP/nvim-navic",
-			"neovim/nvim-lspconfig",
-			"MunifTanjim/nui.nvim",
-		},
-		opts = { lsp = { auto_attach = true } },
-		config = function()
-			local navbuddy = require("nvim-navbuddy")
-			navbuddy.setup({
-				lsp = {
-					auto_attach = true,
-					preference = { "nvim_lsp", "nvim-cmp", "nvim-lspconfig", "texlab", "lua_ls" },
-				},
-			})
-			vim.keymap.set("n", "<leader>be", "<cmd>:Navbuddy<CR>", { desc = "Navbuddy" })
-		end,
-	},
-	{
 		"simrat39/rust-tools.nvim",
+		event = { "BufReadPre", "BufNewFile" },
 		config = function()
 			local rt = require("rust-tools")
 
