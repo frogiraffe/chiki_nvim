@@ -68,6 +68,7 @@ return {
 	},
 	{
 		"folke/neodev.nvim",
+		event = "BufReadPre",
 		opts = {},
 		config = function()
 			require("neodev").setup({})

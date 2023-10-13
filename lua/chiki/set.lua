@@ -3,7 +3,7 @@ vim.g.netrw_browse_split = 0
 vim.api.nvim_command("autocmd FileType * setlocal formatoptions-=ro")
 vim.g.netrw_banner = 0
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
-vim.opt.conceallevel = 3
+vim.opt.conceallevel = 2
 vim.opt.grepprg = "rg --vimgrep"
 vim.opt.formatoptions = "jcroqlnt" -- tcqj
 vim.opt.grepformat = "%f:%l:%c:%m"
@@ -23,6 +23,7 @@ vim.opt.incsearch = true
 vim.opt.cmdheight = 0
 vim.opt.isfname:append("@-@")
 vim.opt.list = true
+vim.cmd([[set listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,trail:·]])
 vim.opt.nu = true
 vim.opt.relativenumber = true
 vim.opt.scrolloff = 8

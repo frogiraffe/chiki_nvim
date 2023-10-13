@@ -1,6 +1,5 @@
 return {
 	"nvim-telescope/telescope.nvim",
-	tag = "0.1.x",
 	cmd = "Telescope",
 	keys = {
 		{ "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "find files" } },
@@ -9,29 +8,26 @@ return {
 		{ "<leader>fm", "<cmd>Telescope marks<cr>", { desc = "marks" } },
 		{
 
-			"n",
 			"<leader>fcs",
 			"<cmd>Telescope grep_string<cr>",
 			{ desc = "grep the string under the cursor" },
 		},
-		{ "n", "<leader>fgc", "<cmd>Telescope git_commits<cr>", { desc = "git commits" } },
-		{ "n", "<leader>fgs", "<cmd>Telescope git_status<cr>", { desc = "git status" } },
-		{ "n", "<leader>fgb", "<cmd>Telescope git_branches<cr>", { desc = "git branches" } },
-		{ "n", "<leader>fgf", "<cmd>Telescope git_files<cr>", { desc = "git files" } },
-		{ "n", "<leader>fp", "<cmd>Telescope projects<cr>", { desc = "projects" } },
+		{ "<leader>fgc", "<cmd>Telescope git_commits<cr>", { desc = "git commits" } },
+		{ "<leader>fgs", "<cmd>Telescope git_status<cr>", { desc = "git status" } },
+		{ "<leader>fgb", "<cmd>Telescope git_branches<cr>", { desc = "git branches" } },
+		{ "<leader>fgf", "<cmd>Telescope git_files<cr>", { desc = "git files" } },
+		{ "<leader>fp", "<cmd>Telescope projects<cr>", { desc = "projects" } },
 		{
-			"n",
 			"<leader>fy",
 			'<cmd>lua require("telescope").extensions.neoclip.default()<CR>',
 			{ desc = "yank" },
 		},
 		{
-			"n",
 			"<leader>?",
 			"<cmd>Telescope oldfiles<cr>",
 			{ desc = "[?] Find recently opened files" },
 		},
-		{ "n", "<leader>fu", "<cmd>:Telescope undo<CR>", { desc = "undo" } },
+		{ "<leader>fu", "<cmd>:Telescope undo<CR>", { desc = "undo" } },
 	},
 	-- cmd = 'Telescope',
 	-- or                              , branch = '0.1.1',

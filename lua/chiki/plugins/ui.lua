@@ -50,13 +50,20 @@ return {
 			require("bufferline").setup({})
 		end,
 	},
+	{ "arkav/lualine-lsp-progress" },
 	{
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
 			require("lualine").setup({
 				options = {
+					theme = "gruvbox-material",
 					icons_enabled = true,
+				},
+				sections = {
+					lualine_c = {
+						"lsp_progress",
+					},
 				},
 			})
 		end,
@@ -83,7 +90,7 @@ return {
 				dashboard.button("r", "  Recently used files", ":Telescope oldfiles <CR>"),
 				dashboard.button(
 					"l",
-					" > Last Session",
+					"  Last Session",
 					'<cmd>:lua require("persistence").load({ last = true })<CR>'
 				),
 				dashboard.button("t", "󰱼  Find text", ":Telescope live_grep <CR>"),
@@ -180,16 +187,6 @@ return {
 		},
 	},
 	{
-		"j-hui/fidget.nvim",
-		tag = "legacy",
-		opts = {},
-		config = function()
-			require("fidget").setup({
-				window = { blend = 0 },
-			})
-		end,
-	},
-	{
 		"folke/noice.nvim",
 		event = "VeryLazy",
 		opts = {
@@ -203,7 +200,8 @@ return {
 			--   If not available, we use `mini` as the fallback
 			{
 				"rcarriga/nvim-notify",
-				event = "BufRead", --[[ opts = { background_colour = "#000000" } ]]
+				event = "BufRead",
+				opts = { background_colour = "#000000" },
 			},
 		},
 		config = function()
