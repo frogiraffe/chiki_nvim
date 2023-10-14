@@ -30,6 +30,9 @@ return {
 				["<leader>z"] = {
 					name = "zen",
 				},
+				["<leader>n"] = {
+					name = "nlatex",
+				},
 			})
 		end,
 	},

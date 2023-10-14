@@ -65,7 +65,6 @@ return {
 				{ desc = "swap buffer w left" },
 			},
 			{
-				"n",
 				"<leader><leader>j",
 				function()
 					require("smart-splits").swap_buf_down()
@@ -73,7 +72,6 @@ return {
 				{ desc = "swap buffer w down" },
 			},
 			{
-				"n",
 				"<leader><leader>l",
 				function()
 					require("smart-splits").swap_buf_right()
