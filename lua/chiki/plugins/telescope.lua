@@ -17,11 +17,7 @@ return {
 		{ "<leader>fgb", "<cmd>Telescope git_branches<cr>", { desc = "git branches" } },
 		{ "<leader>fgf", "<cmd>Telescope git_files<cr>", { desc = "git files" } },
 		{ "<leader>fp", "<cmd>Telescope projects<cr>", { desc = "projects" } },
-		{
-			"<leader>fy",
-			'<cmd>lua require("telescope").extensions.neoclip.default()<CR>',
-			{ desc = "yank" },
-		},
+		{ "<leader>fy", "<cmd>Telescope neoclip<cr>", { desc = "Yank History" } },
 		{
 			"<leader>?",
 			"<cmd>Telescope oldfiles<cr>",
