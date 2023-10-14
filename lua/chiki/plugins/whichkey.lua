@@ -9,30 +9,57 @@ return {
 		config = function()
 			local wk = require("which-key")
 			wk.setup({
+				plugins = {
+					marks = true,
+					registers = true,
+					presets = {
+						operators = true,
+						motions = true,
+						text_objects = true,
+						windows = true,
+						nav = true,
+						z = true,
+						g = true,
+					},
+					spelling = {
+						enabled = true,
+						suggestions = 20,
+					},
+				},
+				icons = {
+					breadcrumb = "»",
+					separator = "➜",
+					group = "+",
+				},
 				triggers = { "<leader>" },
+				window = {
+					border = "double",
+					winblend = 20,
+					align = "center",
+				},
 			})
 			wk.register({
 				["<leader><leader>"] = {
-					name = "swap buffer",
-				},
-				["<leader>b"] = {
-					name = "navbuddy",
+					name = "Swap Buffer",
 				},
 				["<leader>f"] = {
-					name = "telescope",
+					name = "Telescope",
 				},
 				["<leader>t"] = {
-					name = "floating",
+					name = "Floating",
 				},
 				["<leader>x"] = {
-					name = "trouble",
+					name = "Trouble",
 				},
 				["<leader>z"] = {
-					name = "zen",
+					name = "Zen",
 				},
-				["<leader>n"] = {
-					name = "nlatex",
+				["?"] = {
+					name = "Old Files",
 				},
+				-- ["<leader>fy"] = {
+				-- 	name = "Yank History",
+				-- },
 			})
 		end,
 	},
