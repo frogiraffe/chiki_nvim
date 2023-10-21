@@ -17,7 +17,6 @@ return {
 			require("mason-lspconfig").setup({
 				ensure_installed = {
 					"lua_ls",
-					"rust_analyzer",
 					"tsserver",
 					"jedi_language_server",
 				},
@@ -58,12 +57,11 @@ return {
 					})
 				end,
 			})
-			-- require('lspconfig').rust_analyzer.setup({
-			--     checkOnSave = {
-			--         command = 'clippy'
-			--     }
-			-- }
-			-- )
+			require("lspconfig").rust_analyzer.setup({
+				checkOnSave = {
+					command = "clippy",
+				},
+			})
 		end,
 	},
 	{
@@ -71,12 +69,14 @@ return {
 		event = "BufReadPre",
 		opts = {},
 		config = function()
-			require("neodev").setup({})
+			require("neodev").setup({
+				library = { plugins = { "neotest" }, types = true },
+			})
 		end,
 	},
 
 	{
-		"simrat39/rust-tools.nvim",
+		"Ciel-MC/rust-tools.nvim",
 		event = { "BufReadPre", "BufNewFile" },
 		config = function()
 			local rt = require("rust-tools")
@@ -84,4 +84,25 @@ return {
 			rt.setup({})
 		end,
 	},
+	{
+		"hinell/lsp-timeout.nvim",
+		dependencies = { "neovim/nvim-lspconfig" },
+		event = "VeryLazy",
+	},
+	-- {
+	-- 	"mrcjkb/ferris.nvim",
+	-- 	version = "^2", -- Recommended
+	-- 	ft = { "rust" },
+	-- 	config = function()
+	-- 		vim.g.ferris = {
+	-- 			server = {
+	-- 				["rust-analyzer"] = {
+	-- 					checkOnSave = {
+	-- 						command = "clippy",
+	-- 					},
+	-- 				},
+	-- 			},
+	-- 		}
+	-- 	end,
+	-- },
 }

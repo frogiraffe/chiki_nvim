@@ -25,7 +25,7 @@ vim.opt.isfname:append("@-@")
 vim.opt.list = true
 vim.cmd([[set listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,trail:·]])
 vim.opt.nu = true
-vim.opt.relativenumber = true
+-- vim.opt.relativenumber = false
 vim.opt.scrolloff = 8
 vim.opt.shiftwidth = 4
 vim.opt.signcolumn = "yes"

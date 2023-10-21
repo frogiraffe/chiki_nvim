@@ -72,8 +72,8 @@ return {
 	},
 	{
 		"echasnovski/mini.nvim",
-		event = "BufReadPost",
-		version = false,
+		-- event = "BufReadPost",
+		-- version = false,
 		config = function()
 			require("mini.ai").setup()
 			require("mini.move").setup({
@@ -203,6 +203,7 @@ return {
 	},
 	{
 		"tpope/vim-fugitive",
+		event = "VeryLazy",
 	},
 	{
 		"kevinhwang91/nvim-ufo",
@@ -254,26 +255,27 @@ return {
 		--     require('colorizer').setup()
 		-- end,
 	},
-	{
-		"folke/persistence.nvim",
-		event = "BufReadPre",
-		opts = { options = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp" } },
-		-- stylua: ignore
-		keys = {
-			{ "<leader>qs", function() require("persistence").load() end,                desc = "Restore Session" },
-			{ "<leader>ql", function() require("persistence").load({ last = true }) end, desc = "Restore Last Session" },
-			{
-				"<leader>qd",
-				function() require("persistence").stop() end,
-				desc =
-				"Don't Save Current Session"
-			},
-		}
-,
-	},
+	-- 	{
+	-- 		"folke/persistence.nvim",
+	-- 		event = "BufReadPre",
+	-- 		opts = { options = { "buffers", "curdir", "tabpages", "winsize" } },
+	-- 		-- stylua: ignore
+	-- 		keys = {
+	-- 			{ "<leader>qs", function() require("persistence").load() end,                desc = "Restore Session" },
+	-- 			{ "<leader>ql", function() require("persistence").load({ last = true }) end, desc = "Restore Last Session" },
+	-- 			{
+	-- 				"<leader>qd",
+	-- 				function() require("persistence").stop() end,
+	-- 				desc =
+	-- 				"Don't Save Current Session"
+	-- 			},
+	-- 		}
+	-- ,
+	-- 	},
 	{ "tpope/vim-repeat", event = "VeryLazy" },
 	{
 		"AckslD/nvim-neoclip.lua",
+		event = "VeryLazy",
 		config = function()
 			require("neoclip").setup()
 		end,
@@ -310,5 +312,44 @@ return {
 		config = function()
 			require("project_nvim").setup({})
 		end,
+	},
+	{
+		"cappyzawa/trim.nvim",
+		event = "BufRead",
+		config = function()
+			require("trim").setup({
+				ft_blocklist = { "markdown" },
+			})
+		end,
+	},
+	-- Lua
+	{
+		"folke/persistence.nvim",
+		event = "BufReadPre", -- this will only start session saving when an actual file was opened
+		event = "BufReadPre",
+		opts = { options = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp" } },
+		keys = {
+			{
+				"<leader>qs",
+				function()
+					require("persistence").load()
+				end,
+				desc = "Restore Session",
+			},
+			{
+				"<leader>ql",
+				function()
+					require("persistence").load({ last = true })
+				end,
+				desc = "Restore Last Session",
+			},
+			{
+				"<leader>qd",
+				function()
+					require("persistence").stop()
+				end,
+				desc = "Don't Save Current Session",
+			},
+		},
 	},
 }

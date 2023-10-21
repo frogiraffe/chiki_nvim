@@ -3,51 +3,204 @@ return {
 		"stevearc/dressing.nvim",
 		lazy = true,
 		opts = {},
-	},
-	{
-		"nvim-tree/nvim-tree.lua",
-		event = "VeryLazy",
-		version = "*",
-		dependencies = {
-			"nvim-tree/nvim-web-devicons",
-		},
-		keys = {
-			{ "<leader>e", "<cmd>:NvimTreeToggle<CR>", { desc = "tree toggle" } },
-			{ "<leader>fe", "<cmd>:NvimTreeFindFileToggle<CR>", { desc = "tree toggle" } },
-		},
 		config = function()
-			local function open_tab_silent(node)
-				local api = require("nvim-tree.api")
+			-- vim.ui.select = function(...)
+			-- 	require("lazy").load({ plugins = { "dressing.nvim" } })
+			-- 	return vim.ui.select(...)
+			-- end
+			-- ---@diagnostic disable-next-line: duplicate-set-field
+			-- vim.ui.input = function(...)
+			-- 	require("lazy").load({ plugins = { "dressing.nvim" } })
+			-- 	return vim.ui.input(...)
+			-- end
+			require("dressing").setup({
+				input = {
+					-- Set to false to disable the vim.ui.input implementation
+					enabled = true,
 
-				api.node.open.tab(node)
-				vim.cmd.tabprev()
-			end
-			require("nvim-tree").setup({
-				sync_root_with_cwd = true,
-				respect_buf_cwd = true,
-				renderer = {},
-				view = {
-					adaptive_size = false,
-					side = "left",
-					width = 30,
-					preserve_window_proportions = true,
+					-- Default prompt string
+					default_prompt = "Input:",
+
+					-- Can be 'left', 'right', or 'center'
+					title_pos = "left",
+
+					-- When true, <Esc> will close the modal
+					insert_only = true,
+
+					-- When true, input will start in insert mode.
+					start_in_insert = true,
+
+					-- These are passed to nvim_open_win
+					border = "rounded",
+					-- 'editor' and 'win' will default to being centered
+					relative = "cursor",
+
+					-- These can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
+					prefer_width = 40,
+					width = nil,
+					-- min_width and max_width can be a list of mixed types.
+					-- min_width = {20, 0.2} means "the greater of 20 columns or 20% of total"
+					max_width = { 140, 0.9 },
+					min_width = { 20, 0.2 },
+
+					buf_options = {},
+					win_options = {
+						-- Disable line wrapping
+						wrap = false,
+						-- Indicator for when text exceeds window
+						list = true,
+						listchars = "precedes:…,extends:…",
+						-- Increase this for more context when text scrolls off the window
+						sidescrolloff = 0,
+					},
+
+					-- Set to `false` to disable
+					mappings = {
+						n = {
+							["<Esc>"] = "Close",
+							["<CR>"] = "Confirm",
+						},
+						i = {
+							["<C-c>"] = "Close",
+							["<CR>"] = "Confirm",
+							["<Up>"] = "HistoryPrev",
+							["<Down>"] = "HistoryNext",
+						},
+					},
+
+					override = function(conf)
+						-- This is the config that will be passed to nvim_open_win.
+						-- Change values here to customize the layout
+						return conf
+					end,
+
+					-- see :help dressing_get_config
+					get_config = nil,
 				},
+				select = {
+					-- Set to false to disable the vim.ui.select implementation
+					enabled = true,
 
-				update_focused_file = { enable = true, update_root = true },
+					-- Priority list of preferred vim.select implementations
+					backend = { "telescope", "fzf_lua", "fzf", "builtin", "nui" },
+
+					-- Trim trailing `:` from prompt
+					trim_prompt = true,
+
+					-- Options for telescope selector
+					-- These are passed into the telescope picker directly. Can be used like:
+					-- telescope = require('telescope.themes').get_ivy({...})
+					telescope = nil,
+
+					-- Options for fzf selector
+					fzf = {
+						window = {
+							width = 0.5,
+							height = 0.4,
+						},
+					},
+
+					-- Options for fzf-lua
+					fzf_lua = {
+						-- winopts = {
+						--   height = 0.5,
+						--   width = 0.5,
+						-- },
+					},
+
+					-- Options for nui Menu
+					nui = {
+						position = "50%",
+						size = nil,
+						relative = "editor",
+						border = {
+							style = "rounded",
+						},
+						buf_options = {
+							swapfile = false,
+							filetype = "DressingSelect",
+						},
+						win_options = {
+							winblend = 0,
+						},
+						max_width = 80,
+						max_height = 40,
+						min_width = 40,
+						min_height = 10,
+					},
+
+					-- Options for built-in selector
+					builtin = {
+						-- Display numbers for options and set up keymaps
+						show_numbers = true,
+						-- These are passed to nvim_open_win
+						border = "rounded",
+						-- 'editor' and 'win' will default to being centered
+						relative = "editor",
+
+						buf_options = {},
+						win_options = {
+							cursorline = true,
+							cursorlineopt = "both",
+						},
+
+						-- These can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
+						-- the min_ and max_ options can be a list of mixed types.
+						-- max_width = {140, 0.8} means "the lesser of 140 columns or 80% of total"
+						width = nil,
+						max_width = { 140, 0.8 },
+						min_width = { 40, 0.2 },
+						height = nil,
+						max_height = 0.9,
+						min_height = { 10, 0.2 },
+
+						-- Set to `false` to disable
+						mappings = {
+							["<Esc>"] = "Close",
+							["<C-c>"] = "Close",
+							["<CR>"] = "Confirm",
+						},
+
+						override = function(conf)
+							-- This is the config that will be passed to nvim_open_win.
+							-- Change values here to customize the layout
+							return conf
+						end,
+					},
+
+					-- Used to override format_item. See :help dressing-format
+					format_item_override = {},
+
+					-- see :help dressing_get_config
+					-- get_config = function(opts)
+					-- 	if opts.kind == "codeaction" then
+					-- 		return {
+					-- 			backend = "nui",
+					-- 			nui = {
+					-- 				relative = "editor",
+					-- 				max_width = 40,
+					-- 			},
+					-- 		}
+					-- 	end
+					-- end,
+				},
 			})
-			vim.keymap.set("n", "T", open_tab_silent, { desc = "Open Tab Silent" })
 		end,
 	},
 	{
 		"akinsho/bufferline.nvim",
 		version = "*",
 		dependencies = "nvim-tree/nvim-web-devicons",
+		event = "BufEnter",
 		keys = {
 			{ "<S-L>", "<cmd>BufferLineCycleNext<CR>" },
 			{ "<S-H>", "<cmd>BufferLineCyclePrev<CR>" },
+			{ "<leader>bp", "<cmd>BufferLinePick<CR>" },
 		},
 		config = function()
-			require("bufferline").setup({})
+			require("bufferline").setup({
+				options = {},
+			})
 		end,
 	},
 	{ "arkav/lualine-lsp-progress" },
@@ -63,6 +216,13 @@ return {
 				sections = {
 					lualine_c = {
 						"lsp_progress",
+					},
+					lualine_x = {
+						{
+							require("noice").api.statusline.mode.get,
+							cond = require("noice").api.statusline.mode.has,
+							color = { fg = "#ff9e64" },
+						},
 					},
 				},
 			})
@@ -88,13 +248,9 @@ return {
 				dashboard.button("f", "󰍉  Find file", ":Telescope find_files <CR>"),
 				dashboard.button("e", "  New file", ":ene <BAR> startinsert <CR>"),
 				dashboard.button("r", "  Recently used files", ":Telescope oldfiles <CR>"),
-				dashboard.button(
-					"l",
-					"  Last Session",
-					'<cmd>:lua require("persistence").load({ last = true })<CR>'
-				),
-				dashboard.button("t", "󰱼  Find text", ":Telescope live_grep <CR>"),
-				dashboard.button("c", "  Configuration", ":e ~/.config/nvim/lua/chiki/<CR>"),
+				dashboard.button("s", "󰱼  Find text", ":Telescope live_grep <CR>"),
+				dashboard.button("p", "  Project list", ":Telescope projects<CR>"),
+				dashboard.button("l", "  Load Last Session", ":lua require('persistence').load()<CR>"),
 				dashboard.button("q", "  Quit Neovim", ":qa<CR>"),
 			}
 			dashboard.section.footer.opts.hl = "Type"
@@ -131,7 +287,6 @@ return {
 	{
 		{
 			"akinsho/toggleterm.nvim",
-			-- cmd = { "ToggleTerm", "TermExec" },
 			version = "*",
 			opts = { --[[ things you want to change go here]]
 			},
@@ -172,7 +327,9 @@ return {
 		"folke/zen-mode.nvim",
 		-- cmd = { "ZenMode" },
 		dependencies = "folke/twilight.nvim",
-		opts = {},
+		opts = { window = {
+			width = 120,
+		} },
 		keys = {
 			{
 				"<leader>zZ",
@@ -195,13 +352,11 @@ return {
 		dependencies = {
 			-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
 			"MunifTanjim/nui.nvim",
-			-- OPTIONAL:
-			--   `nvim-notify` is only needed, if you want to use the notification view.
 			--   If not available, we use `mini` as the fallback
 			{
 				"rcarriga/nvim-notify",
 				event = "BufRead",
-				opts = { background_colour = "#000000" },
+				opts = { background_colour = "#000000", render = "compact", top_down = true, timeout = 1500 },
 			},
 		},
 		config = function()
@@ -219,7 +374,7 @@ return {
 					command_palette = true, -- position the cmdline and popupmenu together
 					long_message_to_split = true, -- long messages will be sent to a split
 					inc_rename = false, -- enables an input dialog for inc-rename.nvim
-					lsp_doc_border = false, -- add a border to hover docs and signature help
+					lsp_doc_border = true, -- add a border to hover docs and signature help
 				},
 				cmdline = {
 					-- view = "cmdline",
@@ -231,7 +386,32 @@ return {
 						},
 					},
 				},
+				routes = {
+					{
+						filter = {
+							event = "msg_show",
+							kind = "",
+							find = "written",
+						},
+						opts = { skip = true },
+					},
+				},
 			})
+		end,
+	},
+	{
+		"kosayoda/nvim-lightbulb",
+		event = "BufEnter",
+		config = function()
+			require("nvim-lightbulb").setup({
+				autocmd = { enabled = true },
+			})
+		end,
+	},
+	{
+		"aznhe21/actions-preview.nvim",
+		config = function()
+			vim.keymap.set({ "v", "n" }, "ca", require("actions-preview").code_actions)
 		end,
 	},
 }
