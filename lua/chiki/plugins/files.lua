@@ -31,7 +31,7 @@ keymap("n", "<leader>fd", find_directory_and_focus, { desc = "find dir in projec
 return {
 	{
 		"nvim-tree/nvim-tree.lua",
-		event = "VeryLazy",
+		cmd = { "NvimTreeToggle", "NvimTreeFindFileToggle" },
 		version = "*",
 		dependencies = {
 			"nvim-tree/nvim-web-devicons",

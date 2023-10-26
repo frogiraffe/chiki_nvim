@@ -203,7 +203,7 @@ return {
 			})
 		end,
 	},
-	{ "arkav/lualine-lsp-progress" },
+	{ "arkav/lualine-lsp-progress", event = "VeryLazy" },
 	{
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -288,6 +288,7 @@ return {
 		{
 			"akinsho/toggleterm.nvim",
 			version = "*",
+			cmd = "ToggleTerm",
 			opts = { --[[ things you want to change go here]]
 			},
 			config = function()
@@ -410,6 +411,7 @@ return {
 	},
 	{
 		"aznhe21/actions-preview.nvim",
+		event = "BufEnter",
 		config = function()
 			vim.keymap.set({ "v", "n" }, "ca", require("actions-preview").code_actions)
 		end,
