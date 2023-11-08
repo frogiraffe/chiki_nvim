@@ -40,6 +40,7 @@ vim.opt.undofile = true
 vim.opt.mouse = "a"
 vim.opt.updatetime = 50
 vim.opt.lazyredraw = false
+vim.opt.swapfile = false
 vim.opt.updatetime = 200 -- Save swap file and trigger CursorHold
 vim.opt.virtualedit = "block" -- Allow cursor to move where there is no text in visual block mode
 vim.opt.wildmode = "longest:full,full" -- Command-line completion mode

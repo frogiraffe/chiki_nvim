@@ -206,6 +206,7 @@ return {
 	{ "arkav/lualine-lsp-progress", event = "VeryLazy" },
 	{
 		"nvim-lualine/lualine.nvim",
+		event = "BufEnter",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
 			require("lualine").setup({
@@ -288,7 +289,7 @@ return {
 		{
 			"akinsho/toggleterm.nvim",
 			version = "*",
-			cmd = "ToggleTerm",
+			-- cmd = "ToggleTerm",
 			opts = { --[[ things you want to change go here]]
 			},
 			config = function()

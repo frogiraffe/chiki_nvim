@@ -40,10 +40,10 @@ return {
 								-- Use if you want more granular movements
 								-- Make it even more gradual by adding multiple queries and regex.
 								goto_next = {
-									["]d"] = "@conditional.outer",
+									["]b"] = "@conditional.outer",
 								},
 								goto_previous = {
-									["[d"] = "@conditional.outer",
+									["[b"] = "@conditional.outer",
 								},
 							},
 							select = {
@@ -125,7 +125,7 @@ return {
 		config = function()
 			require("nvim-treesitter.install").update({ with_sync = true })
 			require("nvim-treesitter.configs").setup({
-				matchup = { enable = true, disable_virtual_text = false },
+				matchup = { enable = true },
 				ensure_installed = {
 					"css",
 					"html",
