@@ -25,7 +25,8 @@ vim.opt.isfname:append("@-@")
 vim.opt.list = true
 vim.cmd([[set listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,trail:·]])
 vim.opt.nu = true
--- vim.opt.relativenumber = false
+vim.opt.relativenumber = true
+-- vim.opt.number = true
 vim.opt.scrolloff = 8
 vim.opt.shiftwidth = 4
 vim.opt.signcolumn = "yes"
@@ -77,5 +78,6 @@ vim.o.splitbelow = true
 vim.o.splitright = true
 vim.o.numberwidth = 3
 vim.g.markdown_recommended_style = 0
+-- vim.o.statuscolumn = "%s %l %r"
 -- vim.g.vimtex_compiler_method = 'latexrun'
 -- vim.g.vimtex_view_method = 'zathura'

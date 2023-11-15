@@ -393,7 +393,7 @@ return {
 						filter = {
 							event = "msg_show",
 							kind = "",
-							find = "written",
+							find = "nil",
 						},
 						opts = { skip = true },
 					},

@@ -14,7 +14,7 @@ keymap("n", "<leader>q", "<cmd>:bd<CR>")
 keymap("n", "<leader>w", "<cmd>:w<CR>")
 keymap("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 keymap("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
-keymap("n", "<D-Space>", "<Nop>")
+keymap({ "n", "v", "t" }, "<D-Space>", "<Nop>", { noremap = true, silent = true })
 keymap("n", "<leader>p", '"+p')
 vim.api.nvim_create_autocmd("LspAttach", {
 	desc = "lsp actions",
@@ -33,3 +33,18 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		-- keymap("n", "ca", "<cmd>:lua vim.lsp.buf.code_action()<CR>", { desc = "code action" })
 	end,
 })
+vim.keymap.set({ "i", "t" }, "<D-Space>", "<Nop>", { noremap = true, silent = true })
+-- Open compiler
+vim.api.nvim_set_keymap("n", "<F6>", "<cmd>CompilerOpen<cr>", { noremap = true, silent = true })
+
+-- -- Redo last selected option
+-- vim.api.nvim_set_keymap(
+-- 	"n",
+-- 	"<S-F6>",
+-- 	"<cmd>CompilerStop<cr>" -- (Optional, to dispose all tasks before redo)
+-- 		.. "<cmd>CompilerRedo<cr>",
+-- 	{ noremap = true, silent = true }
+-- )
+
+-- Toggle compiler results
+vim.api.nvim_set_keymap("n", "<F7>", "<cmd>CompilerToggleResults<cr>", { noremap = true, silent = true })
