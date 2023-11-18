@@ -46,7 +46,7 @@ vim.opt.updatetime = 200 -- Save swap file and trigger CursorHold
 vim.opt.virtualedit = "block" -- Allow cursor to move where there is no text in visual block mode
 vim.opt.wildmode = "longest:full,full" -- Command-line completion mode
 vim.opt.wrap = false
-vim.opt.hidden = true
+vim.opt.hidden = false
 vim.opt.autowrite = true
 vim.diagnostic.config({
 	virtual_text = true,
@@ -78,6 +78,7 @@ vim.o.splitbelow = true
 vim.o.splitright = true
 vim.o.numberwidth = 3
 vim.g.markdown_recommended_style = 0
+vim.g.autochdir = true
 -- vim.o.statuscolumn = "%s %l %r"
 -- vim.g.vimtex_compiler_method = 'latexrun'
 -- vim.g.vimtex_view_method = 'zathura'
