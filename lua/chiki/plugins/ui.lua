@@ -191,7 +191,7 @@ return {
 		"akinsho/bufferline.nvim",
 		version = "*",
 		dependencies = "nvim-tree/nvim-web-devicons",
-		event = "BufEnter",
+		event = "BufRead",
 		keys = {
 			{ "<S-L>", "<cmd>BufferLineCycleNext<CR>" },
 			{ "<S-H>", "<cmd>BufferLineCyclePrev<CR>" },
@@ -206,7 +206,7 @@ return {
 	{ "arkav/lualine-lsp-progress", event = "VeryLazy" },
 	{
 		"nvim-lualine/lualine.nvim",
-		event = "BufEnter",
+		event = "VeryLazy",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
 			require("lualine").setup({
@@ -305,6 +305,7 @@ return {
 				vim.cmd("autocmd! TermOpen term://* lua set_terminal_keymaps()")
 				require("toggleterm").setup({
 					hide_numbers = true,
+					autochdir = true,
 					shade_terminals = true,
 					persistent_size = true,
 					open_mapping = [[<C-Bslash>]],

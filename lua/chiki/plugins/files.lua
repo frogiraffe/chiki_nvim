@@ -49,7 +49,7 @@ return {
 			end
 			require("nvim-tree").setup({
 				sync_root_with_cwd = true,
-				respect_buf_cwd = false,
+				respect_buf_cwd = true,
 				renderer = {},
 				view = {
 					adaptive_size = false,
