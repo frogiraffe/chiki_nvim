@@ -78,6 +78,7 @@ vim.o.splitbelow = true
 vim.o.splitright = true
 vim.o.numberwidth = 3
 vim.g.markdown_recommended_style = 0
+vim.g.skip_ts_context_commentstring_module = true
 -- vim.o.statuscolumn = "%s %l %r"
 -- vim.g.vimtex_compiler_method = 'latexrun'
 -- vim.g.vimtex_view_method = 'zathura'
