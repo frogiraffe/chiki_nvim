@@ -28,9 +28,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		keymap("n", "gs", "<cmd>:lua vim.lsp.buf.signature_help()<CR>", { desc = "show signature help" })
 		keymap("n", "[d", "<cmd>:lua vim.diagnostic.goto_prev()<CR>", { desc = "go to previous diagnostic" })
 		keymap("n", "]d", "<cmd>:lua vim.diagnostic.goto_next()<CR>", { desc = "go to next diagnostic" })
-		keymap("n", "gl", "<cmd>:lua vim.diagnostic.open.float()<CR>", { desc = "open diagnostic float" })
+		keymap("n", "gl", "<cmd>:lua vim.diagnostic.open_float()<CR>", { desc = "open diagnostic float" })
 		keymap("n", "gR", "<cmd>:lua vim.lsp.buf.rename()<CR>", { desc = "rename" })
-		-- keymap("n", "ca", "<cmd>:lua vim.lsp.buf.code_action()<CR>", { desc = "code action" })
+		keymap("n", "ca", "<cmd>:lua vim.lsp.buf.code_action()<CR>", { desc = "code action" })
 	end,
 })
 vim.keymap.set({ "i", "t" }, "<D-Space>", "<Nop>", { noremap = true, silent = true })
