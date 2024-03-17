@@ -1,7 +1,7 @@
 return {
 	{
 		"folke/flash.nvim",
-		event = "BufReadPost",
+		event = "VeryLazy",
 		opts = {},
 		keys = {
 			{
@@ -14,7 +14,7 @@ return {
 				desc = "Flash",
 			},
 			{
-				"m",
+				"M",
 				mode = { "n", "o", "x" },
 				function()
 					-- show labeled treesitter nodes around the cursor
@@ -50,24 +50,25 @@ return {
 				},
 				modes = {
 					char = {
-						enabled = false,
+						enabled = true,
+						jump_labels = true,
 					},
 				},
 			})
-			local Config = require("flash.config")
-			local Char = require("flash.plugins.char")
-			for _, motion in ipairs({ "f", "t", "F", "T" }) do
-				vim.keymap.set({ "n", "x", "o" }, motion, function()
-					require("flash").jump(Config.get({
-						mode = "char",
-						search = {
-							mode = Char.mode(motion),
-							max_length = 1,
-						},
-						label = { after = { 0, 0 }, style = "overlay", rainbow = { enabled = false } },
-					}, Char.motions[motion]))
-				end)
-			end
+			-- 	local Config = require("flash.config")
+			-- 	local Char = require("flash.plugins.char")
+			-- 	for _, motion in ipairs({ "f", "t", "F", "T" }) do
+			-- 		vim.keymap.set({ "n", "x", "o" }, motion, function()
+			-- 			require("flash").jump(Config.get({
+			-- 				mode = "char",
+			-- 				search = {
+			-- 					mode = Char.mode(motion),
+			-- 					max_length = 1,
+			-- 				},
+			-- 				label = { after = { 0, 0 }, style = "overlay", rainbow = { enabled = false } },
+			-- 			}, Char.motions[motion]))
+			-- 		end)
+			-- 	end
 		end,
 	},
 	{
@@ -88,7 +89,8 @@ return {
 	},
 	{
 		"folke/todo-comments.nvim",
-		event = { "BufReadPost", "BufNewFile" },
+		lazy = false,
+		-- event = { "BufReadPost", "BufNewFile" },
 		dependencies = { "nvim-lua/plenary.nvim" },
 		keys = {
 			{
@@ -105,7 +107,7 @@ return {
 				end,
 				desc = "Previous todo comment",
 			},
-			{ "<leader>xt", "<cmd>TodoTrouble<cr>",                         desc = "Todo (Trouble)" },
+			{ "<leader>xt", "<cmd>TodoTrouble<cr>", desc = "Todo (Trouble)" },
 			{ "<leader>xT", "<cmd>TodoTrouble keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme (Trouble)" },
 		},
 		opts = {},
@@ -253,50 +255,16 @@ return {
 		"norcalli/nvim-colorizer.lua",
 		event = "BufEnter",
 		opts = {},
-		-- config = function()
-		--     require('colorizer').setup()
-		-- end,
+		config = function()
+			require("colorizer").setup()
+		end,
 	},
-	-- 	{
-	-- 		"folke/persistence.nvim",
-	-- 		event = "BufReadPre",
-	-- 		opts = { options = { "buffers", "curdir", "tabpages", "winsize" } },
-	-- 		-- stylua: ignore
-	-- 		keys = {
-	-- 			{ "<leader>qs", function() require("persistence").load() end,                desc = "Restore Session" },
-	-- 			{ "<leader>ql", function() require("persistence").load({ last = true }) end, desc = "Restore Last Session" },
-	-- 			{
-	-- 				"<leader>qd",
-	-- 				function() require("persistence").stop() end,
-	-- 				desc =
-	-- 				"Don't Save Current Session"
-	-- 			},
-	-- 		}
-	-- ,
-	-- 	},
 	{ "tpope/vim-repeat", event = "VeryLazy" },
 	{
 		"AckslD/nvim-neoclip.lua",
 		event = "VeryLazy",
 		config = function()
 			require("neoclip").setup()
-		end,
-	},
-	{
-		"andweeb/presence.nvim",
-		lazy = true,
-		priority = 900,
-		config = function()
-			require("presence").setup({
-				neovim_image_text = "This is just perfect",
-				line_number_text = "Line %s/%s",
-				editing_text = "Editing %s",  -- Format string rendered when an editable file is loaded in the buffer (either string or function(filename: string): string)
-				file_explorer_text = "Browsing %s", -- Format string rendered when browsing a file explorer (either string or function(file_explorer_name: string): string)
-				git_commit_text = "Committing changes", -- Format string rendered when committing changes in git (either string or function(filename: string): string)
-				plugin_manager_text = "Managing plugins", -- Format string rendered when managing plugins (either string or function(plugin_manager_name: string): string)
-				reading_text = "Reading %s",  -- Format string rendered when a read-only or unmodifiable file is loaded in the buffer (either string or function(filename: string): string)
-				workspace_text = "Working on %s", -- Format string rendered when in a git repository (either string or function(project_name: string|nil, filename: string): string)
-			})
 		end,
 	},
 	{
@@ -388,6 +356,40 @@ return {
 			vim.keymap.set("n", "<leader>sp", '<cmd>lua require("spectre").open_file_search({select_word=true})<CR>', {
 				desc = "Search on current file",
 			})
+		end,
+	},
+	{
+		"lukas-reineke/indent-blankline.nvim",
+		main = "ibl",
+		opts = {},
+		config = function()
+			local highlight = {
+				"RainbowRed",
+				"RainbowYellow",
+				"RainbowBlue",
+				"RainbowOrange",
+				"RainbowGreen",
+				"RainbowViolet",
+				"RainbowCyan",
+			}
+			local hooks = require("ibl.hooks")
+			-- create the highlight groups in the highlight setup hook, so they are reset
+			-- every time the colorscheme changes
+			hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
+				vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#E06C75" })
+				vim.api.nvim_set_hl(0, "RainbowYellow", { fg = "#E5C07B" })
+				vim.api.nvim_set_hl(0, "RainbowBlue", { fg = "#61AFEF" })
+				vim.api.nvim_set_hl(0, "RainbowOrange", { fg = "#D19A66" })
+				vim.api.nvim_set_hl(0, "RainbowGreen", { fg = "#98C379" })
+				vim.api.nvim_set_hl(0, "RainbowViolet", { fg = "#C678DD" })
+				vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#56B6C2" })
+			end)
+
+			vim.g.rainbow_delimiters = { highlight = highlight }
+			require("ibl").setup({ scope = { highlight = highlight } })
+
+			hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)
+			-- require("ibl").setup()
 		end,
 	},
 }

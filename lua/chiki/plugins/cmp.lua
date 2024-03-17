@@ -4,10 +4,6 @@ return {
 		version = false, -- last release is way too old
 		event = { "InsertEnter" },
 		dependencies = {
-			-- {
-			--     "hrsh7th/cmp-omni",
-			--     event = { "BufReadPre", "BufNewFile" },
-			-- },
 			{
 				"hrsh7th/cmp-nvim-lsp",
 			},
@@ -70,44 +66,72 @@ return {
 
 			cmp.event:on(
 				"confirm_done",
-				cmp_autopairs.on_confirm_done({
-					filetypes = {
-						-- "*" is a alias to all filetypes
-						["*"] = {
-							["("] = {
-								kind = {
-									cmp.lsp.CompletionItemKind.Function,
-									cmp.lsp.CompletionItemKind.Method,
-								},
-								handler = handlers["*"],
-							},
-						},
-						lua = {
-							["("] = {
-								kind = {
-									cmp.lsp.CompletionItemKind.Function,
-									cmp.lsp.CompletionItemKind.Method,
-								},
-								---@param char string
-								---@param item table item completion
-								---@param bufnr number buffer number
-								---@param rules table
-								---@param commit_character table<string>
-								handler = function(char, item, bufnr, rules, commit_character)
-									-- Your handler function. Inpect with print(vim.inspect{char, item, bufnr, rules, commit_character})
-								end,
-							},
-						},
-						-- Disable for tex
-						tex = false,
-					},
-				})
+				cmp_autopairs.on_confirm_done(
+				-- {
+				-- 	filetypes = {
+				-- 		-- "*" is a alias to all filetypes
+				-- 		["*"] = {
+				-- 			["("] = {
+				-- 				kind = {
+				-- 					cmp.lsp.CompletionItemKind.Function,
+				-- 					cmp.lsp.CompletionItemKind.Method,
+				-- 				},
+				-- 				handler = handlers["*"],
+				-- 			},
+				-- 		},
+				-- 		lua = {
+				-- 			["("] = {
+				-- 				kind = {
+				-- 					cmp.lsp.CompletionItemKind.Function,
+				-- 					cmp.lsp.CompletionItemKind.Method,
+				-- 				},
+				-- 				---@param char string
+				-- 				---@param item table item completion
+				-- 				---@param bufnr number buffer number
+				-- 				---@param rules table
+				-- 				---@param commit_character table<string>
+				-- 				handler = function(char, item, bufnr, rules, commit_character)
+				-- 					-- Your handler function. Inpect with print(vim.inspect{char, item, bufnr, rules, commit_character})
+				-- 				end,
+				-- 			},
+				-- 		},
+				-- 		-- Disable for tex
+				-- 		tex = false,
+				-- 	},
+				-- }
+				)
 			)
+
+			cmp.setup.filetype("gitcommit", {
+				sources = cmp.config.sources({
+					{ name = "git" }, -- You can specify the `git` source if [you were installed it](https://github.com/petertriho/cmp-git).
+				}, {
+					{ name = "buffer" },
+				}),
+			})
+
+			-- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+			cmp.setup.cmdline({ "/", "?" }, {
+				mapping = cmp.mapping.preset.cmdline(),
+				sources = {
+					{ name = "buffer" },
+				},
+			})
+
+			-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+			cmp.setup.cmdline(":", {
+				mapping = cmp.mapping.preset.cmdline(),
+				sources = cmp.config.sources({
+					{ name = "path" },
+				}, {
+					{ name = "cmdline" },
+				}),
+			})
 
 			return {
 				formatting = {
 					format = require("lspkind").cmp_format({
-						mode = "symbol", -- show only symbol annotations
+						mode = "symbol_text", -- show only symbol annotations
 						maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
 						ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
 
@@ -115,13 +139,21 @@ return {
 						-- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
 						before = function(entry, vim_item)
 							vim_item.menu = ({
-								-- omni = (vim.inspect(vim_item.menu):gsub('%"', "")),
 								-- buffer = "[Buffer]",
 								-- -- formatting for other sources
 							})[entry.source.name]
 							return vim_item
 						end,
 					}),
+				},
+				view = {
+					docs = {
+						maxwidth = 80,
+						minwidth = 50,
+						maxheight = math.floor(vim.o.lines * 0.3),
+						minheight = 1,
+						auto_open = true,
+					},
 				},
 				completion = {
 					completeopt = "menu,menuone,noinsert",
@@ -133,11 +165,11 @@ return {
 				},
 				window = {
 					completion = {
-						border = "rounded",
+						border = "single",
 						winhighlight = "Normal:Pmenu,NormalFloat:Pmenu,CursorLine:PmenuSel,Search:None",
 					},
 					documentation = {
-						border = "rounded",
+						border = "single",
 						winhighlight = "NormalFloat:Pmenu",
 					},
 				},
@@ -175,13 +207,12 @@ return {
 				}),
 				require("luasnip.loaders.from_vscode").lazy_load(),
 				sources = cmp.config.sources({
-					{ name = "nvim_lsp",               priority = 1000 },
-					{ name = "luasnip",                priority = 750 },
-					-- { name = 'omni', priority = 750 },
-					{ name = "copilot",                group_index = 2 },
+					{ name = "nvim_lsp", priority = 1000 },
+					{ name = "luasnip", priority = 750 },
+					{ name = "copilot", group_index = 2 },
 					{ name = "nvim_lsp_signature_help" },
 					{ name = "path" },
-					{ name = "buffer",                 keyword_length = 5 },
+					{ name = "buffer", keyword_length = 5 },
 				}),
 			}
 		end,

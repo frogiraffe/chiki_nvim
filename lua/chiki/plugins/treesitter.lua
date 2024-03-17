@@ -98,7 +98,7 @@ return {
 					require("nvim-treesitter.configs").setup({
 						textsubjects = {
 							enable = true,
-							prev_selection = "<BS>", -- (Optional) keymap to select the previous selection
+							prev_selection = ",", -- (Optional) keymap to select the previous selection
 							keymaps = {
 								["<CR>"] = "textsubjects-smart",
 								[";"] = "textsubjects-container-outer",
@@ -112,17 +112,15 @@ return {
 				"JoosepAlviste/nvim-ts-context-commentstring",
 				config = function()
 					require("ts_context_commentstring").setup({
-						enable_autocmd = false,
+						enable_autocmd = true,
 					})
 				end,
 			},
 			{
 				"Wansmer/treesj",
-				keys = { "<space>m", "<space>j", "<space>s" },
+				keys = { "<space>m", "<space>j", "<space>k" },
 				dependencies = { "nvim-treesitter/nvim-treesitter" },
-				config = function()
-					require("treesj").setup({ max_join_length = 240 })
-				end,
+				config = function() require("treesj").setup({ max_join_length = 240 }) end,
 			},
 		},
 		config = function()

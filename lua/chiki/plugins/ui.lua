@@ -31,7 +31,7 @@ return {
 					start_in_insert = true,
 
 					-- These are passed to nvim_open_win
-					border = "rounded",
+					border = "single",
 					-- 'editor' and 'win' will default to being centered
 					relative = "cursor",
 
@@ -114,7 +114,7 @@ return {
 						size = nil,
 						relative = "editor",
 						border = {
-							style = "rounded",
+							style = "single",
 						},
 						buf_options = {
 							swapfile = false,
@@ -134,7 +134,7 @@ return {
 						-- Display numbers for options and set up keymaps
 						show_numbers = true,
 						-- These are passed to nvim_open_win
-						border = "rounded",
+						border = "single",
 						-- 'editor' and 'win' will default to being centered
 						relative = "editor",
 
@@ -193,8 +193,8 @@ return {
 		dependencies = "nvim-tree/nvim-web-devicons",
 		event = "BufRead",
 		keys = {
-			{ "<S-L>",      "<cmd>BufferLineCycleNext<CR>" },
-			{ "<S-H>",      "<cmd>BufferLineCyclePrev<CR>" },
+			{ "<S-L>", "<cmd>BufferLineCycleNext<CR>" },
+			{ "<S-H>", "<cmd>BufferLineCyclePrev<CR>" },
 			{ "<leader>bp", "<cmd>BufferLinePick<CR>" },
 		},
 		config = function()
@@ -211,8 +211,10 @@ return {
 		config = function()
 			require("lualine").setup({
 				options = {
-					-- theme = "catppuccin",
+					theme = "gruvbox-material",
 					icons_enabled = true,
+					section_separators = { left = "", right = "" },
+					component_separators = { left = "", right = "" },
 				},
 				sections = {
 					lualine_c = {
@@ -333,7 +335,7 @@ return {
 		opts = {
 			window = {
 				width = 120,
-			}
+			},
 		},
 		keys = {
 			{
@@ -361,7 +363,7 @@ return {
 			{
 				"rcarriga/nvim-notify",
 				event = "BufRead",
-				opts = { background_colour = "#000000", render = "compact", top_down = true, timeout = 1500 },
+				opts = { background_colour = "#000000", render = "compact", top_down = true, timeout = 500 },
 			},
 		},
 		config = function()
@@ -373,13 +375,12 @@ return {
 						["vim.lsp.util.stylize_markdown"] = true,
 						["cmp.entry.get_documentation"] = true,
 					},
-				},                 -- you can enable a preset for easier configuration
+				}, -- you can enable a preset for easier configuration
 				presets = {
 					bottom_search = true, -- use a classic bottom cmdline for search
 					command_palette = true, -- position the cmdline and popupmenu together
 					long_message_to_split = true, -- long messages will be sent to a split
-					inc_rename = false, -- enables an input dialog for inc-rename.nvim
-					lsp_doc_border = true, -- add a border to hover docs and signature help
+					inc_rename = false, -- enables an input dialog for inc-rename.nvim lsp_doc_border = true, -- add a border to hover docs and signature help
 				},
 				cmdline = {
 					-- view = "cmdline",
@@ -397,6 +398,14 @@ return {
 							event = "msg_show",
 							kind = "",
 							find = "nil",
+						},
+						opts = { skip = true },
+					},
+					{
+						filter = {
+							event = "msg_show",
+							kind = "",
+							find = "written",
 						},
 						opts = { skip = true },
 					},

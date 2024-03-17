@@ -39,6 +39,7 @@ return {
 		local builtin = require("telescope.builtin")
 		require("telescope").setup({
 			defaults = {
+				layout_strategy = "vertical",
 				ripgrep_arguments = {
 					"rg",
 					"--hidden",
@@ -88,25 +89,25 @@ return {
 							-- extension from there instead of having the separate plugin definition as outlined
 							-- above.
 							["<cr>"] = require("telescope-undo.actions").yank_additions,
-							["<S-cr>"] = require("telescope-undo.actions").yank_deletions,
-							["<C-cr>"] = require("telescope-undo.actions").restore,
+							["<C-cr>"] = require("telescope-undo.actions").yank_deletions,
+							["<S-cr>"] = require("telescope-undo.actions").restore,
 						},
 					},
 				},
 			},
 			pickers = {
 				find_files = {
-					theme = "dropdown",
+					theme = "ivy",
 					find_command = { "rg", "--files", "--hidden", "--glob", "!.git" },
 				},
 				live_grep = {
-					theme = "dropdown",
+					theme = "cursor",
 					additional_args = function(opts)
 						return { "--hidden" }
 					end,
 				},
 				buffers = {
-					theme = "dropdown",
+					theme = "ivy",
 				},
 				marks = {
 					theme = "dropdown",
@@ -115,13 +116,13 @@ return {
 					theme = "dropdown",
 				},
 				projects = {
-					theme = "dropdown",
+					theme = "ivy",
 				},
 				oldfiles = {
-					theme = "dropdown",
+					theme = "ivy",
 				},
 				neoclip = {
-					theme = "dropdown",
+					theme = "ivy",
 				},
 			},
 

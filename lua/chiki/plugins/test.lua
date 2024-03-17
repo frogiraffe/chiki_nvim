@@ -11,7 +11,6 @@ return {
 		config = function()
 			require("neotest").setup({
 				adapters = {
-					require("neotest-rust"),
 				},
 			})
 		end,

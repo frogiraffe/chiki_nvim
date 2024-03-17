@@ -31,36 +31,36 @@ return {
 					separator = "➜",
 					group = "+",
 				},
-				triggers = { "<leader>" },
+				-- triggers = { "<leader>" },
 				window = {
-					border = "double",
+					border = "none",
 					winblend = 20,
 					align = "center",
 				},
 			})
-			wk.register({
-				["<leader><leader>"] = {
-					name = "Swap Buffer",
-				},
-				["<leader>f"] = {
-					name = "Telescope",
-				},
-				["<leader>t"] = {
-					name = "Floating",
-				},
-				["<leader>x"] = {
-					name = "Trouble",
-				},
-				["<leader>z"] = {
-					name = "Zen",
-				},
-				["?"] = {
-					name = "Old Files",
-				},
-				-- ["<leader>fy"] = {
-				-- 	name = "Yank History",
-				-- },
-			})
+			-- wk.register({
+			-- 	["<leader><leader>"] = {
+			-- 		name = "Swap Buffer",
+			-- 	},
+			-- 	["<leader>f"] = {
+			-- 		name = "Telescope",
+			-- 	},
+			-- 	["<leader>t"] = {
+			-- 		name = "Floating",
+			-- 	},
+			-- 	["<leader>x"] = {
+			-- 		name = "Trouble",
+			-- 	},
+			-- 	["<leader>z"] = {
+			-- 		name = "Zen",
+			-- 	},
+			-- 	["?"] = {
+			-- 		name = "Old Files",
+			-- 	},
+			-- ["<leader>fy"] = {
+			-- 	name = "Yank History",
+			-- },
+			-- })
 		end,
 	},
 }

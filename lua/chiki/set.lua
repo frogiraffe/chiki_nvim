@@ -19,11 +19,10 @@ vim.opt.expandtab = true
 vim.opt.guicursor = ""
 vim.opt.hlsearch = false
 vim.opt.ignorecase = true
-vim.opt.incsearch = true
-vim.opt.cmdheight = 0
+vim.opt.incsearch = true vim.opt.cmdheight = 0
 vim.opt.isfname:append("@-@")
-vim.opt.list = true
-vim.cmd([[set listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,trail:·]])
+vim.opt.list = false
+-- vim.cmd([[set listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,trail:·]])
 vim.opt.nu = true
 vim.opt.relativenumber = true
 -- vim.opt.number = true
@@ -44,14 +43,14 @@ vim.opt.lazyredraw = false
 vim.opt.swapfile = false
 vim.opt.updatetime = 200               -- Save swap file and trigger CursorHold
 vim.opt.virtualedit = "block"          -- Allow cursor to move where there is no text in visual block mode
-vim.opt.wildmode = "longest:full,full" -- Command-line completion mode
+-- vim.opt.wildmode = "longest:full,full" -- Command-line completion mode
 vim.opt.wrap = false
 vim.opt.hidden = true
 vim.opt.autowrite = true
 vim.diagnostic.config({
 	virtual_text = true,
 	float = {
-		border = "rounded",
+		border = "single",
 	},
 	update_in_insert = true,
 	underline = true,
@@ -77,5 +76,4 @@ vim.o.foldenable = true
 vim.o.splitbelow = true
 vim.o.splitright = true
 vim.o.numberwidth = 3
-vim.g.markdown_recommended_style = 0
 vim.g.skip_ts_context_commentstring_module = true

@@ -87,7 +87,7 @@ return {
 				function()
 					require("smart-splits").swap_buf_right()
 				end,
-				{ desc = "swap buffer w up" },
+				{ desc = "swap buffer w right" },
 				mode = { "t", "n", "v" },
 			},
 			{

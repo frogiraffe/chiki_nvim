@@ -31,25 +31,13 @@ return {
 						capabilities = lsp_capabilities,
 					})
 				end,
-				["rust_analyzer"] = function()
-					require("rust-tools").setup({
-						tools = {
-							inlay_hints = {
-								auto = true,
-							},
-						},
-						server = {
-							on_attach = function(_, bufnr) end,
-						},
-					})
-				end,
-				["lua_ls"] = function()
+							["lua_ls"] = function()
 					require("lspconfig").lua_ls.setup({
 						settings = {
 							Lua = {
 								diagnostics = {
 									globals = { "vim" },
-									undefined_global = false, -- remove this from diag!
+									undefined_global = true, -- remove this from diag!
 									missing_parameters = false, -- missing fields :)
 								},
 							},
@@ -75,34 +63,15 @@ return {
 		end,
 	},
 
-	-- {
-	-- 	"Ciel-MC/rust-tools.nvim",
-	-- 	event = { "BufReadPre", "BufNewFile" },
-	-- 	config = function()
-	-- 		local rt = require("rust-tools")
-	--
-	-- 		rt.setup({})
-	-- 	end,
-	-- },
 	{
 		"hinell/lsp-timeout.nvim",
 		dependencies = { "neovim/nvim-lspconfig" },
 		event = "VeryLazy",
 	},
-	-- {
-	-- 	"mrcjkb/ferris.nvim",
-	-- 	version = "^2", -- Recommended
-	-- 	ft = { "rust" },
-	-- 	config = function()
-	-- 		vim.g.ferris = {
-	-- 			server = {
-	-- 				["rust-analyzer"] = {
-	-- 					checkOnSave = {
-	-- 						command = "clippy",
-	-- 					},
-	-- 				},
-	-- 			},
-	-- 		}
-	-- 	end,
-	-- },
+	{
+		"mrcjkb/rustaceanvim",
+		version = '^4', -- Recommended
+		ft = { 'rust' },
+
+	}
 }
