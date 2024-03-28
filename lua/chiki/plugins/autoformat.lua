@@ -1,6 +1,7 @@
 return {
 	{
 		"stevearc/conform.nvim",
+		event = { "BufWritePre" },
 		cmd = { "ConformInfo" },
 		keys = {
 			{
@@ -16,7 +17,6 @@ return {
 		opts = {},
 		config = function()
 			require("conform").setup({
-				notify_on_error = false,
 				format_on_save = function(bufnr)
 					-- Disable with a global or buffer-local variable
 					if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
@@ -30,10 +30,12 @@ return {
 					-- Conform will run multiple formatters sequentially
 					python = { "isort", "black" },
 					-- Use a sub-list to run only the first available formatter
-					javascript = { { "prettierd", "prettier" } },
+					javascript = { { "prettierd" } },
 					rust = { "rustfmt" },
 					c = { "clang_format" },
-					["_"] = { { "prettierd", "prettier" } },
+					html = { "prettierd" },
+					css = { "prettierd" },
+					["_"] = { { "prettierd" } },
 				},
 			})
 			vim.api.nvim_create_user_command("FormatDisable", function(args)

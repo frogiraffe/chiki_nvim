@@ -1,7 +1,7 @@
 return {
 	{
 		"hrsh7th/nvim-cmp",
-		version = false, -- last release is way too old
+		-- version = false, -- last release is way too old
 		event = { "InsertEnter" },
 		dependencies = {
 			{
@@ -66,65 +66,84 @@ return {
 
 			cmp.event:on(
 				"confirm_done",
-				cmp_autopairs.on_confirm_done(
-				-- {
-				-- 	filetypes = {
-				-- 		-- "*" is a alias to all filetypes
-				-- 		["*"] = {
-				-- 			["("] = {
-				-- 				kind = {
-				-- 					cmp.lsp.CompletionItemKind.Function,
-				-- 					cmp.lsp.CompletionItemKind.Method,
-				-- 				},
-				-- 				handler = handlers["*"],
-				-- 			},
-				-- 		},
-				-- 		lua = {
-				-- 			["("] = {
-				-- 				kind = {
-				-- 					cmp.lsp.CompletionItemKind.Function,
-				-- 					cmp.lsp.CompletionItemKind.Method,
-				-- 				},
-				-- 				---@param char string
-				-- 				---@param item table item completion
-				-- 				---@param bufnr number buffer number
-				-- 				---@param rules table
-				-- 				---@param commit_character table<string>
-				-- 				handler = function(char, item, bufnr, rules, commit_character)
-				-- 					-- Your handler function. Inpect with print(vim.inspect{char, item, bufnr, rules, commit_character})
-				-- 				end,
-				-- 			},
-				-- 		},
-				-- 		-- Disable for tex
-				-- 		tex = false,
-				-- 	},
-				-- }
-				)
+				cmp_autopairs.on_confirm_done({
+					filetypes = {
+						-- "*" is a alias to all filetypes
+						["*"] = {
+							["("] = {
+								kind = {
+									cmp.lsp.CompletionItemKind.Function,
+									cmp.lsp.CompletionItemKind.Method,
+								},
+								handler = handlers["*"],
+							},
+						},
+						lua = {
+							["("] = {
+								kind = {
+									cmp.lsp.CompletionItemKind.Function,
+									cmp.lsp.CompletionItemKind.Method,
+								},
+								---@param char string
+								---@param item table item completion
+								---@param bufnr number buffer number
+								---@param rules table
+								---@param commit_character table<string>
+								handler = function(char, item, bufnr, rules, commit_character)
+									-- Your handler function. Inpect with print(vim.inspect{char, item, bufnr, rules, commit_character})
+								end,
+							},
+						},
+						-- Disable for tex
+						tex = false,
+					},
+				})
 			)
 
-			cmp.setup.filetype("gitcommit", {
-				sources = cmp.config.sources({
-					{ name = "git" }, -- You can specify the `git` source if [you were installed it](https://github.com/petertriho/cmp-git).
-				}, {
-					{ name = "buffer" },
-				}),
-			})
-
-			-- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
-			cmp.setup.cmdline({ "/", "?" }, {
+			-- cmp.setup.filetype("gitcommit", {
+			-- 	sources = cmp.config.sources({
+			-- 		{ name = "git" }, -- You can specify the `git` source if [you were installed it](https://github.com/petertriho/cmp-git).
+			-- 	}, {
+			-- 		{ name = "buffer" },
+			-- 	}),
+			-- })
+			--
+			-- -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+			-- cmp.setup.cmdline({ "/", "?" }, {
+			-- 	mapping = cmp.mapping.preset.cmdline(),
+			-- 	sources = {
+			-- 		{ name = "buffer" },
+			-- 	},
+			-- })
+			--
+			-- -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+			-- cmp.setup.cmdline(":", {
+			-- 	mapping = cmp.mapping.preset.cmdline(),
+			-- 	sources = cmp.config.sources({
+			-- 		{ name = "path" },
+			-- 	}, {
+			-- 		{ name = "cmdline" },
+			-- 	}),
+			-- })
+			-- `/` cmdline setup.
+			cmp.setup.cmdline("/", {
 				mapping = cmp.mapping.preset.cmdline(),
 				sources = {
 					{ name = "buffer" },
 				},
 			})
-
-			-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+			-- `:` cmdline setup.
 			cmp.setup.cmdline(":", {
 				mapping = cmp.mapping.preset.cmdline(),
 				sources = cmp.config.sources({
 					{ name = "path" },
 				}, {
-					{ name = "cmdline" },
+					{
+						name = "cmdline",
+						option = {
+							-- ignore_cmds = { "Man", "!" },
+						},
+					},
 				}),
 			})
 
@@ -178,9 +197,9 @@ return {
 					["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
 					["<C-d>"] = cmp.mapping.scroll_docs(4),
 					["<C-u>"] = cmp.mapping.scroll_docs(-4),
-					["<C-k>"] = cmp.mapping.complete(),
+					["<C-k>"] = cmp.mapping.confirm(),
 					["<C-a>"] = cmp.mapping.abort(),
-					["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+					["<CR>"] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 					["<Tab>"] = cmp.mapping(function(fallback)
 						if cmp.visible() then
 							cmp.select_next_item()
@@ -194,7 +213,6 @@ return {
 							fallback()
 						end
 					end, { "i", "s" }),
-
 					["<S-Tab>"] = cmp.mapping(function(fallback)
 						if cmp.visible() then
 							cmp.select_prev_item()
@@ -209,7 +227,7 @@ return {
 				sources = cmp.config.sources({
 					{ name = "nvim_lsp", priority = 1000 },
 					{ name = "luasnip", priority = 750 },
-					{ name = "copilot", group_index = 2 },
+					{ name = "copilot", group_index = 3 },
 					{ name = "nvim_lsp_signature_help" },
 					{ name = "path" },
 					{ name = "buffer", keyword_length = 5 },

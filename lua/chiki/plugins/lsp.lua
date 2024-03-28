@@ -1,6 +1,11 @@
 return {
 	--
 	{
+		"mrcjkb/rustaceanvim",
+		version = "^4", -- Recommended
+		ft = { "rust" },
+	},
+	{
 		"williamboman/mason.nvim",
 		build = ":MasonUpdate",
 		event = "BufReadPre",
@@ -19,11 +24,16 @@ return {
 					"lua_ls",
 					"tsserver",
 					"jedi_language_server",
+					-- html/css lsp server
+					"html",
+					"cssls",
 				},
 			})
 			--
 			local lspconfig = require("lspconfig")
 			local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
+			local html_capabilities = vim.lsp.protocol.make_client_capabilities()
+			html_capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 			require("mason-lspconfig").setup_handlers({
 				function(server_name)
@@ -31,7 +41,7 @@ return {
 						capabilities = lsp_capabilities,
 					})
 				end,
-							["lua_ls"] = function()
+				["lua_ls"] = function()
 					require("lspconfig").lua_ls.setup({
 						settings = {
 							Lua = {
@@ -45,11 +55,14 @@ return {
 					})
 				end,
 			})
-			require("lspconfig").rust_analyzer.setup({
-				checkOnSave = {
-					command = "clippy",
-				},
+			require("lspconfig").html.setup({
+				capabilities = html_capabilities,
 			})
+			-- require("lspconfig").rust_analyzer.setup({
+			-- 	checkOnSave = {
+			-- 		command = "clippy",
+			-- 	},
+			-- })
 		end,
 	},
 	{
@@ -68,10 +81,4 @@ return {
 		dependencies = { "neovim/nvim-lspconfig" },
 		event = "VeryLazy",
 	},
-	{
-		"mrcjkb/rustaceanvim",
-		version = '^4', -- Recommended
-		ft = { 'rust' },
-
-	}
 }

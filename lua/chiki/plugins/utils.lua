@@ -1,5 +1,12 @@
 return {
 	{
+		"norcalli/nvim-colorizer.lua",
+		opts = {},
+		config = function()
+			require("colorizer").setup()
+		end,
+	},
+	{
 		"folke/flash.nvim",
 		event = "VeryLazy",
 		opts = {},
@@ -251,14 +258,6 @@ return {
 			})
 		end,
 	},
-	{
-		"norcalli/nvim-colorizer.lua",
-		event = "BufEnter",
-		opts = {},
-		config = function()
-			require("colorizer").setup()
-		end,
-	},
 	{ "tpope/vim-repeat", event = "VeryLazy" },
 	{
 		"AckslD/nvim-neoclip.lua",
@@ -392,4 +391,10 @@ return {
 			-- require("ibl").setup()
 		end,
 	},
+    {
+        'barrett-ruth/live-server.nvim',
+        build = 'pnpm add -g live-server',
+        cmd = { 'LiveServerStart', 'LiveServerStop' },
+        config = true
+    },
 }

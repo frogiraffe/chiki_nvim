@@ -48,8 +48,8 @@ return {
 				vim.cmd.tabprev()
 			end
 			require("nvim-tree").setup({
-				sync_root_with_cwd = true,
-				respect_buf_cwd = true,
+				sync_root_with_cwd = false,
+				respect_buf_cwd = false,
 				renderer = {},
 				view = {
 					adaptive_size = false,
