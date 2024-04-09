@@ -120,7 +120,9 @@ return {
 				"Wansmer/treesj",
 				keys = { "<space>m", "<space>j", "<space>k" },
 				dependencies = { "nvim-treesitter/nvim-treesitter" },
-				config = function() require("treesj").setup({ max_join_length = 240 }) end,
+				config = function()
+					require("treesj").setup({ max_join_length = 240 })
+				end,
 			},
 		},
 		config = function()
@@ -139,6 +141,10 @@ return {
 					"vim",
 					"rust",
 					"bash",
+					"r",
+					"markdown",
+					"markdown_inline",
+					"rnoweb",
 				},
 				context_commentstring = { enable = true },
 				highlight = {

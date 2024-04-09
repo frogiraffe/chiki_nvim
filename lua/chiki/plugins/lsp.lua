@@ -54,6 +54,7 @@ return {
 						},
 					})
 				end,
+				["rust_analyzer"] = function() end,
 			})
 			require("lspconfig").html.setup({
 				capabilities = html_capabilities,
