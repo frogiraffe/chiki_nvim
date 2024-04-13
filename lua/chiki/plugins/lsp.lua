@@ -23,8 +23,6 @@ return {
 				ensure_installed = {
 					"lua_ls",
 					"tsserver",
-					"jedi_language_server",
-					-- html/css lsp server
 					"html",
 					"cssls",
 				},
@@ -59,6 +57,14 @@ return {
 			require("lspconfig").html.setup({
 				capabilities = html_capabilities,
 			})
+			-- local on_attach = function(client, bufnr)
+			-- 	if client.name == "ruff_lsp" then
+			-- 		client.server_capabilities.hoverProvider = false
+			-- 	end
+			-- end
+			-- require("lspconfig").ruff_lsp.setup({
+			-- 	on_attach = on_attach,
+			-- })
 			-- require("lspconfig").rust_analyzer.setup({
 			-- 	checkOnSave = {
 			-- 		command = "clippy",
