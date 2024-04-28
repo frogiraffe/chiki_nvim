@@ -36,6 +36,7 @@ return {
 					html = { "prettierd" },
 					css = { "prettierd" },
 					r = {},
+					fish = {},
 					["_"] = { { "prettierd" } },
 				},
 			})
