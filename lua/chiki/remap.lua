@@ -15,6 +15,7 @@ keymap("n", "<leader>w", "<cmd>:w<CR>")
 keymap("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 keymap("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 keymap({ "n", "v", "t" }, "<D-Space>", "<Nop>", { noremap = true, silent = true })
+keymap("c", "<tab>", "<C-z>", { noremap = true, silent = false })
 keymap("n", "<leader>p", '"+p')
 vim.api.nvim_create_autocmd("LspAttach", {
 	desc = "lsp actions",

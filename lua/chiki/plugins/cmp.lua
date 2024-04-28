@@ -96,8 +96,6 @@ return {
 								end,
 							},
 						},
-						-- Disable for tex
-						tex = false,
 					},
 				})
 			)

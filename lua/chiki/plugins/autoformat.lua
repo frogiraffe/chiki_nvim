@@ -35,6 +35,7 @@ return {
 					c = { "clang_format" },
 					html = { "prettierd" },
 					css = { "prettierd" },
+					r = {},
 					["_"] = { { "prettierd" } },
 				},
 			})

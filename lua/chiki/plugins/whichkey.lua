@@ -58,25 +58,25 @@ return {
 					name = "Yank History",
 				},
 				["<leader>k"] = {
-					name = "Split code block "
+					name = "Split code block ",
 				},
 				["<leader>b"] = {
-					name = "BufferLine"
+					name = "BufferLine",
 				},
 				["<leader>c"] = {
-					name = "Copilot"
+					name = "Copilot",
 				},
 				["<leader>cc"] = {
-					name = "Copilot"
+					name = "Copilot",
 				},
 				["<leader>t"] = {
-					name = "Floating Terminal"
+					name = "Floating Terminal",
 				},
 				["<leader>q"] = {
-					name = "Session Management"
+					name = "Session Management",
 				},
 				["<leader>g"] = {
-					name = "Format Code"
+					name = "Format Code",
 				},
 				-- ["<leader><leader>h"] = {
 				-- 	name = "Buffer swap left"

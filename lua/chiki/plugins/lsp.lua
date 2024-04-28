@@ -54,9 +54,11 @@ return {
 				end,
 				["rust_analyzer"] = function() end,
 			})
+			lspconfig.marksman.setup({})
 			require("lspconfig").html.setup({
 				capabilities = html_capabilities,
 			})
+
 			-- local on_attach = function(client, bufnr)
 			-- 	if client.name == "ruff_lsp" then
 			-- 		client.server_capabilities.hoverProvider = false

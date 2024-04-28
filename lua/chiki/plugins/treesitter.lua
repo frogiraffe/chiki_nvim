@@ -101,8 +101,8 @@ return {
 							prev_selection = ",", -- (Optional) keymap to select the previous selection
 							keymaps = {
 								["<CR>"] = "textsubjects-smart",
-								[";"] = "textsubjects-container-outer",
-								["."] = "textsubjects-container-inner",
+								-- [";"] = "textsubjects-container-outer",
+								-- ["."] = "textsubjects-container-inner",
 							},
 						},
 					})
