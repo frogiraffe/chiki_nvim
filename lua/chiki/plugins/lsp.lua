@@ -52,7 +52,7 @@ return {
 						},
 					})
 				end,
-				["rust_analyzer"] = function() end,
+				-- ["rust_analyzer"] = function() end,
 			})
 			lspconfig.marksman.setup({})
 			require("lspconfig").html.setup({
@@ -83,11 +83,5 @@ return {
 				library = { plugins = { "neotest" }, types = true },
 			})
 		end,
-	},
-
-	{
-		"hinell/lsp-timeout.nvim",
-		dependencies = { "neovim/nvim-lspconfig" },
-		event = "VeryLazy",
 	},
 }

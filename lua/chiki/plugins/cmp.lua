@@ -1,5 +1,4 @@
 return {
-	"R-nvim/cmp-r",
 	{
 		"hrsh7th/nvim-cmp",
 		-- version = false, -- last release is way too old
@@ -52,7 +51,6 @@ return {
 			},
 		},
 		opts = function()
-			-- require("cmp_r").setup({})
 			local cmp = require("cmp")
 			local luasnip = require("luasnip")
 			local cmp_autopairs = require("nvim-autopairs.completion.cmp")
@@ -96,6 +94,8 @@ return {
 								end,
 							},
 						},
+						-- Disable for tex
+						tex = false,
 					},
 				})
 			)
@@ -115,8 +115,8 @@ return {
 			-- 		{ name = "buffer" },
 			-- 	},
 			-- })
-
-			-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+			--
+			-- -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
 			-- cmp.setup.cmdline(":", {
 			-- 	mapping = cmp.mapping.preset.cmdline(),
 			-- 	sources = cmp.config.sources({
@@ -226,7 +226,6 @@ return {
 				require("luasnip.loaders.from_vscode").lazy_load(),
 				sources = cmp.config.sources({
 					{ name = "nvim_lsp", priority = 1000 },
-					{ name = "cmp_r" },
 					{ name = "luasnip", priority = 750 },
 					{ name = "copilot", group_index = 3 },
 					{ name = "nvim_lsp_signature_help" },
@@ -269,10 +268,24 @@ return {
 					Event = "",
 					Operator = "󰆕",
 					TypeParameter = "",
-					cmp_r = "R",
 				},
 			})
 			vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = "#6CC644" })
+		end,
+	},
+	{
+		"altermo/ultimate-autopair.nvim",
+		event = { "InsertEnter", "CmdlineEnter" },
+		branch = "v0.6", --recommended as each new version will have breaking changes
+		opts = {
+			--Config goes here
+		},
+		config = function()
+			require("ultimate-autopair").setup({
+				tabout = {
+					enable = true,
+				},
+			})
 		end,
 	},
 }
