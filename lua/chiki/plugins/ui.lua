@@ -187,22 +187,22 @@ return {
 			})
 		end,
 	},
-	{
-		"akinsho/bufferline.nvim",
-		version = "*",
-		dependencies = "nvim-tree/nvim-web-devicons",
-		event = "BufRead",
-		keys = {
-			{ "<S-L>", "<cmd>BufferLineCycleNext<CR>" },
-			{ "<S-H>", "<cmd>BufferLineCyclePrev<CR>" },
-			{ "<leader>bp", "<cmd>BufferLinePick<CR>" },
-		},
-		config = function()
-			require("bufferline").setup({
-				options = {},
-			})
-		end,
-	},
+	-- {
+	-- 	"akinsho/bufferline.nvim",
+	-- 	version = "*",
+	-- 	dependencies = "nvim-tree/nvim-web-devicons",
+	-- 	event = "BufRead",
+	-- 	keys = {
+	-- 		{ "<S-L>", "<cmd>BufferLineCycleNext<CR>" },
+	-- 		{ "<S-H>", "<cmd>BufferLineCyclePrev<CR>" },
+	-- 		{ "<leader>bp", "<cmd>BufferLinePick<CR>" },
+	-- 	},
+	-- 	config = function()
+	-- 		require("bufferline").setup({
+	-- 			options = {},
+	-- 		})
+	-- 	end,
+	-- },
 	{ "arkav/lualine-lsp-progress", event = "VeryLazy" },
 	{
 		"nvim-lualine/lualine.nvim",

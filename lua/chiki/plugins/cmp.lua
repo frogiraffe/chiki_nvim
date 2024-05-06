@@ -30,6 +30,16 @@ return {
 				"hrsh7th/cmp-nvim-lsp-signature-help",
 			},
 			{
+				"jalvesaq/cmp-nvim-r",
+				config = function()
+					require("cmp_nvim_r").setup({
+						filetypes = { "r", "rmd", "quarto" },
+						doc_width = 58,
+						quarto_intel = "~/Downloads/quarto-1.1.251/share/editor/tools/yaml/yaml-intelligence-resources.json",
+					})
+				end,
+			},
+			{
 				"zbirenbaum/copilot.lua",
 				cmd = "Copilot",
 				event = "InsertEnter",
@@ -153,6 +163,12 @@ return {
 						mode = "symbol_text", -- show only symbol annotations
 						maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
 						ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+						menu = {
+							nvim_lsp = "[LSP]",
+							path = "[Path]",
+							buffer = "[Buffer]",
+							luasnip = "[LuaSnip]",
+						},
 
 						-- The function below will be called befjjore any actual modifications from lspkind
 						-- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
@@ -199,24 +215,24 @@ return {
 					["<C-u>"] = cmp.mapping.scroll_docs(-4),
 					["<C-k>"] = cmp.mapping.confirm(),
 					["<C-a>"] = cmp.mapping.abort(),
-					["<CR>"] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+					["<CR>"] = cmp.mapping.confirm({ select = false }),
 					["<Tab>"] = cmp.mapping(function(fallback)
-						if cmp.visible() then
-							cmp.select_next_item()
-							-- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
-							-- they way you will only jump inside the snippet region
-						elseif luasnip.expand_or_jumpable() then
+						-- if cmp.visible() then
+						-- 	cmp.select_next_item()
+						-- 	-- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
+						-- 	-- they way you will only jump inside the snippet region
+						if luasnip.expand_or_jumpable() then
 							luasnip.expand_or_jump()
-						elseif has_words_before() then
-							cmp.complete()
+						-- elseif has_words_before() then
+						-- 	cmp.complete()
 						else
 							fallback()
 						end
 					end, { "i", "s" }),
 					["<S-Tab>"] = cmp.mapping(function(fallback)
-						if cmp.visible() then
-							cmp.select_prev_item()
-						elseif luasnip.jumpable(-1) then
+						-- if cmp.visible() then
+						-- 	cmp.select_prev_item()
+						if luasnip.jumpable(-1) then
 							luasnip.jump(-1)
 						else
 							fallback()
@@ -226,6 +242,7 @@ return {
 				require("luasnip.loaders.from_vscode").lazy_load(),
 				sources = cmp.config.sources({
 					{ name = "nvim_lsp", priority = 1000 },
+					{ name = "cmp_nvim_r" },
 					{ name = "luasnip", priority = 750 },
 					{ name = "copilot", group_index = 3 },
 					{ name = "nvim_lsp_signature_help" },

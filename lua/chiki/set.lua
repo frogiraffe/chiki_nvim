@@ -58,7 +58,7 @@ vim.diagnostic.config({
 	severity_sort = true,
 	signs = true,
 })
-vim.opt.smoothscroll = true
+-- vim.opt.smoothscroll = true
 
 --diagnostic icons
 vim.fn.sign_define("DiagnosticSignError", { text = "", texthl = "DiagnosticSignError" })
