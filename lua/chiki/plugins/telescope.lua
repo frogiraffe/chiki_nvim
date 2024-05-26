@@ -4,11 +4,11 @@ return {
 	keys = {
 		{ "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "find files" },
 		{ "<leader>fs", "<cmd>Telescope live_grep<cr>", desc = "grep" },
-		{ "<leader>b", "<cmd>Telescope buffers<cr>", desc = "buffers" },
+		{ "\\", "<cmd>Telescope buffers<cr>", desc = "buffers" },
 		{ "<leader>fm", "<cmd>Telescope marks<cr>", desc = "marks" },
 		{
 
-			"<leader>fcs",
+			"<leader>fb",
 			"<cmd>Telescope grep_string<cr>",
 			desc = "grep the string under the cursor",
 		},
@@ -42,7 +42,6 @@ return {
 				layout_strategy = "vertical",
 				ripgrep_arguments = {
 					"rg",
-					"--hidden",
 					"--no-heading",
 					"--with-filename",
 					"--line-number",
@@ -98,16 +97,22 @@ return {
 			pickers = {
 				find_files = {
 					theme = "ivy",
-					find_command = { "rg", "--files", "--hidden", "--glob", "!.git" },
+					find_command = { "rg", "--files", "--smart-case" },
 				},
 				live_grep = {
-					theme = "cursor",
+					theme = "dropdown",
 					additional_args = function(opts)
 						return { "--hidden" }
 					end,
 				},
 				buffers = {
 					theme = "ivy",
+					initial_mode = "normal",
+					mappings = {
+						n = {
+							["<c-d>"] = require("telescope.actions").delete_buffer,
+						},
+					},
 				},
 				marks = {
 					theme = "dropdown",

@@ -330,7 +330,7 @@ return {
 	-- Lua
 	{
 		"folke/zen-mode.nvim",
-		-- cmd = { "ZenMode" },
+		cmd = { "ZenMode" },
 		dependencies = "folke/twilight.nvim",
 		opts = {
 			window = {
@@ -341,12 +341,12 @@ return {
 			{
 				"<leader>zZ",
 				'<cmd>:lua require("zen-mode").toggle({plugins = {twilight = {enabled = false}}})<CR>',
-				{ desc = "zen mode" },
+				{ desc = "Zen Mode" },
 			},
 			{
 				"<leader>zz",
 				"<cmd>ZenMode<CR>",
-				{ desc = "zen mode /twilight" },
+				{ desc = "Zen Mode /twilight" },
 			},
 		},
 	},

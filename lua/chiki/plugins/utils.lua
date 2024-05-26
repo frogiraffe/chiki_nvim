@@ -83,7 +83,7 @@ return {
 		-- event = "BufReadPost",
 		-- version = false,
 		config = function()
-			-- require("mini.ai").setup()
+			require("mini.ai").setup()
 			require("mini.move").setup({
 				mappings = {
 					up = "<S-k>",
@@ -410,6 +410,7 @@ return {
 	{
 		"ThePrimeagen/harpoon",
 		branch = "harpoon2",
+		event = "VeryLazy",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		config = function()
 			local harpoon = require("harpoon")
@@ -447,6 +448,17 @@ return {
 			vim.keymap.set("n", "<S-l>", function()
 				harpoon:list():next()
 			end)
+		end,
+	},
+	{
+		"aznhe21/actions-preview.nvim",
+		config = function()
+			vim.keymap.set(
+				{ "v", "n" },
+				"<leader>fc",
+				require("actions-preview").code_actions,
+				{ desc = "Telescope Code Actions" }
+			)
 		end,
 	},
 }

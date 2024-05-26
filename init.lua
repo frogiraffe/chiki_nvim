@@ -19,7 +19,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 
 if vim.g.neovide then
-	vim.o.guifont = "FiraCode Nerd Font:h12"
+	vim.o.guifont = "Mononoki Nerd Font:h15"
 	vim.g.neovide_cursor_animate_in_insert_mode = true
 	vim.g.neovide_transparency = 0.8
 end

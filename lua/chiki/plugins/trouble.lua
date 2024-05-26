@@ -11,19 +11,19 @@ return {
 		{
 			"<leader>xx",
 			"<cmd>TroubleToggle<cr>",
-			{ desc = "trouble toggle" },
+			{ desc = "Trouble Toggle" },
 			{ silent = true, noremap = true },
 		},
 		{
 			"<leader>xw",
 			"<cmd>TroubleToggle workspace_diagnostics<cr>",
-			{ desc = "trouble workspace" },
+			{ desc = "Trouble Workspace" },
 			{ silent = true, noremap = true },
 		},
 		{
 			"<leader>xd",
 			"<cmd>TroubleToggle document_diagnostics<cr>",
-			{ desc = "trouble document" },
+			{ desc = "Trouble Document" },
 			{ silent = true, noremap = true },
 		},
 	},

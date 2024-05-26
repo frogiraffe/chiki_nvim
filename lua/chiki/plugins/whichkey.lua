@@ -37,11 +37,14 @@ return {
 					winblend = 20,
 					align = "center",
 				},
+				defaults = {
+					mode = { "n", "v" },
+				},
 			})
 			wk.register({
-				-- ["<leader><leader>"] = {
-				-- 	name = "Swap Buffer",
-				-- },
+				["<leader><leader>"] = {
+					name = "Swap Buffer",
+				},
 				["<leader>f"] = {
 					name = "Telescope",
 				},
@@ -61,7 +64,7 @@ return {
 					name = "Split code block ",
 				},
 				["<leader>b"] = {
-					name = "BufferLine",
+					name = "Buffer",
 				},
 				["<leader>c"] = {
 					name = "Copilot",
@@ -78,17 +81,20 @@ return {
 				["<leader>g"] = {
 					name = "Format Code",
 				},
-				-- ["<leader><leader>h"] = {
-				-- 	name = "Buffer swap left"
+				["<leader>fg"] = {
+					name = "Git",
+				},
+				-- ["<leader>xd"] = {
+				-- 	name = "Document Diagnostics",
 				-- },
-				-- ["<leader><leader>j"] = {
-				-- 	name = "Buffer swap down"
+				-- ["<leader>xt"] = {
+				-- 	name = "Troble Todo",
 				-- },
-				-- ["<leader><leader>k"] = {
-				-- 	name = "Buffer swap up"
+				-- ["<leader>xT"] = {
+				-- 	name = "Troble Todo/Fixme/Notes",
 				-- },
-				-- ["<leader><leader>l"] = {
-				-- 	name = "Buffer swap right"
+				-- ["<leader>xw"] = {
+				-- 	name = "Troble Workspace Diagnostics",
 				-- },
 			})
 		end,

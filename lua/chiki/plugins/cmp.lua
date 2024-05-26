@@ -1,7 +1,7 @@
 return {
 	{
 		"hrsh7th/nvim-cmp",
-		-- version = false, -- last release is way too old
+		version = false,
 		event = { "InsertEnter" },
 		dependencies = {
 			{
@@ -110,31 +110,6 @@ return {
 				})
 			)
 
-			-- cmp.setup.filetype("gitcommit", {
-			-- 	sources = cmp.config.sources({
-			-- 		{ name = "git" }, -- You can specify the `git` source if [you were installed it](https://github.com/petertriho/cmp-git).
-			-- 	}, {
-			-- 		{ name = "buffer" },
-			-- 	}),
-			-- })
-			--
-			-- -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
-			-- cmp.setup.cmdline({ "/", "?" }, {
-			-- 	mapping = cmp.mapping.preset.cmdline(),
-			-- 	sources = {
-			-- 		{ name = "buffer" },
-			-- 	},
-			-- })
-			--
-			-- -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-			-- cmp.setup.cmdline(":", {
-			-- 	mapping = cmp.mapping.preset.cmdline(),
-			-- 	sources = cmp.config.sources({
-			-- 		{ name = "path" },
-			-- 	}, {
-			-- 		{ name = "cmdline" },
-			-- 	}),
-			-- })
 			-- `/` cmdline setup.
 			cmp.setup.cmdline("/", {
 				mapping = cmp.mapping.preset.cmdline(),
@@ -142,21 +117,6 @@ return {
 					{ name = "buffer" },
 				},
 			})
-			-- `:` cmdline setup.
-			-- cmp.setup.cmdline(":", {
-			-- 	mapping = cmp.mapping.preset.cmdline(),
-			-- 	sources = cmp.config.sources({
-			-- 		{ name = "path" },
-			-- 	}, {
-			-- 		{
-			-- 			name = "cmdline",
-			-- 			option = {
-			-- 				-- ignore_cmds = { "Man", "!" },
-			-- 			},
-			-- 		},
-			-- 	}),
-			-- })
-
 			return {
 				formatting = {
 					format = require("lspkind").cmp_format({
@@ -180,6 +140,11 @@ return {
 							return vim_item
 						end,
 					}),
+				},
+				experimental = {
+					ghost_text = {
+						hl_group = "CmpGhostText",
+					},
 				},
 				view = {
 					docs = {
