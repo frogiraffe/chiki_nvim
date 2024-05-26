@@ -36,8 +36,8 @@ return {
 					html = { "prettierd" },
 					css = { "prettierd" },
 					r = {},
-					fish = {},
-					["_"] = { { "prettierd" } },
+					fish = { "fish_indent" },
+					eh = { "shfmt" },
 				},
 			})
 			vim.api.nvim_create_user_command("FormatDisable", function(args)

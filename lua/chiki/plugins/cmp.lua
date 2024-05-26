@@ -50,65 +50,65 @@ return {
 					})
 				end,
 			},
-			{
-				"zbirenbaum/copilot-cmp",
-				event = { "InsertEnter", "LspAttach" },
-				config = function()
-					require("copilot_cmp").setup({
-						fix_pairs = true,
-					})
-				end,
-			},
+			-- {
+			-- 	"zbirenbaum/copilot-cmp",
+			-- 	event = { "InsertEnter", "LspAttach" },
+			-- 	config = function()
+			-- 		require("copilot_cmp").setup({
+			-- 			fix_pairs = true,
+			-- 		})
+			-- 	end,
+			-- },
 		},
 		opts = function()
 			local cmp = require("cmp")
 			local luasnip = require("luasnip")
-			local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-			cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
-			local handlers = require("nvim-autopairs.completion.handlers")
+			-- local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+			-- cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+			-- local handlers = require("nvim-autopairs.completion.handlers")
 
-			local has_words_before = function()
-				unpack = unpack or table.unpack
-				local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-				return col ~= 0
-					and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-			end
-
-			cmp.event:on(
-				"confirm_done",
-				cmp_autopairs.on_confirm_done({
-					filetypes = {
-						-- "*" is a alias to all filetypes
-						["*"] = {
-							["("] = {
-								kind = {
-									cmp.lsp.CompletionItemKind.Function,
-									cmp.lsp.CompletionItemKind.Method,
-								},
-								handler = handlers["*"],
-							},
-						},
-						lua = {
-							["("] = {
-								kind = {
-									cmp.lsp.CompletionItemKind.Function,
-									cmp.lsp.CompletionItemKind.Method,
-								},
-								---@param char string
-								---@param item table item completion
-								---@param bufnr number buffer number
-								---@param rules table
-								---@param commit_character table<string>
-								handler = function(char, item, bufnr, rules, commit_character)
-									-- Your handler function. Inpect with print(vim.inspect{char, item, bufnr, rules, commit_character})
-								end,
-							},
-						},
-						-- Disable for tex
-						tex = false,
-					},
-				})
-			)
+			-- local has_words_before = function()
+			-- 	unpack = unpack or table.unpack
+			-- 	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+			-- 	return col ~= 0
+			-- 		and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+			-- end
+			--
+			-- cmp.event:on(
+			-- 	"confirm_done",
+			-- 	cmp_autopairs.on_confirm_done({
+			-- 		filetypes = {
+			-- 			-- "*" is a alias to all filetypes
+			-- 			["*"] = {
+			-- 				["("] = {
+			-- 					kind = {
+			-- 						cmp.lsp.CompletionItemKind.Function,
+			-- 						cmp.lsp.CompletionItemKind.Method,
+			-- 					},
+			-- 					handler = handlers["*"],
+			-- 				},
+			-- 			},
+			-- 			lua = {
+			-- 				["("] = {
+			-- 					kind = {
+			-- 						cmp.lsp.CompletionItemKind.Function,
+			-- 						cmp.lsp.CompletionItemKind.Method,
+			-- 					},
+			-- 					---@param char string
+			-- 					---@param item table item completion
+			-- 					---@param bufnr number buffer number
+			-- 					---@param rules table
+			-- 					---@param commit_character table<string>
+			-- 					handler = function(char, item, bufnr, rules, commit_character)
+			-- 						-- Your handler function. Inpect with print(vim.inspect{char, item, bufnr, rules, commit_character})
+			-- 					end,
+			-- 				},
+			-- 			},
+			-- 			-- Disable for tex
+			-- 			tex = false,
+			-- 		},
+			-- 	})
+			-- )
 
 			-- `/` cmdline setup.
 			cmp.setup.cmdline("/", {
@@ -212,7 +212,7 @@ return {
 					{ name = "nvim_lsp_signature_help" },
 					{ name = "path" },
 					{ name = "buffer", keyword_length = 5 },
-					{ name = "copilot" },
+					-- { name = "copilot" },
 				}),
 			}
 		end,

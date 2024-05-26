@@ -124,6 +124,16 @@ return {
 					require("treesj").setup({ max_join_length = 240 })
 				end,
 			},
+			{
+				"RRethy/nvim-treesitter-endwise",
+				config = function()
+					require("nvim-treesitter.configs").setup({
+						endwise = {
+							enable = true,
+						},
+					})
+				end,
+			},
 		},
 		config = function()
 			require("nvim-treesitter.install").update({ with_sync = true })

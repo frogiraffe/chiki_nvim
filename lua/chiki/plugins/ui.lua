@@ -219,6 +219,7 @@ return {
 				sections = {
 					lualine_c = {
 						"lsp_progress",
+						"filename",
 					},
 					lualine_x = {
 						{

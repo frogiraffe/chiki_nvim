@@ -31,8 +31,6 @@ return {
 			function()
 				require("neo-tree.command").execute({
 					toggle = true,
-					action = "focus", -- OPTIONAL, this is the default value
-					source = "filesystem", -- OPTIONAL, this is the default value
 					position = "left", -- OPTIONAL, this is the default value
 					reveal_file = reveal_file, -- path to file or folder to reveal
 					reveal_force_cwd = true, -- change cwd without asking if needed
@@ -47,7 +45,7 @@ return {
 			end,
 			desc = "Explorer NeoTree (cwd)",
 		},
-		{ "<leader>e", "<leader>fe", desc = "Explorer NeoTree (Root Dir)", remap = true },
+		{ "\\", "<leader>fe", desc = "Explorer NeoTree (Root Dir)", remap = true },
 		{ "<leader>E", "<leader>fE", desc = "Explorer NeoTree (cwd)", remap = true },
 		{
 			"<leader>ge",
@@ -62,6 +60,15 @@ return {
 				require("neo-tree.command").execute({ source = "buffers", toggle = true })
 			end,
 			desc = "Buffer Explorer",
+		},
+	},
+	opts = {
+		filesystem = {
+			window = {
+				mappings = {
+					["\\"] = "close_window",
+				},
+			},
 		},
 	},
 	requires = {
@@ -97,6 +104,19 @@ return {
 		vim.fn.sign_define("DiagnosticSignHint", { text = "󰌵", texthl = "DiagnosticSignHint" })
 
 		require("neo-tree").setup({
+			sources = {
+				"filesystem",
+				"buffers",
+				"git_status",
+			},
+			source_selector = {
+				winbar = true,
+				sources = {
+					{ source = "filesystem" },
+					{ source = "buffers" },
+					{ source = "git_status" },
+				},
+			},
 			close_if_last_window = true, -- Close Neo-tree if it is the last window left in the tab
 			popup_border_style = "rounded",
 			enable_git_status = true,

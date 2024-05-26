@@ -125,11 +125,11 @@ return {
 		event = "BufReadPost",
 		opts = {},
 	},
-	{
-		"windwp/nvim-autopairs",
-		event = "InsertEnter",
-		opts = {},
-	},
+	-- {
+	-- 	"windwp/nvim-autopairs",
+	-- 	event = "InsertEnter",
+	-- 	opts = {},
+	-- },
 	{
 		"nacro90/numb.nvim",
 		event = "BufReadPost",
