@@ -25,18 +25,23 @@ return {
 					"tsserver",
 					"html",
 					"cssls",
+					"basedpyright",
 				},
 			})
 			--
 			local lspconfig = require("lspconfig")
-			local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
+			local capabilities = vim.tbl_deep_extend(
+				"force",
+				vim.lsp.protocol.make_client_capabilities(),
+				require("cmp_nvim_lsp").default_capabilities()
+			)
 			local html_capabilities = vim.lsp.protocol.make_client_capabilities()
 			html_capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 			require("mason-lspconfig").setup_handlers({
 				function(server_name)
 					lspconfig[server_name].setup({
-						capabilities = lsp_capabilities,
+						capabilities = capabilities,
 					})
 				end,
 				["lua_ls"] = function()
@@ -50,6 +55,11 @@ return {
 								},
 							},
 						},
+					})
+				end,
+				["r_language_server"] = function()
+					require("lspconfig").r_language_server.setup({
+						flags = { debounce_text_changes = 300 },
 					})
 				end,
 				-- ["rust_analyzer"] = function() end,
@@ -66,11 +76,6 @@ return {
 			-- end
 			-- require("lspconfig").ruff_lsp.setup({
 			-- 	on_attach = on_attach,
-			-- })
-			-- require("lspconfig").rust_analyzer.setup({
-			-- 	checkOnSave = {
-			-- 		command = "clippy",
-			-- 	},
 			-- })
 		end,
 	},

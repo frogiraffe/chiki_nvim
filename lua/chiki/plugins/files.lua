@@ -55,7 +55,7 @@ return {
 			desc = "Git Explorer",
 		},
 		{
-			"<leader>b",
+			"<leader>e",
 			function()
 				require("neo-tree.command").execute({ source = "buffers", toggle = true })
 			end,

@@ -223,6 +223,12 @@ return {
 		config = function()
 			vim.keymap.set("n", "zO", require("ufo").openAllFolds, { desc = "Open all folds" })
 			vim.keymap.set("n", "zC", require("ufo").closeAllFolds, { desc = "Close all folds" })
+			vim.keymap.set("n", "K", function()
+				local winid = require("ufo").peekFoldedLinesUnderCursor()
+				if not winid then
+					vim.lsp.buf.hover()
+				end
+			end)
 			local handler = function(virtText, lnum, endLnum, width, truncate)
 				local newVirtText = {}
 				local suffix = ("  %d "):format(endLnum - lnum)
@@ -408,54 +414,11 @@ return {
 		end,
 	},
 	{
-		"ThePrimeagen/harpoon",
-		branch = "harpoon2",
-		event = "VeryLazy",
-		dependencies = { "nvim-lua/plenary.nvim" },
-		config = function()
-			local harpoon = require("harpoon")
-			harpoon:setup()
-			vim.keymap.set("n", "<C-s>", function()
-				harpoon:list():add()
-			end)
-			vim.keymap.set("n", "<C-e>", function()
-				harpoon.ui:toggle_quick_menu(harpoon:list())
-			end)
-
-			vim.keymap.set("n", "<C-1>", function()
-				harpoon:list():select(1)
-			end)
-			vim.keymap.set("n", "<C-2>", function()
-				harpoon:list():select(2)
-			end)
-			vim.keymap.set("n", "<C-3>", function()
-				harpoon:list():select(3)
-			end)
-			vim.keymap.set("n", "<C-4>", function()
-				harpoon:list():select(4)
-			end)
-			vim.keymap.set("n", "<C-5>", function()
-				harpoon:list():select(5)
-			end)
-			vim.keymap.set("n", "<C-6>", function()
-				harpoon:list():select(6)
-			end)
-
-			-- Toggle previous & next buffers stored within Harpoon list
-			vim.keymap.set("n", "<S-h>", function()
-				harpoon:list():prev()
-			end)
-			vim.keymap.set("n", "<S-l>", function()
-				harpoon:list():next()
-			end)
-		end,
-	},
-	{
 		"aznhe21/actions-preview.nvim",
 		config = function()
 			vim.keymap.set(
 				{ "v", "n" },
-				"<leader>fc",
+				"ca",
 				require("actions-preview").code_actions,
 				{ desc = "Telescope Code Actions" }
 			)

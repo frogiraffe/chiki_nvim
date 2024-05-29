@@ -20,7 +20,7 @@ keymap("n", "<leader>p", '"+p')
 vim.api.nvim_create_autocmd("LspAttach", {
 	desc = "lsp actions",
 	callback = function(event)
-		keymap("n", "K", "<cmd>:lua vim.lsp.buf.hover()<CR>", { desc = "hover doc" })
+		-- keymap("n", "K", "<cmd>:lua vim.lsp.buf.hover()<CR>", { desc = "hover doc" })
 		keymap("n", "gd", "<cmd>:lua vim.lsp.buf.definition()<CR>", { desc = "go to definition" })
 		keymap("n", "gD", "<cmd>:lua vim.lsp.buf.declaration()<CR>", { desc = "go to declaration" })
 		keymap("n", "gi", "<cmd>:lua vim.lsp.buf.implementation()<CR>", { desc = "go to implementation" })

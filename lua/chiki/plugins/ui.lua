@@ -203,7 +203,7 @@ return {
 	-- 		})
 	-- 	end,
 	-- },
-	{ "arkav/lualine-lsp-progress", event = "VeryLazy" },
+	{ "arkav/lualine-lsp-progress" },
 	{
 		"nvim-lualine/lualine.nvim",
 		event = "VeryLazy",
@@ -218,8 +218,9 @@ return {
 				},
 				sections = {
 					lualine_c = {
-						"lsp_progress",
-						"filename",
+						function()
+							return require("lsp-progress").progress()
+						end,
 					},
 					lualine_x = {
 						{
@@ -229,6 +230,12 @@ return {
 						},
 					},
 				},
+			})
+			vim.api.nvim_create_augroup("lualine_augroup", { clear = true })
+			vim.api.nvim_create_autocmd("User", {
+				group = "lualine_augroup",
+				pattern = "LspProgressStatusUpdated",
+				callback = require("lualine").refresh,
 			})
 		end,
 	},
@@ -424,10 +431,25 @@ return {
 		end,
 	},
 	{
-		"aznhe21/actions-preview.nvim",
-		event = "BufEnter",
+		"stevearc/aerial.nvim",
+		event = "BufRead",
+		opts = {},
+		-- Optional dependencies
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+			"nvim-tree/nvim-web-devicons",
+		},
 		config = function()
-			vim.keymap.set({ "v", "n" }, "ca", require("actions-preview").code_actions)
+			require("aerial").setup({
+				-- optionally use on_attach to set keymaps when aerial has attached to a buffer
+				on_attach = function(bufnr)
+					-- Jump forwards/backwards with '{' and '}'
+					vim.keymap.set("n", "{", "<cmd>AerialPrev<CR>", { buffer = bufnr })
+					vim.keymap.set("n", "}", "<cmd>AerialNext<CR>", { buffer = bufnr })
+				end,
+			})
+			-- You probably also want to set a keymap to toggle aerial
+			vim.keymap.set("n", "<leader>a", "<cmd>AerialToggle!<CR>")
 		end,
 	},
 }

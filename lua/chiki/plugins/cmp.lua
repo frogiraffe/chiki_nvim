@@ -35,7 +35,6 @@ return {
 					require("cmp_nvim_r").setup({
 						filetypes = { "r", "rmd", "quarto" },
 						doc_width = 58,
-						quarto_intel = "~/Downloads/quarto-1.1.251/share/editor/tools/yaml/yaml-intelligence-resources.json",
 					})
 				end,
 			},
@@ -50,15 +49,15 @@ return {
 					})
 				end,
 			},
-			-- {
-			-- 	"zbirenbaum/copilot-cmp",
-			-- 	event = { "InsertEnter", "LspAttach" },
-			-- 	config = function()
-			-- 		require("copilot_cmp").setup({
-			-- 			fix_pairs = true,
-			-- 		})
-			-- 	end,
-			-- },
+			{
+				"zbirenbaum/copilot-cmp",
+				event = { "InsertEnter", "LspAttach" },
+				config = function()
+					require("copilot_cmp").setup({
+						fix_pairs = true,
+					})
+				end,
+			},
 		},
 		opts = function()
 			local cmp = require("cmp")
@@ -124,10 +123,11 @@ return {
 						maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
 						ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
 						menu = {
-							nvim_lsp = "[LSP]",
-							path = "[Path]",
-							buffer = "[Buffer]",
-							luasnip = "[LuaSnip]",
+							nvim_lsp = "",
+							path = "",
+							buffer = "📄",
+							luasnip = "✂️",
+							cmp_nvim_r = "R",
 						},
 
 						-- The function below will be called befjjore any actual modifications from lspkind
@@ -176,8 +176,8 @@ return {
 				mapping = cmp.mapping.preset.insert({
 					["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
 					["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
-					["<C-d>"] = cmp.mapping.scroll_docs(4),
-					["<C-u>"] = cmp.mapping.scroll_docs(-4),
+					["<C-b>"] = cmp.mapping.scroll_docs(4),
+					["<C-f>"] = cmp.mapping.scroll_docs(-4),
 					["<C-k>"] = cmp.mapping.confirm(),
 					["<C-a>"] = cmp.mapping.abort(),
 					["<CR>"] = cmp.mapping.confirm({ select = false }),
@@ -206,13 +206,13 @@ return {
 				}),
 				require("luasnip.loaders.from_vscode").lazy_load(),
 				sources = cmp.config.sources({
-					{ name = "nvim_lsp", priority = 1000 },
-					{ name = "cmp_nvim_r" },
+					{ name = "nvim_lsp" },
 					{ name = "luasnip" },
-					{ name = "nvim_lsp_signature_help" },
 					{ name = "path" },
+					{ name = "nvim_lsp_signature_help" },
 					{ name = "buffer", keyword_length = 5 },
-					-- { name = "copilot" },
+					{ name = "cmp_nvim_r" },
+					{ name = "copilot", group_index = 3 },
 				}),
 			}
 		end,
