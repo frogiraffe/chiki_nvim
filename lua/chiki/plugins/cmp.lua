@@ -22,6 +22,10 @@ return {
 				event = "InsertEnter",
 				-- install jsregexp (optional!).
 				build = "make install_jsregexp",
+				keys =
+					function()
+						return {}
+					end,
 				config = function()
 					require("luasnip").setup({ enable_autosnippets = true })
 				end,
@@ -188,8 +192,8 @@ return {
 						-- 	-- they way you will only jump inside the snippet region
 						if luasnip.expand_or_jumpable() then
 							luasnip.expand_or_jump()
-						-- elseif has_words_before() then
-						-- 	cmp.complete()
+							-- elseif has_words_before() then
+							-- 	cmp.complete()
 						else
 							fallback()
 						end
@@ -210,9 +214,9 @@ return {
 					{ name = "luasnip" },
 					{ name = "path" },
 					{ name = "nvim_lsp_signature_help" },
-					{ name = "buffer", keyword_length = 5 },
+					{ name = "buffer",                 keyword_length = 5 },
 					{ name = "cmp_nvim_r" },
-					{ name = "copilot", group_index = 3 },
+					{ name = "copilot",                group_index = 3 },
 				}),
 			}
 		end,
@@ -267,7 +271,35 @@ return {
 				tabout = {
 					enable = true,
 				},
+				cmap = true,
+				space2 = { enable = true },
+				fastwarp = { multi = true, {}, { faster = true, map = '<C-A-e>', cmap = '<C-A-e>' } }
 			})
 		end,
 	},
+	{
+		'abecodes/tabout.nvim',
+		lazy = false,
+		config = function()
+			require('tabout').setup {
+				tabkey = '<Tab>', -- key to trigger tabout, set to an empty string to disable
+				backwards_tabkey = '<S-Tab>', -- key to trigger backwards tabout, set to an empty string to disable
+				act_as_tab = true, -- shift content if tab out is not possible
+				act_as_shift_tab = false, -- reverse shift content if tab out is not possible (if your keyboard/terminal supports <S-Tab>)
+				default_tab = '<C-t>', -- shift default action (only at the beginning of a line, otherwise <TAB> is used)
+				enable_backwards = true, -- well ...
+				completion = false, -- if the tabkey is used in a completion pum
+				tabouts = {
+					{ open = "'", close = "'" },
+					{ open = '"', close = '"' },
+					{ open = '`', close = '`' },
+					{ open = '(', close = ')' },
+					{ open = '[', close = ']' },
+					{ open = '{', close = '}' }
+				},
+				ignore_beginning = true, --[[ if the cursor is at the beginning of a filled element it will rather tab out than shift the content ]]
+				exclude = {} -- tabout will ignore these filetypes
+			}
+		end,
+	}
 }
