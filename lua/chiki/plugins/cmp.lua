@@ -147,7 +147,7 @@ return {
 				},
 				experimental = {
 					ghost_text = {
-						hl_group = "CmpGhostText",
+						-- hl_group = "CmpGhostText",
 					},
 				},
 				view = {
@@ -214,9 +214,9 @@ return {
 					{ name = "luasnip" },
 					{ name = "path" },
 					{ name = "nvim_lsp_signature_help" },
-					{ name = "buffer",                 keyword_length = 5 },
 					{ name = "cmp_nvim_r" },
-					{ name = "copilot",                group_index = 3 },
+					{ name = "buffer",                 keyword_length = 5 },
+					-- { name = "copilot",                group_index = 3 },
 				}),
 			}
 		end,

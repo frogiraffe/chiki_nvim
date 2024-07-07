@@ -13,7 +13,7 @@ return {
 				lua = { "luacheck" },
 				go = { "golangcilint" },
 				python = { "ruff" },
-				markdown = { "markdownlint", "write-good" },
+				-- markdown = { "markdownlint" --[[ "write-good" ]] },
 				javascript = { "eslint_d" },
 				typescript = { "eslint_d" },
 

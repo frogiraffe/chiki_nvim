@@ -4,9 +4,6 @@ return {
 		opts = {
 			show_help = "yes", -- Show help text for CopilotChatInPlace, default: yes
 			debug = false, -- Enable or disable debug mode, the log file will be in ~/.local/state/nvim/CopilotChat.nvim.log
-			disable_extra_info = "no", -- Disable extra information (e.g: system prompt) in the response.
-			language = "English", -- Copilot answer language settings when using default prompts. Default language is English.
-			-- proxy = "socks5://127.0.0.1:3000", -- Proxies requests via https or socks.
 			-- temperature = 0.1,
 		},
 		build = function()
@@ -14,9 +11,9 @@ return {
 		end,
 		event = "VeryLazy",
 		keys = {
-			{ "<leader>ccb", ":CopilotChatBuffer ", desc = "CopilotChat - Chat with current buffer" },
+			{ "<leader>ccb", ":CopilotChatBuffer ",         desc = "CopilotChat - Chat with current buffer" },
 			{ "<leader>cce", "<cmd>CopilotChatExplain<cr>", desc = "CopilotChat - Explain code" },
-			{ "<leader>cct", "<cmd>CopilotChatTests<cr>", desc = "CopilotChat - Generate tests" },
+			{ "<leader>cct", "<cmd>CopilotChatTests<cr>",   desc = "CopilotChat - Generate tests" },
 			{
 				"<leader>ccT",
 				"<cmd>CopilotChatVsplitToggle<cr>",
@@ -45,5 +42,36 @@ return {
 				desc = "CopilotChat - Reset chat history and clear buffer",
 			},
 		},
+		config = function()
+			local chat = require('CopilotChat')
+			local select = require('CopilotChat.select')
+
+			chat.setup {
+				-- Restore the behaviour for CopilotChat to use unnamed register by default
+				selection = select.unnamed,
+				-- Restore the format with ## headers as prefixes,
+				question_header = '## User ',
+				answer_header = '## Copilot ',
+				error_header = '## Error ',
+			}
+
+			-- Restore CopilotChatVisual
+			vim.api.nvim_create_user_command('CopilotChatVisual', function(args)
+				chat.ask(args.args, { selection = select.visual })
+			end, { nargs = '*', range = true })
+
+			-- Restore CopilotChatInPlace (sort of)
+			vim.api.nvim_create_user_command('CopilotChatInPlace', function(args)
+				chat.ask(args.args, { selection = select.visual, window = { layout = 'float' } })
+			end, { nargs = '*', range = true })
+
+			-- Restore CopilotChatBuffer
+			vim.api.nvim_create_user_command('CopilotChatBuffer', function(args)
+				chat.ask(args.args, { selection = select.buffer })
+			end, { nargs = '*', range = true })
+
+			-- Restore CopilotChatVsplitToggle
+			vim.api.nvim_create_user_command('CopilotChatVsplitToggle', chat.toggle, {})
+		end
 	},
 }

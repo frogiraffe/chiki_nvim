@@ -44,6 +44,37 @@ return {
 						capabilities = capabilities,
 					})
 				end,
+				["texlab"] = function()
+					require("lspconfig").texlab.setup({
+						filetypes = { "tex", "bib", "markdown" },
+					})
+				end,
+				["basedpyright"] = function()
+					require("lspconfig").basedpyright.setup({
+						-- disable these check
+						-- reportUnknownParameterType = false
+						-- reportMissingParameterType = false
+						-- reportUnknownMemberType = false
+						-- reportUnknownArgumentType = false
+						-- reportMissingTypeStubs = false
+						settings = {
+							basedpyright = {
+								analysis = {
+									useLibraryCodeForTypes = true,
+									diagnosticSeverityOverrides = {
+										reportUnknownParameterType = "none",
+										reportMissingParameterType = "none",
+										reportUnknownMemberType = "none",
+										reportUnknownArgumentType = "none",
+										reportMissingTypeStubs = "none",
+									},
+									typeCheckingMode = "basic",
+								},
+							},
+						}
+
+					})
+				end,
 				["lua_ls"] = function()
 					require("lspconfig").lua_ls.setup({
 						settings = {
@@ -65,6 +96,9 @@ return {
 				-- ["rust_analyzer"] = function() end,
 			})
 			lspconfig.marksman.setup({})
+
+
+
 			require("lspconfig").html.setup({
 				capabilities = html_capabilities,
 			})

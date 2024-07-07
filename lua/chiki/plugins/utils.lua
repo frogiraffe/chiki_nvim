@@ -114,7 +114,7 @@ return {
 				end,
 				desc = "Previous todo comment",
 			},
-			{ "<leader>xt", "<cmd>TodoTrouble<cr>", desc = "Todo (Trouble)" },
+			{ "<leader>xt", "<cmd>TodoTrouble<cr>",                              desc = "Todo (Trouble)" },
 			{ "<leader>xT", "<cmd>TodoTrouble keywords=TODO,FIX,FIXME,NOTE<cr>", desc = "Todo/Fix/Fixme (Trouble)" },
 		},
 		opts = {},
@@ -205,9 +205,6 @@ return {
 					relative = "cursor",
 					row = 0,
 					col = 1,
-				},
-				yadm = {
-					enable = false,
 				},
 			})
 		end,
