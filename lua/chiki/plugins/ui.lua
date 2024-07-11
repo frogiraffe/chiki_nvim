@@ -246,13 +246,22 @@ return {
 		opts = function()
 			local dashboard = require("alpha.themes.dashboard")
 			dashboard.section.header.val = {
-				"                                        ▟▙            ",
-				"                                        ▝▘            ",
-				"██▃▅▇█▆▖  ▗▟████▙▖   ▄████▄   ██▄  ▄██  ██  ▗▟█▆▄▄▆█▙▖",
-				"██▛▔ ▝██  ██▄▄▄▄██  ██▛▔▔▜██  ▝██  ██▘  ██  ██▛▜██▛▜██",
-				"██    ██  ██▀▀▀▀▀▘  ██▖  ▗██   ▜█▙▟█▛   ██  ██  ██  ██",
-				"██    ██  ▜█▙▄▄▄▟▊  ▀██▙▟██▀   ▝████▘   ██  ██  ██  ██",
-				"▀▀    ▀▀   ▝▀▀▀▀▀     ▀▀▀▀       ▀▀     ▀▀  ▀▀  ▀▀  ▀▀",
+				[[———————————No bitches?————————]],
+				[[⠀⣞⢽⢪⢣⢣⢣⢫⡺⡵⣝⡮⣗⢷⢽⢽⢽⣮⡷⡽⣜⣜⢮⢺⣜⢷⢽⢝⡽⣝]],
+				[[⠸⡸⠜⠕⠕⠁⢁⢇⢏⢽⢺⣪⡳⡝⣎⣏⢯⢞⡿⣟⣷⣳⢯⡷⣽⢽⢯⣳⣫⠇]],
+				[[⠀⠀⢀⢀⢄⢬⢪⡪⡎⣆⡈⠚⠜⠕⠇⠗⠝⢕⢯⢫⣞⣯⣿⣻⡽⣏⢗⣗⠏⠀]],
+				[[⠀⠪⡪⡪⣪⢪⢺⢸⢢⢓⢆⢤⢀⠀⠀⠀⠀⠈⢊⢞⡾⣿⡯⣏⢮⠷⠁⠀⠀⠀]],
+				[[⠀⠀⠀⠈⠊⠆⡃⠕⢕⢇⢇⢇⢇⢇⢏⢎⢎⢆⢄⠀⢑⣽⣿⢝⠲⠉⠀⠀⠀⠀]],
+				[[⠀⠀⠀⠀⠀⡿⠂⠠⠀⡇⢇⠕⢈⣀⠀⠁⠡⠣⡣⡫⣂⣿⠯⢪⠰⠂⠀⠀⠀⠀]],
+				[[⠀⠀⠀⠀⡦⡙⡂⢀⢤⢣⠣⡈⣾⡃⠠⠄⠀⡄⢱⣌⣶⢏⢊⠂⠀⠀⠀⠀⠀⠀]],
+				[[⠀⠀⠀⠀⢝⡲⣜⡮⡏⢎⢌⢂⠙⠢⠐⢀⢘⢵⣽⣿⡿⠁⠁⠀⠀⠀⠀⠀⠀⠀]],
+				[[⠀⠀⠀⠀⠨⣺⡺⡕⡕⡱⡑⡆⡕⡅⡕⡜⡼⢽⡻⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀]],
+				[[⠀⠀⠀⠀⣼⣳⣫⣾⣵⣗⡵⡱⡡⢣⢑⢕⢜⢕⡝⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀]],
+				[[⠀⠀⠀⣴⣿⣾⣿⣿⣿⡿⡽⡑⢌⠪⡢⡣⣣⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀]],
+				[[⠀⠀⠀⡟⡾⣿⢿⢿⢵⣽⣾⣼⣘⢸⢸⣞⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀]],
+				[[⠀⠀⠀⠀⠁⠇⠡⠩⡫⢿⣝⡻⡮⣒⢽⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀]],
+				[[——————————————————————————————]],
+
 			}
 
 			dashboard.section.buttons.val = {
@@ -262,6 +271,7 @@ return {
 				dashboard.button("s", "󰱼  Find text", ":Telescope live_grep <CR>"),
 				dashboard.button("p", "  Project list", ":Telescope projects<CR>"),
 				dashboard.button("l", "  Load Last Session", ":lua require('persistence').load()<CR>"),
+				dashboard.button("t", "  Settings", ":e ~/.config/nvim/init.lua<CR>"),
 				dashboard.button("q", "  Quit Neovim", ":qa<CR>"),
 			}
 			dashboard.section.footer.opts.hl = "Type"
@@ -300,6 +310,7 @@ return {
 			"akinsho/toggleterm.nvim",
 			version = "*",
 			-- cmd = "ToggleTerm",
+			event = "VeryLazy",
 			opts = { --[[ things you want to change go here]]
 			},
 			config = function()
@@ -449,7 +460,19 @@ return {
 				end,
 			})
 			-- You probably also want to set a keymap to toggle aerial
-			vim.keymap.set("n", "<leader>a", "<cmd>AerialToggle!<CR>")
+			vim.keymap.set("n", "<leader><leader>a", "<cmd>AerialToggle!<CR>")
 		end,
+	},
+	{
+		'romgrk/barbar.nvim',
+		event = "VeryLazy",
+		dependencies = {
+			'lewis6991/gitsigns.nvim', -- OPTIONAL: for git status
+			'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
+		},
+		init = function() vim.g.barbar_auto_setup = false end,
+		opts = {
+		},
+		version = '^1.0.0', -- optional: only update when a new 1.x version is released
 	},
 }

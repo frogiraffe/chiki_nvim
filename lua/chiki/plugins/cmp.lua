@@ -216,7 +216,7 @@ return {
 					{ name = "nvim_lsp_signature_help" },
 					{ name = "cmp_nvim_r" },
 					{ name = "buffer",                 keyword_length = 5 },
-					-- { name = "copilot",                group_index = 3 },
+					{ name = "copilot",                group_index = 3 },
 				}),
 			}
 		end,
@@ -279,7 +279,7 @@ return {
 	},
 	{
 		'abecodes/tabout.nvim',
-		lazy = false,
+		lazy = true,
 		config = function()
 			require('tabout').setup {
 				tabkey = '<Tab>', -- key to trigger tabout, set to an empty string to disable

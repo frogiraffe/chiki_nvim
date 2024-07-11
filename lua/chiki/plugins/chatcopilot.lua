@@ -9,7 +9,7 @@ return {
 		build = function()
 			vim.notify("Please update the remote plugins by running ':UpdateRemotePlugins', then restart Neovim.")
 		end,
-		event = "VeryLazy",
+		-- event = "VeryLazy",
 		keys = {
 			{ "<leader>ccb", ":CopilotChatBuffer ",         desc = "CopilotChat - Chat with current buffer" },
 			{ "<leader>cce", "<cmd>CopilotChatExplain<cr>", desc = "CopilotChat - Explain code" },

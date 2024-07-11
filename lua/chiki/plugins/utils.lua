@@ -74,8 +74,7 @@ return {
 			-- 				},
 			-- 				label = { after = { 0, 0 }, style = "overlay", rainbow = { enabled = false } },
 			-- 			}, Char.motions[motion]))
-			-- 		end)
-			-- 	end
+			-- 		end) end
 		end,
 	},
 	{
@@ -96,7 +95,7 @@ return {
 	},
 	{
 		"folke/todo-comments.nvim",
-		lazy = false,
+		lazy = true,
 		-- event = { "BufReadPost", "BufNewFile" },
 		dependencies = { "nvim-lua/plenary.nvim" },
 		keys = {
@@ -344,7 +343,7 @@ return {
 	},
 	{
 		"nvim-pack/nvim-spectre",
-		event = "VeryLazy",
+		cmd = { "Spectre", "SpectreOpen", "SpectreClose", "SpectreReplace" },
 		config = function()
 			vim.keymap.set("n", "<leader>S", '<cmd>lua require("spectre").toggle()<CR>', {
 				desc = "Toggle Spectre",
@@ -363,6 +362,7 @@ return {
 	{
 		"lukas-reineke/indent-blankline.nvim",
 		main = "ibl",
+		event = "BufRead",
 		opts = {},
 		config = function()
 			local highlight = {

@@ -42,11 +42,11 @@ vim.opt.mouse = "a"
 vim.opt.updatetime = 50
 vim.opt.lazyredraw = false
 vim.opt.swapfile = false
-vim.opt.updatetime = 200 -- Save swap file and trigger CursorHold
+vim.opt.updatetime = 200      -- Save swap file and trigger CursorHold
 vim.opt.virtualedit = "block" -- Allow cursor to move where there is no text in visual block mode
 vim.opt.wildmode = "longest:full,full"
 vim.opt.wrap = false
-vim.opt.hidden = true
+vim.opt.hidden = false
 vim.opt.autowrite = true
 vim.diagnostic.config({
 	virtual_text = true,
@@ -70,7 +70,7 @@ vim.cmd([[
 autocmd BufEnter * if &ft ==# 'help' | wincmd L | endif
 ]])
 vim.o.foldcolumn = "0" -- '0' is not bad
-vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+vim.o.foldlevel = 99   -- Using ufo provider need a large value, feel free to decrease the value
 vim.o.foldlevelstart = 99
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.o.foldenable = true

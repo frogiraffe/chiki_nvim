@@ -7,6 +7,7 @@
   "actions-preview.nvim": { "branch": "master", "commit": "9f52a01c374318e91337697ebed51c6fae57f8a4" },
   "aerial.nvim": { "branch": "master", "commit": "a1c5476732686da2a51218f47580f0dc1a3b8aa9" },
   "alpha-nvim": { "branch": "main", "commit": "41283fb402713fc8b327e60907f74e46166f4cfd" },
+  "barbar.nvim": { "branch": "master", "commit": "79f7d16578a167bdf5355725551ef7d90613a601" },
   "better-escape.nvim": { "branch": "master", "commit": "7e86edafb8c7e73699e0320f225464a298b96d12" },
   "blackjack.nvim": { "branch": "main", "commit": "cf59e79de25b87a3ef68b92b3277c50d4b345a92" },
   "bufresize.nvim": { "branch": "master", "commit": "3b19527ab936d6910484dcc20fb59bdb12322d8b" },
