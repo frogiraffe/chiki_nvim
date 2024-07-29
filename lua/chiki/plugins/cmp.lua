@@ -31,9 +31,17 @@ return {
 				end,
 			},
 			{
-				"hrsh7th/cmp-nvim-lsp-signature-help",
+				"ray-x/lsp_signature.nvim",
+				event = "VeryLazy",
+				opts = {
+					virtual_text = false,
+					hint_enable = false,
+					transparency = 20
+				},
+				config = function(_, opts) require 'lsp_signature'.setup(opts) end
 			},
 			{
+
 				"jalvesaq/cmp-nvim-r",
 				config = function()
 					require("cmp_nvim_r").setup({
@@ -42,26 +50,34 @@ return {
 					})
 				end,
 			},
-			{
-				"zbirenbaum/copilot.lua",
-				cmd = "Copilot",
-				event = "InsertEnter",
-				config = function()
-					require("copilot").setup({
-						suggestion = { enabled = false },
-						panel = { enabled = false },
-					})
-				end,
-			},
-			{
-				"zbirenbaum/copilot-cmp",
-				event = { "InsertEnter", "LspAttach" },
-				config = function()
-					require("copilot_cmp").setup({
-						fix_pairs = true,
-					})
-				end,
-			},
+			-- {
+			-- 	"zbirenbaum/copilot.lua",
+			-- 	cmd = "Copilot",
+			-- 	event = "InsertEnter",
+			-- 	config = function()
+			-- 		require("copilot").setup({
+			-- 			suggestion = {
+			-- 				enabled = true,
+			-- 				auto_trigger = true,
+			-- 				hide_during_completion = false,
+			-- 				keymap = {
+			-- 					accept = "<C-y>",
+			-- 					dismiss = "<C-e>",
+			-- 				},
+			-- 			},
+			-- 			panel = { enabled = false },
+			-- 		})
+			-- 	end,
+			-- },
+			-- {
+			-- 	"zbirenbaum/copilot-cmp",
+			-- 	event = { "InsertEnter", "LspAttach" },
+			-- 	config = function()
+			-- 		require("copilot_cmp").setup({
+			-- 			fix_pairs = true,
+			-- 		})
+			-- 	end,
+			-- },
 		},
 		opts = function()
 			local cmp = require("cmp")
@@ -169,22 +185,33 @@ return {
 				},
 				window = {
 					completion = {
-						border = "single",
-						winhighlight = "Normal:Pmenu,NormalFloat:Pmenu,CursorLine:PmenuSel,Search:None",
+						border = "rounded",
+						winhighlight = 'Normal:Pmenu,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None',
 					},
 					documentation = {
-						border = "single",
-						winhighlight = "NormalFloat:Pmenu",
+						winhighlight = 'Normal:Pmenu,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None',
+						border = "rounded",
 					},
 				},
 				mapping = cmp.mapping.preset.insert({
-					["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
-					["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+					["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+					["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
 					["<C-b>"] = cmp.mapping.scroll_docs(4),
 					["<C-f>"] = cmp.mapping.scroll_docs(-4),
-					["<C-k>"] = cmp.mapping.confirm(),
 					["<C-a>"] = cmp.mapping.abort(),
-					["<CR>"] = cmp.mapping.confirm({ select = false }),
+					['<C-Space>'] = cmp.mapping(function(fallback)
+						if cmp.visible() then
+							if luasnip.expandable() then
+								luasnip.expand()
+							else
+								cmp.confirm({
+									select = true,
+								})
+							end
+						else
+							fallback()
+						end
+					end),
 					["<Tab>"] = cmp.mapping(function(fallback)
 						-- if cmp.visible() then
 						-- 	cmp.select_next_item()
@@ -213,10 +240,9 @@ return {
 					{ name = "nvim_lsp" },
 					{ name = "luasnip" },
 					{ name = "path" },
-					{ name = "nvim_lsp_signature_help" },
+					-- { name = "nvim_lsp_signature_help" },
 					{ name = "cmp_nvim_r" },
-					{ name = "buffer",                 keyword_length = 5 },
-					{ name = "copilot",                group_index = 3 },
+					{ name = "buffer",    keyword_length = 5 },
 				}),
 			}
 		end,
@@ -301,5 +327,18 @@ return {
 				exclude = {} -- tabout will ignore these filetypes
 			}
 		end,
-	}
+	},
+	-- {
+	-- 	"github/copilot.vim",
+	-- 	config = function()
+	-- 		vim.keymap.set({ "n", 'i' }, '<C-y>', 'copilot#Accept("\\<CR>")', {
+	-- 			expr = true,
+	-- 			silent = true,
+	-- 			replace_keycodes = false
+	-- 		})
+	-- 		vim.keymap.set('i', '<C-e>', '<Plug>(copilot-dismiss)')
+	-- 		vim.g.copilot_no_tab_map = true
+	-- 	end
+	--
+	-- }
 }

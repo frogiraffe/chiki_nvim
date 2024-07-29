@@ -25,7 +25,6 @@ vim.opt.isfname:append("@-@")
 vim.opt.list = false
 -- vim.cmd([[set listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,trail:·]])
 vim.opt.nu = true
-vim.opt.relativenumber = true
 vim.opt.number = true
 vim.opt.scrolloff = 8
 vim.opt.shiftwidth = 4
@@ -46,10 +45,10 @@ vim.opt.updatetime = 200      -- Save swap file and trigger CursorHold
 vim.opt.virtualedit = "block" -- Allow cursor to move where there is no text in visual block mode
 vim.opt.wildmode = "longest:full,full"
 vim.opt.wrap = false
-vim.opt.hidden = false
+vim.opt.hidden = true
 vim.opt.autowrite = true
 vim.diagnostic.config({
-	virtual_text = true,
+	virtual_text = false,
 	float = {
 		border = "single",
 	},

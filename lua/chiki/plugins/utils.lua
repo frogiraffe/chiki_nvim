@@ -260,7 +260,7 @@ return {
 			})
 		end,
 	},
-	{ "tpope/vim-repeat", event = "VeryLazy" },
+	{ "tpope/vim-repeat",             event = "VeryLazy" },
 	{
 		"AckslD/nvim-neoclip.lua",
 		event = "VeryLazy",
@@ -293,35 +293,6 @@ return {
 			})
 		end,
 	},
-	-- Lua
-	{
-		"folke/persistence.nvim",
-		event = "BufReadPre", -- this will only start session saving when an actual file was opened
-		opts = { options = { "buffers" } },
-		keys = {
-			{
-				"<leader>qs",
-				function()
-					require("persistence").load()
-				end,
-				desc = "Restore Session",
-			},
-			{
-				"<leader>ql",
-				function()
-					require("persistence").load({ last = true })
-				end,
-				desc = "Restore Last Session",
-			},
-			{
-				"<leader>qd",
-				function()
-					require("persistence").stop()
-				end,
-				desc = "Don't Save Current Session",
-			},
-		},
-	},
 	{ -- This plugin
 		"Zeioth/compiler.nvim",
 		cmd = { "CompilerOpen", "CompilerToggleResults", "CompilerRedo" },
@@ -343,7 +314,7 @@ return {
 	},
 	{
 		"nvim-pack/nvim-spectre",
-		cmd = { "Spectre", "SpectreOpen", "SpectreClose", "SpectreReplace" },
+		-- cmd = { "Spectre", "SpectreOpen", "SpectreClose", "SpectreReplace" },
 		config = function()
 			vim.keymap.set("n", "<leader>S", '<cmd>lua require("spectre").toggle()<CR>', {
 				desc = "Toggle Spectre",
@@ -414,11 +385,22 @@ return {
 		"aznhe21/actions-preview.nvim",
 		config = function()
 			vim.keymap.set(
-				{ "v", "n" },
+				{ "n" },
 				"ca",
 				require("actions-preview").code_actions,
 				{ desc = "Telescope Code Actions" }
 			)
 		end,
 	},
+	{
+		"Shatur/neovim-session-manager",
+		config = function()
+			require("session_manager").setup({
+				autosave_last_session = true,
+				autoload_mode = require('session_manager.config').AutoloadMode.Disabled,
+
+			})
+		end,
+	},
+	{ "cpea2506/relative-toggle.nvim" }
 }

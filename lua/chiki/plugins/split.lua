@@ -59,7 +59,7 @@ return {
 				mode = { "t", "n", "v" },
 			},
 			{
-				"<C-r>",
+				"<C-M-r>",
 				function()
 					require("smart-splits").start_resize_mode()
 				end,

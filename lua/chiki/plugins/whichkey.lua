@@ -32,57 +32,68 @@ return {
 					group = "+",
 				},
 				-- triggers = { "<leader>" },
-				window = {
-					border = "none",
-					winblend = 20,
-					align = "center",
+				win = {
 				},
 				defaults = {
 					mode = { "n", "v" },
 				},
 			})
-			wk.register({
-				["<leader><leader>"] = {
-					name = "Swap Buffer",
+			wk.add({
+				{
+					"<leader><leader>",
+					desc = "Swap Buffer",
 				},
-				["<leader>f"] = {
-					name = "Telescope",
+				{
+					"<leader>f",
+					desc = "Telescope",
 				},
-				["<leader>x"] = {
-					name = "Trouble",
+				{
+					"<leader>x",
+					desc = "Trouble",
 				},
-				["<leader>z"] = {
-					name = "Zen",
+				{
+					"<leader>z",
+					desc = "Zen",
 				},
-				["?"] = {
-					name = "Old Files",
+				{
+					"?",
+					desc = "Old Files",
 				},
-				["<leader>fy"] = {
-					name = "Yank History",
+				{
+					"<leader>fy",
+					desc = "Yank History",
 				},
-				["<leader>k"] = {
-					name = "Split code block ",
+				{
+					"<leader>k",
+					desc = "Split code block",
 				},
-				["<leader>b"] = {
-					name = "Buffer",
+				{
+					"<leader>b",
+					desc = "Buffer",
 				},
-				["<leader>c"] = {
-					name = "Copilot",
+				{
+					"<leader>c",
+					desc = "Copilot",
 				},
-				["<leader>cc"] = {
-					name = "Copilot",
+				{
+					"<leader>cc",
+					desc = "Copilot",
 				},
-				["<leader>t"] = {
-					name = "Floating Terminal",
+				{
+					"<leader>t",
+					desc = "Floating Terminal",
 				},
-				["<leader>q"] = {
-					name = "Session Management",
+				{
+					"<leader>q",
+					desc = "Session Management",
 				},
-				["<leader>g"] = {
-					name = "Format Code",
+				{
+					"<leader>g",
+					desc = "Format Code",
 				},
-				["<leader>fg"] = {
-					name = "Git",
+				{
+					"<leader>fg",
+					desc = "Git",
 				},
 				-- ["<leader>xd"] = {
 				-- 	name = "Document Diagnostics",

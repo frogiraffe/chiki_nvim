@@ -211,7 +211,7 @@ return {
 		config = function()
 			require("lualine").setup({
 				options = {
-					theme = "gruvbox-material",
+					theme = "catppuccin",
 					icons_enabled = true,
 					section_separators = { left = "", right = "" },
 					component_separators = { left = "", right = "" },
@@ -270,7 +270,10 @@ return {
 				dashboard.button("r", "  Recently used files", ":Telescope oldfiles <CR>"),
 				dashboard.button("s", "󰱼  Find text", ":Telescope live_grep <CR>"),
 				dashboard.button("p", "  Project list", ":Telescope projects<CR>"),
-				dashboard.button("l", "  Load Last Session", ":lua require('persistence').load()<CR>"),
+				dashboard.button("l", "  Load Last Session",
+					":SessionManager load_last_session<CR>"),
+				dashboard.button("k", "  Load Session Menu",
+					":SessionManager<CR>"),
 				dashboard.button("t", "  Settings", ":e ~/.config/nvim/init.lua<CR>"),
 				dashboard.button("q", "  Quit Neovim", ":qa<CR>"),
 			}
@@ -281,6 +284,8 @@ return {
 			dashboard.opts.opts.noautocmd = true
 			return dashboard
 		end,
+
+
 		config = function(_, opts)
 			-- Footer
 			require("alpha").setup(opts.config)
@@ -327,7 +332,7 @@ return {
 				require("toggleterm").setup({
 					hide_numbers = true,
 					autochdir = true,
-					shade_terminals = true,
+					-- shade_terminals = true,
 					persistent_size = true,
 					open_mapping = [[<C-Bslash>]],
 				})
@@ -389,6 +394,9 @@ return {
 			require("noice").setup({
 				lsp = {
 					-- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+					signature = {
+						enabled = false
+					},
 					override = {
 						["vim.lsp.util.convert_input_to_markdown_lines"] = true,
 						["vim.lsp.util.stylize_markdown"] = true,

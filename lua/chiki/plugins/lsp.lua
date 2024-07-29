@@ -10,6 +10,12 @@ return {
 		build = ":MasonUpdate",
 		event = "BufReadPre",
 		dependencies = {
+			{
+				"https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+				config = function()
+					require("lsp_lines").setup()
+				end
+			},
 			"williamboman/mason-lspconfig.nvim",
 			{
 				"neovim/nvim-lspconfig",
@@ -94,6 +100,7 @@ return {
 					})
 				end,
 				-- ["rust_analyzer"] = function() end,
+
 			})
 			lspconfig.marksman.setup({})
 
