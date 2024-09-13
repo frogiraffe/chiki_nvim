@@ -10,12 +10,12 @@ return {
 		build = ":MasonUpdate",
 		event = "BufReadPre",
 		dependencies = {
-			{
-				"https://git.sr.ht/~whynothugo/lsp_lines.nvim",
-				config = function()
-					require("lsp_lines").setup()
-				end
-			},
+			-- {
+			-- 	"https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+			-- 	config = function()
+			-- 		require("lsp_lines").setup()
+			-- 	end
+			-- },
 			"williamboman/mason-lspconfig.nvim",
 			{
 				"neovim/nvim-lspconfig",
@@ -28,7 +28,6 @@ return {
 			require("mason-lspconfig").setup({
 				ensure_installed = {
 					"lua_ls",
-					"tsserver",
 					"html",
 					"cssls",
 					"basedpyright",

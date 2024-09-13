@@ -68,18 +68,6 @@ return {
 					desc = "Split code block",
 				},
 				{
-					"<leader>b",
-					desc = "Buffer",
-				},
-				{
-					"<leader>c",
-					desc = "Copilot",
-				},
-				{
-					"<leader>cc",
-					desc = "Copilot",
-				},
-				{
 					"<leader>t",
 					desc = "Floating Terminal",
 				},

@@ -160,7 +160,7 @@ return {
 		opts = {},
 		config = function()
 			require("Comment").setup({
-				pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+				-- pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
 			})
 		end,
 	},
@@ -296,19 +296,19 @@ return {
 	{ -- This plugin
 		"Zeioth/compiler.nvim",
 		cmd = { "CompilerOpen", "CompilerToggleResults", "CompilerRedo" },
-		dependencies = { "stevearc/overseer.nvim" },
+		dependencies = { "stevearc/overseer.nvim", "nvim-telescope/telescope.nvim" },
 		opts = {},
 	},
 	{ -- The task runner we use
 		"stevearc/overseer.nvim",
-		commit = "400e762648b70397d0d315e5acaf0ff3597f2d8b",
+		commit = "6271cab7ccc4ca840faa93f54440ffae3a3918bd",
 		cmd = { "CompilerOpen", "CompilerToggleResults", "CompilerRedo" },
 		opts = {
 			task_list = {
 				direction = "bottom",
 				min_height = 25,
 				max_height = 25,
-				default_detail = 1,
+				default_detail = 1
 			},
 		},
 	},

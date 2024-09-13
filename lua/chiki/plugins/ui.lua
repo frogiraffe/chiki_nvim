@@ -187,22 +187,6 @@ return {
 			})
 		end,
 	},
-	-- {
-	-- 	"akinsho/bufferline.nvim",
-	-- 	version = "*",
-	-- 	dependencies = "nvim-tree/nvim-web-devicons",
-	-- 	event = "BufRead",
-	-- 	keys = {
-	-- 		{ "<S-L>", "<cmd>BufferLineCycleNext<CR>" },
-	-- 		{ "<S-H>", "<cmd>BufferLineCyclePrev<CR>" },
-	-- 		{ "<leader>bp", "<cmd>BufferLinePick<CR>" },
-	-- 	},
-	-- 	config = function()
-	-- 		require("bufferline").setup({
-	-- 			options = {},
-	-- 		})
-	-- 	end,
-	-- },
 	{ "arkav/lualine-lsp-progress" },
 	{
 		"nvim-lualine/lualine.nvim",
@@ -384,11 +368,6 @@ return {
 			-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
 			"MunifTanjim/nui.nvim",
 			--   If not available, we use `mini` as the fallback
-			{
-				"rcarriga/nvim-notify",
-				event = "BufRead",
-				opts = { background_colour = "#000000", render = "compact", top_down = true, timeout = 500 },
-			},
 		},
 		config = function()
 			require("noice").setup({
@@ -478,9 +457,9 @@ return {
 			'lewis6991/gitsigns.nvim', -- OPTIONAL: for git status
 			'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
 		},
-		init = function() vim.g.barbar_auto_setup = false end,
 		opts = {
 		},
+		init = function() vim.g.barbar_auto_setup = false end,
 		version = '^1.0.0', -- optional: only update when a new 1.x version is released
 	},
 }
