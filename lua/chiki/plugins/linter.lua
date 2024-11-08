@@ -12,7 +12,6 @@ return {
 			require("lint").linters_by_ft = {
 				lua = { "luacheck" },
 				go = { "golangcilint" },
-				python = { "ruff" },
 				-- markdown = { "markdownlint" --[[ "write-good" ]] },
 				javascript = { "eslint_d" },
 				typescript = { "eslint_d" },

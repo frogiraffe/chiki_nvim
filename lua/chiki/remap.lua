@@ -78,3 +78,11 @@ keymap('n', '<Space>bw', '<Cmd>BufferOrderByWindowNumber<CR>', opts)
 -- Other:
 -- :BarbarEnable - enables barbar (enabled by default)
 -- :BarbarDisable - very bad command, should never be used
+if vim.g.neovide then
+	vim.api.nvim_set_keymap('v', '<sc-c>', '"+y', { noremap = true })
+	vim.api.nvim_set_keymap('n', '<sc-v>', 'l"+P', { noremap = true })
+	vim.api.nvim_set_keymap('v', '<sc-v>', '"+P', { noremap = true })
+	vim.api.nvim_set_keymap('c', '<sc-v>', '<C-o>l<C-o>"+<C-o>P<C-o>l', { noremap = true })
+	vim.api.nvim_set_keymap('i', '<sc-v>', '<ESC>l"+Pli', { noremap = true })
+	vim.api.nvim_set_keymap('t', '<sc-v>', '<C-\\><C-n>"+Pi', { noremap = true })
+end
