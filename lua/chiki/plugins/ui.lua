@@ -420,15 +420,6 @@ return {
 		end,
 	},
 	{
-		"kosayoda/nvim-lightbulb",
-		event = "BufEnter",
-		config = function()
-			require("nvim-lightbulb").setup({
-				autocmd = { enabled = true },
-			})
-		end,
-	},
-	{
 		"stevearc/aerial.nvim",
 		event = "BufRead",
 		opts = {},

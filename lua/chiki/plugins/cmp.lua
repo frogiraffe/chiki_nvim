@@ -4,44 +4,23 @@ return {
 		version = false,
 		event = { "InsertEnter" },
 		dependencies = {
-			{
-				"hrsh7th/cmp-nvim-lsp",
-			},
-			{
-				"hrsh7th/cmp-buffer",
-			},
-			{
-				"hrsh7th/cmp-path",
-			},
-			{
-				"saadparwaiz1/cmp_luasnip",
-			},
+			{ "hrsh7th/cmp-nvim-lsp" },
+			{ "hrsh7th/cmp-buffer" },
+			{ "hrsh7th/cmp-path" },
+			{ "saadparwaiz1/cmp_luasnip" },
 			{
 				"L3MON4D3/LuaSnip",
 				dependencies = { "rafamadriz/friendly-snippets" },
 				event = "InsertEnter",
-				-- install jsregexp (optional!).
 				build = "make install_jsregexp",
-				keys =
-					function()
-						return {}
-					end,
+				keys = function()
+					return {}
+				end,
 				config = function()
 					require("luasnip").setup({ enable_autosnippets = true })
 				end,
 			},
 			{
-				"ray-x/lsp_signature.nvim",
-				event = "VeryLazy",
-				opts = {
-					virtual_text = false,
-					hint_enable = false,
-					transparency = 20
-				},
-				config = function(_, opts) require 'lsp_signature'.setup(opts) end
-			},
-			{
-
 				"jalvesaq/cmp-nvim-r",
 				config = function()
 					require("cmp_nvim_r").setup({
@@ -55,81 +34,13 @@ return {
 				cmd = "Copilot",
 				event = "InsertEnter",
 				config = function()
-					require("copilot").setup({
-						suggestion = {
-							enabled = false,
-							auto_trigger = false,
-							hide_during_completion = false,
-							-- keymap = {
-							-- 	accept = "<C-y>",
-							-- 	dismiss = "<C-e>",
-							-- },
-						},
-						panel = { enabled = false },
-					})
+					require("copilot").setup({})
 				end,
 			},
-			-- {
-			-- 	"zbirenbaum/copilot-cmp",
-			-- 	event = { "InsertEnter", "LspAttach" },
-			-- 	config = function()
-			-- 		require("copilot_cmp").setup({
-			-- 			fix_pairs = true,
-			-- 		})
-			-- 	end,
-			-- },
 		},
 		opts = function()
 			local cmp = require("cmp")
 			local luasnip = require("luasnip")
-			-- local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-			-- cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
-			-- local handlers = require("nvim-autopairs.completion.handlers")
-
-			-- local has_words_before = function()
-			-- 	unpack = unpack or table.unpack
-			-- 	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-			-- 	return col ~= 0
-			-- 		and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-			-- end
-			--
-			-- cmp.event:on(
-			-- 	"confirm_done",
-			-- 	cmp_autopairs.on_confirm_done({
-			-- 		filetypes = {
-			-- 			-- "*" is a alias to all filetypes
-			-- 			["*"] = {
-			-- 				["("] = {
-			-- 					kind = {
-			-- 						cmp.lsp.CompletionItemKind.Function,
-			-- 						cmp.lsp.CompletionItemKind.Method,
-			-- 					},
-			-- 					handler = handlers["*"],
-			-- 				},
-			-- 			},
-			-- 			lua = {
-			-- 				["("] = {
-			-- 					kind = {
-			-- 						cmp.lsp.CompletionItemKind.Function,
-			-- 						cmp.lsp.CompletionItemKind.Method,
-			-- 					},
-			-- 					---@param char string
-			-- 					---@param item table item completion
-			-- 					---@param bufnr number buffer number
-			-- 					---@param rules table
-			-- 					---@param commit_character table<string>
-			-- 					handler = function(char, item, bufnr, rules, commit_character)
-			-- 						-- Your handler function. Inpect with print(vim.inspect{char, item, bufnr, rules, commit_character})
-			-- 					end,
-			-- 				},
-			-- 			},
-			-- 			-- Disable for tex
-			-- 			tex = false,
-			-- 		},
-			-- 	})
-			-- )
-
-			-- `/` cmdline setup.
 			cmp.setup.cmdline("/", {
 				mapping = cmp.mapping.preset.cmdline(),
 				sources = {
@@ -139,59 +50,11 @@ return {
 			return {
 				formatting = {
 					format = require("lspkind").cmp_format({
-						mode = "symbol_text", -- show only symbol annotations
-						maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-						ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
-						menu = {
-							nvim_lsp = "",
-							path = "",
-							buffer = "📄",
-							luasnip = "✂️",
-							cmp_nvim_r = "R",
-						},
+						mode = "symbol_text",
+						maxwidth = 50,
+						ellipsis_char = "...",
 
-						-- The function below will be called befjjore any actual modifications from lspkind
-						-- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
-						before = function(entry, vim_item)
-							vim_item.menu = ({
-								-- buffer = "[Buffer]",
-								-- -- formatting for other sources
-							})[entry.source.name]
-							return vim_item
-						end,
 					}),
-				},
-				experimental = {
-					ghost_text = {
-						-- hl_group = "CmpGhostText",
-					},
-				},
-				view = {
-					docs = {
-						maxwidth = 80,
-						minwidth = 50,
-						maxheight = math.floor(vim.o.lines * 0.3),
-						minheight = 1,
-						auto_open = true,
-					},
-				},
-				completion = {
-					completeopt = "menu,menuone,noinsert",
-				},
-				snippet = {
-					expand = function(args)
-						require("luasnip").lsp_expand(args.body)
-					end,
-				},
-				window = {
-					completion = {
-						border = "rounded",
-						winhighlight = 'Normal:Pmenu,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None',
-					},
-					documentation = {
-						winhighlight = 'Normal:Pmenu,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None',
-						border = "rounded",
-					},
 				},
 				mapping = cmp.mapping.preset.insert({
 					["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
@@ -213,21 +76,13 @@ return {
 						end
 					end),
 					["<Tab>"] = cmp.mapping(function(fallback)
-						-- if cmp.visible() then
-						-- 	cmp.select_next_item()
-						-- 	-- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
-						-- 	-- they way you will only jump inside the snippet region
 						if luasnip.expand_or_jumpable() then
 							luasnip.expand_or_jump()
-							-- elseif has_words_before() then
-							-- 	cmp.complete()
 						else
 							fallback()
 						end
 					end, { "i", "s" }),
 					["<S-Tab>"] = cmp.mapping(function(fallback)
-						-- if cmp.visible() then
-						-- 	cmp.select_prev_item()
 						if luasnip.jumpable(-1) then
 							luasnip.jump(-1)
 						else
@@ -240,7 +95,6 @@ return {
 					{ name = "nvim_lsp" },
 					{ name = "luasnip" },
 					{ name = "path" },
-					-- { name = "nvim_lsp_signature_help" },
 					{ name = "cmp_nvim_r" },
 					{ name = "buffer",    keyword_length = 5 },
 				}),
@@ -288,9 +142,8 @@ return {
 	{
 		"altermo/ultimate-autopair.nvim",
 		event = { "InsertEnter", "CmdlineEnter" },
-		branch = "v0.6", --recommended as each new version will have breaking changes
+		branch = "v0.6",
 		opts = {
-			--Config goes here
 		},
 		config = function()
 			require("ultimate-autopair").setup({
@@ -305,16 +158,15 @@ return {
 	},
 	{
 		'abecodes/tabout.nvim',
-		lazy = true,
 		config = function()
 			require('tabout').setup {
-				tabkey = '<Tab>', -- key to trigger tabout, set to an empty string to disable
-				backwards_tabkey = '<S-Tab>', -- key to trigger backwards tabout, set to an empty string to disable
-				act_as_tab = true, -- shift content if tab out is not possible
-				act_as_shift_tab = false, -- reverse shift content if tab out is not possible (if your keyboard/terminal supports <S-Tab>)
-				default_tab = '<C-t>', -- shift default action (only at the beginning of a line, otherwise <TAB> is used)
-				enable_backwards = true, -- well ...
-				completion = false, -- if the tabkey is used in a completion pum
+				tabkey = '<Tab>',
+				backwards_tabkey = '<S-Tab>',
+				act_as_tab = true,
+				act_as_shift_tab = false,
+				default_tab = '<C-t>',
+				enable_backwards = true,
+				completion = false,
 				tabouts = {
 					{ open = "'", close = "'" },
 					{ open = '"', close = '"' },
@@ -323,22 +175,9 @@ return {
 					{ open = '[', close = ']' },
 					{ open = '{', close = '}' }
 				},
-				ignore_beginning = true, --[[ if the cursor is at the beginning of a filled element it will rather tab out than shift the content ]]
-				exclude = {} -- tabout will ignore these filetypes
+				ignore_beginning = true,
+				exclude = {}
 			}
 		end,
 	},
-	-- {
-	-- 	"github/copilot.vim",
-	-- 	config = function()
-	-- 		vim.keymap.set({ "n", 'i' }, '<C-y>', 'copilot#Accept("\\<CR>")', {
-	-- 			expr = true,
-	-- 			silent = true,
-	-- 			replace_keycodes = false
-	-- 		})
-	-- 		vim.keymap.set('i', '<C-e>', '<Plug>(copilot-dismiss)')
-	-- 		vim.g.copilot_no_tab_map = true
-	-- 	end
-	--
-	-- }
 }

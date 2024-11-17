@@ -14,7 +14,7 @@ return {
         keys = {
 
             {
-                "<leader>ccq",
+                "<leader>ccb",
                 function()
                     local input = vim.fn.input("Quick Chat: ")
                     if input ~= "" then
@@ -22,7 +22,11 @@ return {
                     end
                 end,
                 desc = "CopilotChat - Quick chat",
-            }
+            },
+            { "<leader>cce", "<cmd>CopilotChatExplain<cr>",  desc = "CopilotChat - Explain code" },
+            { "<leader>cct", "<cmd>CopilotChatTests<cr>",    desc = "CopilotChat - Generate tests" },
+            { "<leader>ccr", "<cmd>CopilotChatReview<cr>",   desc = "CopilotChat - Review code" },
+            { "<leader>ccR", "<cmd>CopilotChatRefactor<cr>", desc = "CopilotChat - Refactor code" },
         }
     },
 }

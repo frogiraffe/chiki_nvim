@@ -1,5 +1,4 @@
 return {
-	--
 	{
 		"mrcjkb/rustaceanvim",
 		version = "^4", -- Recommended
@@ -10,12 +9,6 @@ return {
 		build = ":MasonUpdate",
 		event = "BufReadPre",
 		dependencies = {
-			-- {
-			-- 	"https://git.sr.ht/~whynothugo/lsp_lines.nvim",
-			-- 	config = function()
-			-- 		require("lsp_lines").setup()
-			-- 	end
-			-- },
 			"williamboman/mason-lspconfig.nvim",
 			{
 				"neovim/nvim-lspconfig",
@@ -33,7 +26,7 @@ return {
 					"basedpyright",
 				},
 			})
-			--
+
 			local lspconfig = require("lspconfig")
 			local capabilities = vim.tbl_deep_extend(
 				"force",
@@ -56,12 +49,6 @@ return {
 				end,
 				["basedpyright"] = function()
 					require("lspconfig").basedpyright.setup({
-						-- disable these check
-						-- reportUnknownParameterType = false
-						-- reportMissingParameterType = false
-						-- reportUnknownMemberType = false
-						-- reportUnknownArgumentType = false
-						-- reportMissingTypeStubs = false
 						settings = {
 							basedpyright = {
 								analysis = {
@@ -77,7 +64,6 @@ return {
 								},
 							},
 						}
-
 					})
 				end,
 				["lua_ls"] = function()
@@ -98,25 +84,11 @@ return {
 						flags = { debounce_text_changes = 300 },
 					})
 				end,
-				-- ["rust_analyzer"] = function() end,
-
 			})
 			lspconfig.marksman.setup({})
-
-
-
 			require("lspconfig").html.setup({
 				capabilities = html_capabilities,
 			})
-
-			-- local on_attach = function(client, bufnr)
-			-- 	if client.name == "ruff_lsp" then
-			-- 		client.server_capabilities.hoverProvider = false
-			-- 	end
-			-- end
-			-- require("lspconfig").ruff_lsp.setup({
-			-- 	on_attach = on_attach,
-			-- })
 		end,
 	},
 	{
