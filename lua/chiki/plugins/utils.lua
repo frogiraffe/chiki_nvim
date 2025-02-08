@@ -366,12 +366,6 @@ return {
 		end,
 	},
 	{
-		"barrett-ruth/live-server.nvim",
-		build = "pnpm add -g live-server",
-		cmd = { "LiveServerStart", "LiveServerStop" },
-		config = true,
-	},
-	{
 		"toppair/peek.nvim",
 		event = { "VeryLazy" },
 		build = "deno task --quiet build:fast",
