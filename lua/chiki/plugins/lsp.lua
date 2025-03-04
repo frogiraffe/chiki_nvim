@@ -23,7 +23,6 @@ return {
 					"lua_ls",
 					"html",
 					"cssls",
-					"basedpyright",
 				},
 			})
 
@@ -52,18 +51,17 @@ return {
 						settings = {
 							basedpyright = {
 								analysis = {
-									useLibraryCodeForTypes = true,
-									diagnosticSeverityOverrides = {
-										reportUnknownParameterType = "none",
-										reportMissingParameterType = "none",
-										reportUnknownMemberType = "none",
-										reportUnknownArgumentType = "none",
-										reportMissingTypeStubs = "none",
-									},
-									typeCheckingMode = "basic",
+									-- useLibraryCodeForTypes = true,
+									-- diagnosticSeverityOverrides = {
+									-- 	reportUnknownParameterType = "none",
+									-- 	reportMissingParameterType = "none",
+									-- 	reportUnknownMemberType = "none",
+									-- 	reportUnknownArgumentType = "none",
+									-- 	reportMissingTypeStubs = "none",
 								},
+								-- typeCheckingMode = "basic",
 							},
-						}
+						},
 					})
 				end,
 				["lua_ls"] = function()
