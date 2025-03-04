@@ -2,9 +2,6 @@ return {
 	{
 		"norcalli/nvim-colorizer.lua",
 		opts = {},
-		config = function()
-			require("colorizer").setup()
-		end,
 	},
 	{
 		"folke/flash.nvim",
@@ -278,13 +275,6 @@ return {
 		end,
 	},
 	{
-		"ahmedkhalf/project.nvim",
-		event = "VeryLazy",
-		config = function()
-			require("project_nvim").setup({})
-		end,
-	},
-	{
 		"cappyzawa/trim.nvim",
 		event = "BufRead",
 		config = function()
@@ -313,23 +303,17 @@ return {
 		},
 	},
 	{
-		"nvim-pack/nvim-spectre",
-		-- cmd = { "Spectre", "SpectreOpen", "SpectreClose", "SpectreReplace" },
+		'MagicDuck/grug-far.nvim',
 		config = function()
-			vim.keymap.set("n", "<leader>S", '<cmd>lua require("spectre").toggle()<CR>', {
-				desc = "Toggle Spectre",
-			})
-			vim.keymap.set("n", "<leader>sw", '<cmd>lua require("spectre").open_visual({select_word=true})<CR>', {
-				desc = "Search current word",
-			})
-			vim.keymap.set("v", "<leader>sw", '<esc><cmd>lua require("spectre").open_visual()<CR>', {
-				desc = "Search current word",
-			})
-			vim.keymap.set("n", "<leader>sp", '<cmd>lua require("spectre").open_file_search({select_word=true})<CR>', {
-				desc = "Search on current file",
-			})
-		end,
+			vim.keymap.set("n", "<leader>G", "<cmd>GrugFar<CR>", { desc = "Grug" })
+			require('grug-far').setup({
+				-- options, see Configuration section below
+				-- there are no required options atm
+				-- engine = 'ripgrep' is default, but 'astgrep' can be specified
+			});
+		end
 	},
+
 	{
 		"lukas-reineke/indent-blankline.nvim",
 		main = "ibl",
@@ -386,15 +370,11 @@ return {
 			)
 		end,
 	},
+	{ "cpea2506/relative-toggle.nvim" },
 	{
-		"Shatur/neovim-session-manager",
-		config = function()
-			require("session_manager").setup({
-				autosave_last_session = true,
-				autoload_mode = require('session_manager.config').AutoloadMode.Disabled,
+		'stevearc/resession.nvim',
+		lazy = false,
+		opts = {},
+	}
 
-			})
-		end,
-	},
-	{ "cpea2506/relative-toggle.nvim" }
 }

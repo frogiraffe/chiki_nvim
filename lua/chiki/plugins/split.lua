@@ -71,7 +71,6 @@ return {
 				function()
 					require("smart-splits").swap_buf_left()
 				end,
-				{ desc = "swap buffer w left" },
 				mode = { "t", "n", "v" },
 			},
 			{
@@ -79,7 +78,6 @@ return {
 				function()
 					require("smart-splits").swap_buf_down()
 				end,
-				{ desc = "swap buffer w down" },
 				mode = { "t", "n", "v" },
 			},
 			{
@@ -87,7 +85,6 @@ return {
 				function()
 					require("smart-splits").swap_buf_right()
 				end,
-				{ desc = "swap buffer w right" },
 				mode = { "t", "n", "v" },
 			},
 			{
@@ -95,7 +92,6 @@ return {
 				function()
 					require("smart-splits").swap_buf_up()
 				end,
-				{ desc = "swap buffer w up" },
 				mode = { "t", "n", "v" },
 			},
 		},

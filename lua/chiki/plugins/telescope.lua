@@ -21,7 +21,6 @@ return {
 			{ "<leader>fgs", "<cmd>Telescope git_status<cr>",   desc = "git status" },
 			{ "<leader>fgb", "<cmd>Telescope git_branches<cr>", desc = "git branches" },
 			{ "<leader>fgf", "<cmd>Telescope git_files<cr>",    desc = "git files" },
-			{ "<leader>fp",  "<cmd>Telescope projects<cr>",     desc = "projects" },
 			{ "<leader>fy",  "<cmd>Telescope neoclip<cr>",      desc = "Yank History" },
 			{
 				"<leader>?",
@@ -97,17 +96,17 @@ return {
 				},
 				pickers = {
 					find_files = {
-						theme = "ivy",
+						-- theme = "ivy",
 						find_command = { "rg", "--files", "--smart-case" },
 					},
 					live_grep = {
-						theme = "dropdown",
+						-- theme = "dropdown",
 						additional_args = function(opts)
 							return { "--hidden" }
 						end,
 					},
 					buffers = {
-						theme = "ivy",
+						-- theme = "ivy",
 						initial_mode = "normal",
 						mappings = {
 							n = {
@@ -116,19 +115,19 @@ return {
 						},
 					},
 					marks = {
-						theme = "dropdown",
+						-- theme = "dropdown",
 					},
 					grep_string = {
-						theme = "dropdown",
+						-- theme = "dropdown",
 					},
 					projects = {
-						theme = "ivy",
+						-- theme = "ivy",
 					},
 					oldfiles = {
-						theme = "ivy",
+						-- theme = "ivy",
 					},
 					neoclip = {
-						theme = "ivy",
+						-- theme = "ivy",
 					},
 				},
 

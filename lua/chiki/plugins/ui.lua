@@ -1,225 +1,60 @@
 return {
 	{
-		"stevearc/dressing.nvim",
-		lazy = true,
-		opts = {},
-		config = function()
-			-- vim.ui.select = function(...)
-			-- 	require("lazy").load({ plugins = { "dressing.nvim" } })
-			-- 	return vim.ui.select(...)
-			-- end
-			-- ---@diagnostic disable-next-line: duplicate-set-field
-			-- vim.ui.input = function(...)
-			-- 	require("lazy").load({ plugins = { "dressing.nvim" } })
-			-- 	return vim.ui.input(...)
-			-- end
-			require("dressing").setup({
-				input = {
-					-- Set to false to disable the vim.ui.input implementation
-					enabled = true,
-
-					-- Default prompt string
-					default_prompt = "Input:",
-
-					-- Can be 'left', 'right', or 'center'
-					title_pos = "left",
-
-					-- When true, <Esc> will close the modal
-					insert_only = true,
-
-					-- When true, input will start in insert mode.
-					start_in_insert = true,
-
-					-- These are passed to nvim_open_win
-					border = "single",
-					-- 'editor' and 'win' will default to being centered
-					relative = "cursor",
-
-					-- These can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
-					prefer_width = 40,
-					width = nil,
-					-- min_width and max_width can be a list of mixed types.
-					-- min_width = {20, 0.2} means "the greater of 20 columns or 20% of total"
-					max_width = { 140, 0.9 },
-					min_width = { 20, 0.2 },
-
-					buf_options = {},
-					win_options = {
-						-- Disable line wrapping
-						wrap = false,
-						-- Indicator for when text exceeds window
-						list = true,
-						listchars = "precedes:…,extends:…",
-						-- Increase this for more context when text scrolls off the window
-						sidescrolloff = 0,
-					},
-
-					-- Set to `false` to disable
-					mappings = {
-						n = {
-							["<Esc>"] = "Close",
-							["<CR>"] = "Confirm",
-						},
-						i = {
-							["<C-c>"] = "Close",
-							["<CR>"] = "Confirm",
-							["<Up>"] = "HistoryPrev",
-							["<Down>"] = "HistoryNext",
-						},
-					},
-
-					override = function(conf)
-						-- This is the config that will be passed to nvim_open_win.
-						-- Change values here to customize the layout
-						return conf
-					end,
-
-					-- see :help dressing_get_config
-					get_config = nil,
-				},
-				select = {
-					-- Set to false to disable the vim.ui.select implementation
-					enabled = true,
-
-					-- Priority list of preferred vim.select implementations
-					backend = { "telescope", "fzf_lua", "fzf", "builtin", "nui" },
-
-					-- Trim trailing `:` from prompt
-					trim_prompt = true,
-
-					-- Options for telescope selector
-					-- These are passed into the telescope picker directly. Can be used like:
-					-- telescope = require('telescope.themes').get_ivy({...})
-					telescope = nil,
-
-					-- Options for fzf selector
-					fzf = {
-						window = {
-							width = 0.5,
-							height = 0.4,
-						},
-					},
-
-					-- Options for fzf-lua
-					fzf_lua = {
-						-- winopts = {
-						--   height = 0.5,
-						--   width = 0.5,
-						-- },
-					},
-
-					-- Options for nui Menu
-					nui = {
-						position = "50%",
-						size = nil,
-						relative = "editor",
-						border = {
-							style = "single",
-						},
-						buf_options = {
-							swapfile = false,
-							filetype = "DressingSelect",
-						},
-						win_options = {
-							winblend = 0,
-						},
-						max_width = 80,
-						max_height = 40,
-						min_width = 40,
-						min_height = 10,
-					},
-
-					-- Options for built-in selector
-					builtin = {
-						-- Display numbers for options and set up keymaps
-						show_numbers = true,
-						-- These are passed to nvim_open_win
-						border = "single",
-						-- 'editor' and 'win' will default to being centered
-						relative = "editor",
-
-						buf_options = {},
-						win_options = {
-							cursorline = true,
-							cursorlineopt = "both",
-						},
-
-						-- These can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
-						-- the min_ and max_ options can be a list of mixed types.
-						-- max_width = {140, 0.8} means "the lesser of 140 columns or 80% of total"
-						width = nil,
-						max_width = { 140, 0.8 },
-						min_width = { 40, 0.2 },
-						height = nil,
-						max_height = 0.9,
-						min_height = { 10, 0.2 },
-
-						-- Set to `false` to disable
-						mappings = {
-							["<Esc>"] = "Close",
-							["<C-c>"] = "Close",
-							["<CR>"] = "Confirm",
-						},
-
-						override = function(conf)
-							-- This is the config that will be passed to nvim_open_win.
-							-- Change values here to customize the layout
-							return conf
-						end,
-					},
-
-					-- Used to override format_item. See :help dressing-format
-					format_item_override = {},
-
-					-- see :help dressing_get_config
-					-- get_config = function(opts)
-					-- 	if opts.kind == "codeaction" then
-					-- 		return {
-					-- 			backend = "nui",
-					-- 			nui = {
-					-- 				relative = "editor",
-					-- 				max_width = 40,
-					-- 			},
-					-- 		}
-					-- 	end
-					-- end,
-				},
-			})
-		end,
+		"folke/snacks.nvim",
+		priority = 1000,
+		lazy = false,
+		---@type snacks.Config
+		opts = {
+			-- your configuration comes here
+			-- or leave it empty to use the default settings
+			-- refer to the configuration section below
+			bigfile = { enabled = true },
+			dashboard = { enabled = true },
+			explorer = { enabled = true },
+			indent = { enabled = true },
+			input = { enabled = true },
+			picker = { enabled = true },
+			notifier = { enabled = true },
+			quickfile = { enabled = true },
+			scope = { enabled = true },
+			scroll = { enabled = false },
+			statuscolumn = { enabled = true },
+			words = { enabled = true },
+		},
 	},
-	{ "arkav/lualine-lsp-progress" },
 	{
 		"nvim-lualine/lualine.nvim",
 		event = "VeryLazy",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
+			--- @param trunc_width number trunctates component when screen width is less then trunc_width
+			--- @param trunc_len number truncates component to trunc_len number of chars
+			--- @param hide_width number hides component when window width is smaller then hide_width
+			--- @param no_ellipsis boolean whether to disable adding '...' at end after truncation
+			--- return function that can format the component accordingly
+			local function trunc(trunc_width, trunc_len, hide_width, no_ellipsis)
+				return function(str)
+					local win_width = vim.fn.winwidth(0)
+					if hide_width and win_width < hide_width then
+						return ''
+					elseif trunc_width and trunc_len and win_width < trunc_width and #str > trunc_len then
+						return str:sub(1, trunc_len) .. (no_ellipsis and '' or '...')
+					end
+					return str
+				end
+			end
+
+			require 'lualine'.setup {
+				lualine_a = {
+					{ 'mode',                                              fmt = trunc(80, 4, nil, true) },
+					{ 'filename',                                          fmt = trunc(90, 30, 50) },
+					{ function() return require 'lsp-status'.status() end, fmt = trunc(120, 20, 60) }
+				}
+			}
 			require("lualine").setup({
 				options = {
-					-- theme = "catppuccin",
 					icons_enabled = true,
-					section_separators = { left = "", right = "" },
-					component_separators = { left = "", right = "" },
 				},
-				sections = {
-					lualine_c = {
-						function()
-							return require("lsp-progress").progress()
-						end,
-					},
-					lualine_x = {
-						{
-							require("noice").api.statusline.mode.get,
-							cond = require("noice").api.statusline.mode.has,
-							color = { fg = "#ff9e64" },
-						},
-					},
-				},
-			})
-			vim.api.nvim_create_augroup("lualine_augroup", { clear = true })
-			vim.api.nvim_create_autocmd("User", {
-				group = "lualine_augroup",
-				pattern = "LspProgressStatusUpdated",
-				callback = require("lualine").refresh,
 			})
 		end,
 	},
@@ -252,13 +87,9 @@ return {
 				dashboard.button("f", "󰍉  Find file", ":Telescope find_files <CR>"),
 				dashboard.button("e", "  New file", ":ene <BAR> startinsert <CR>"),
 				dashboard.button("r", "  Recently used files", ":Telescope oldfiles <CR>"),
-				dashboard.button("s", "󰱼  Find text", ":Telescope live_grep <CR>"),
-				dashboard.button("p", "  Project list", ":Telescope projects<CR>"),
-				dashboard.button("l", "  Load Last Session",
-					":SessionManager load_last_session<CR>"),
-				dashboard.button("k", "  Load Session Menu",
-					":SessionManager<CR>"),
 				dashboard.button("t", "  Settings", ":e ~/.config/nvim/init.lua<CR>"),
+				dashboard.button("l", "  Load Last Session",
+					":lua require('resession').load()<CR>"),
 				dashboard.button("q", "  Quit Neovim", ":qa<CR>"),
 			}
 			dashboard.section.footer.opts.hl = "Type"
@@ -407,14 +238,14 @@ return {
 						},
 						opts = { skip = true },
 					},
-					{
-						filter = {
-							event = "msg_show",
-							kind = "",
-							find = "written",
-						},
-						opts = { skip = true },
-					},
+					-- {
+					-- filter = {
+					-- 	event = "msg_show",
+					-- 	kind = "",
+					-- 	find = "written",
+					-- },
+					-- opts = { skip = true },
+					-- },
 				},
 			})
 		end,
