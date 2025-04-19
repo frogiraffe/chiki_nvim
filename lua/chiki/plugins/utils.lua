@@ -121,18 +121,10 @@ return {
 		event = "BufReadPost",
 		opts = {},
 	},
-	-- {
-	-- 	"windwp/nvim-autopairs",
-	-- 	event = "InsertEnter",
-	-- 	opts = {},
-	-- },
 	{
 		"nacro90/numb.nvim",
 		event = "BufReadPost",
 		opts = {},
-		-- config = function()
-		--     require('numb').setup()
-		-- end,
 	},
 	{
 		"max397574/better-escape.nvim",
@@ -347,27 +339,6 @@ return {
 
 			hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)
 			-- require("ibl").setup()
-		end,
-	},
-	{
-		"toppair/peek.nvim",
-		event = { "VeryLazy" },
-		build = "deno task --quiet build:fast",
-		config = function()
-			require("peek").setup()
-			vim.api.nvim_create_user_command("PeekOpen", require("peek").open, {})
-			vim.api.nvim_create_user_command("PeekClose", require("peek").close, {})
-		end,
-	},
-	{
-		"aznhe21/actions-preview.nvim",
-		config = function()
-			vim.keymap.set(
-				{ "n" },
-				"ca",
-				require("actions-preview").code_actions,
-				{ desc = "Telescope Code Actions" }
-			)
 		end,
 	},
 	{ "cpea2506/relative-toggle.nvim" },

@@ -8,6 +8,7 @@ return {
 					require("smart-splits").move_cursor_left()
 				end,
 				mode = { "t", "n", "v" },
+				desc = "which_key_ignore"
 			},
 			{
 				"<C-j>",
@@ -15,6 +16,7 @@ return {
 					require("smart-splits").move_cursor_down()
 				end,
 				mode = { "t", "n", "v" },
+				desc = "which_key_ignore"
 			},
 			{
 				"<C-k>",
@@ -22,6 +24,7 @@ return {
 					require("smart-splits").move_cursor_up()
 				end,
 				mode = { "t", "n", "v" },
+				desc = "which_key_ignore"
 			},
 			{
 				"<C-l>",
@@ -29,6 +32,7 @@ return {
 					require("smart-splits").move_cursor_right()
 				end,
 				mode = { "t", "n", "v" },
+				desc = "which_key_ignore"
 			},
 			{
 				"<C-M-h>",
@@ -36,6 +40,7 @@ return {
 					require("smart-splits").resize_left()
 				end,
 				mode = { "t", "n", "v" },
+				desc = "which_key_ignore"
 			},
 			{
 				"<C-M-j>",
@@ -43,6 +48,7 @@ return {
 					require("smart-splits").resize_down()
 				end,
 				mode = { "t", "n", "v" },
+				desc = "which_key_ignore"
 			},
 			{
 				"<C-M-k>",
@@ -50,6 +56,7 @@ return {
 					require("smart-splits").resize_up()
 				end,
 				mode = { "t", "n", "v" },
+				desc = "which_key_ignore"
 			},
 			{
 				"<C-M-l>",
@@ -57,6 +64,7 @@ return {
 					require("smart-splits").resize_right()
 				end,
 				mode = { "t", "n", "v" },
+				desc = "which_key_ignore"
 			},
 			{
 				"<C-M-r>",
@@ -65,6 +73,7 @@ return {
 				end,
 				{ desc = "resize mode" },
 				mode = { "t", "n", "v" },
+				desc = "which_key_ignore"
 			},
 			{
 				"<leader><leader>h",
@@ -72,6 +81,7 @@ return {
 					require("smart-splits").swap_buf_left()
 				end,
 				mode = { "t", "n", "v" },
+				desc = "which_key_ignore"
 			},
 			{
 				"<leader><leader>j",
@@ -79,6 +89,7 @@ return {
 					require("smart-splits").swap_buf_down()
 				end,
 				mode = { "t", "n", "v" },
+				desc = "which_key_ignore"
 			},
 			{
 				"<leader><leader>l",
@@ -86,6 +97,7 @@ return {
 					require("smart-splits").swap_buf_right()
 				end,
 				mode = { "t", "n", "v" },
+				desc = "which_key_ignore"
 			},
 			{
 				"<leader><leader>k",
@@ -93,6 +105,7 @@ return {
 					require("smart-splits").swap_buf_up()
 				end,
 				mode = { "t", "n", "v" },
+				desc = "which_key_ignore"
 			},
 		},
 		config = function()

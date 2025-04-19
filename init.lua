@@ -18,10 +18,22 @@ if vim.g.neovide then
 	vim.o.guifont = "Mononoki Nerd Font:h14"
 	vim.g.neovide_cursor_animate_in_insert_mode = true
 	vim.g.neovide_transparency = 0.8
+	vim.keymap.set('v', '<D-c>', '"+y')      -- Copy
+	vim.keymap.set('n', '<C-S-v>', '"+P')    -- Paste normal mode
+	vim.keymap.set('v', '<C-S-v>', '"+P')    -- Paste visual mode
+	vim.keymap.set('c', '<D-v>', '<C-R>+')   -- Paste command mode
+	vim.keymap.set('i', '<D-v>', '<ESC>l"+Pli') -- Paste insert mode
+	-- vim.opt.clipboard = "unnamedplus"
 end
+
+
+
+
+
 
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
 	{ import = "chiki.plugins" },
 })
+
 require("chiki.autocommand")

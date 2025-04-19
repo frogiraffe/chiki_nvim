@@ -120,9 +120,6 @@ return {
 					grep_string = {
 						-- theme = "dropdown",
 					},
-					projects = {
-						-- theme = "ivy",
-					},
 					oldfiles = {
 						-- theme = "ivy",
 					},
@@ -163,7 +160,6 @@ return {
 			})
 			require("telescope").load_extension("fzf")
 			require("telescope").load_extension("undo")
-			require("telescope").load_extension("projects")
 			-- require("telescope").load_extension("ui-select")
 		end,
 	}

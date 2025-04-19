@@ -12,14 +12,13 @@ keymap("i", "<C-c>", "<Esc>")
 keymap("n", "U", "<C-r>")
 keymap("v", "<leader>y", '"+y')
 keymap("n", "<C-q>", "<cmd>BufferClose<CR>")
-keymap("n", "<leader>q", "<cmd>:bd<CR>")
-
-keymap("n", "<leader>w", "<cmd>:w<CR>")
+keymap("n", "<leader>q", "<cmd>bd<CR>", { desc = "which_key_ignore" })
+keymap("n", "<leader>p", '"+p', { desc = "which_key_ignore" })
+keymap("n", "<leader>w", "<cmd>w<CR>", { desc = "which_key_ignore" })
 keymap("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 keymap("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 keymap({ "n", "v", "t" }, "<D-Space>", "<Nop>", { noremap = true, silent = true })
 keymap("c", "<tab>", "<C-z>", { noremap = true, silent = false })
-keymap("n", "<leader>p", '"+p')
 vim.api.nvim_create_autocmd("LspAttach", {
 	desc = "lsp actions",
 	callback = function(event)
