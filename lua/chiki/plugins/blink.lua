@@ -2,7 +2,9 @@ return {
   {
     'saghen/blink.cmp',
     -- optional: provides snippets for the snippet source
-    dependencies = { 'rafamadriz/friendly-snippets' },
+    dependencies = { 'rafamadriz/friendly-snippets'
+    , 'mgalliou/blink-cmp-tmux'
+    },
     version = '1.*',
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
@@ -53,8 +55,6 @@ return {
                 end,
 
                 -- Optionally, use the highlight groups from nvim-web-devicons
-                -- You can also add the same function for `kind.highlight` if you want to
-                -- keep the highlight groups in sync with the icons.
                 highlight = function(ctx)
                   local hl = ctx.kind_hl
                   if vim.tbl_contains({ "Path" }, ctx.source_name) then
@@ -81,10 +81,30 @@ return {
       -- Default list of enabled providers defined so that you can extend it
       -- elsewhere in your config, without redefining it, due to `opts_extend`
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer' },
+        default = { 'lsp', 'path', 'snippets', 'buffer', 'tmux' },
+        providers = {
+          path = {
+            opts = {
+              trailing_slash = false,
+            }
+          },
+          tmux = {
+            module = "blink-cmp-tmux",
+            name = "tmux",
+            -- default options
+            opts = {
+              all_panes = false,
+              capture_history = false,
+              -- only suggest completions from `tmux` if the `trigger_chars` are
+              -- used
+              triggere_only = false,
+              trigger_chars = { "." }
+            },
+          }
+        }
       },
 
-      -- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
+      -- (Default) Rust fuzzy matcher for typo resistance an significantly better performance
       -- You may use a lua implementation instead by using `implementation = "lua"` or fallback to the lua implementation,
       -- when the Rust fuzzy matcher is not available, by using `implementation = "prefer_rust"`
       --

@@ -10,11 +10,11 @@ return {
                         textobjects = {
                             swap = {
                                 enable = true,
-                                swap_next = {
-                                    ["<leader>a"] = "@parameter.inner",
-                                },
                                 swap_previous = {
                                     ["<leader>A"] = "@parameter.inner",
+                                },
+                                swap_next = {
+                                    ["<leader>a"] = "@parameter.inner",
                                 },
                             },
                             move = {
@@ -110,8 +110,8 @@ return {
                             prev_selection = ",", -- (Optional) keymap to select the previous selection
                             keymaps = {
                                 ["<CR>"] = "textsubjects-smart",
-                                -- [";"] = "textsubjects-container-outer",
-                                -- ["."] = "textsubjects-container-inner",
+                                [";"] = "textsubjects-container-outer",
+                                ["i"] = "textsubjects-container-inner",
                             },
                         },
                     })
@@ -127,11 +127,9 @@ return {
             },
             {
                 "Wansmer/treesj",
-                keys = { "<space>m", "<space>j", "<space>k" },
+                keys = { "<space>m" },
                 dependencies = { "nvim-treesitter/nvim-treesitter" },
-                config = function()
-                    require("treesj").setup({ max_join_length = 240 })
-                end,
+                config = function() require("treesj").setup({ max_join_length = 240 }) end,
             },
             {
                 "RRethy/nvim-treesitter-endwise",
@@ -147,7 +145,7 @@ return {
         config = function()
             require("nvim-treesitter.install").update({ with_sync = true })
             require("nvim-treesitter.configs").setup({
-                matchup = { enable = true },
+                -- matchup = { enable = true },
                 ensure_installed = {
                     "css",
                     "html",
