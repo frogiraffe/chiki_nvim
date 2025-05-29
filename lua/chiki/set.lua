@@ -55,6 +55,22 @@ vim.diagnostic.config({
 -- vim.opt.smoothscroll = true
 
 --diagnostic icons
+vim.diagnostic.config({
+	signs = {
+		text = {
+			[vim.diagnostic.severity.ERROR] = " ",
+			[vim.diagnostic.severity.WARN] = " ",
+			[vim.diagnostic.severity.INFO] = " ",
+			[vim.diagnostic.severity.HINT] = "󰠠 ",
+		},
+		linehl = {
+			[vim.diagnostic.severity.ERROR] = "Error",
+			[vim.diagnostic.severity.WARN] = "Warn",
+			[vim.diagnostic.severity.INFO] = "Info",
+			[vim.diagnostic.severity.HINT] = "Hint",
+		},
+	},
+})
 vim.fn.sign_define("DiagnosticSignError", { text = "", texthl = "DiagnosticSignError" })
 vim.fn.sign_define("DiagnosticSignWarn", { text = "", texthl = "DiagnosticSignWarn" })
 vim.fn.sign_define("DiagnosticSignInfo", { text = "", texthl = "DiagnosticSignInfo" })
@@ -72,4 +88,4 @@ vim.o.splitbelow = true
 vim.o.splitright = true
 vim.o.numberwidth = 3
 vim.g.skip_ts_context_commentstring_module = true
-vim.g.bigfile_size = 1024 * 1024 * 1.5 -- 1.5 MB
+-- vim.g.bigfile_size = 1024 * 1024 * 1.5 -- 1.5 MB

@@ -17,47 +17,51 @@ end, {
     desc = "Re-enable autoformat-on-save",
 })
 
-local resession = require("resession")
-resession.setup()
+-- local resession = require("resession")
+-- resession.setup()
 
-vim.keymap.set("n", "<leader>ss", resession.save)
-vim.keymap.set("n", "<leader>sl", resession.load)
-vim.keymap.set("n", "<leader>sd", resession.delete)
+-- vim.keymap.set("n", "<leader>ss", resession.save)
+-- vim.keymap.set("n", "<leader>sl", resession.load)
+-- vim.keymap.set("n", "<leader>sd", resession.delete)
+--
+-- -- Now resession is in scope here
+-- vim.api.nvim_create_autocmd("VimLeavePre", {
+--     callback = function()
+--         resession.save("last")
+--     end,
+-- })
+vim.cmd("colorscheme kanso")
 
--- Now resession is in scope here
-vim.api.nvim_create_autocmd("VimLeavePre", {
-    callback = function()
-        resession.save("last")
-    end,
-})
-vim.cmd("colorscheme kanagawa")
-
-vim.filetype.add({
-    pattern = {
-        [".*"] = {
-            function(path, buf)
-                return vim.bo[buf].filetype ~= "bigfile"
-                    and path
-                    and vim.fn.getfsize(path) > vim.g.bigfile_size
-                    and "bigfile"
-                    or nil
-            end,
-        },
-    },
-})
-
--- Correct augroup creation
-local bigfile_augroup = vim.api.nvim_create_augroup("bigfile", { clear = true })
-
--- Autocmd for bigfile
-vim.api.nvim_create_autocmd("FileType", {
-    group = bigfile_augroup,
-    pattern = "bigfile",
-    callback = function(ev)
-        vim.b.minianimate_disable = true
-
-        vim.schedule(function()
-            vim.bo[ev.buf].syntax = vim.filetype.match({ buf = ev.buf }) or ""
-        end)
-    end,
+-- vim.filetype.add({
+--     pattern = {
+--         [".*"] = {
+--             function(path, buf)
+--                 return vim.bo[buf].filetype ~= "bigfile"
+--                     and path
+--                     and vim.fn.getfsize(path) > vim.g.bigfile_size
+--                     and "bigfile"
+--                     or nil
+--             end,
+--         },
+--     },
+-- })
+--
+-- -- Correct augroup creation
+-- local bigfile_augroup = vim.api.nvim_create_augroup("bigfile", { clear = true })
+--
+-- -- Autocmd for bigfile
+-- vim.api.nvim_create_autocmd("FileType", {
+--     group = bigfile_augroup,
+--     pattern = "bigfile",
+--     callback = function(ev)
+--         vim.b.minianimate_disable = true
+--
+--         vim.schedule(function()
+--             vim.bo[ev.buf].syntax = vim.filetype.match({ buf = ev.buf }) or ""
+--         end)
+--     end,
+-- })
+vim.api.nvim_create_autocmd("VimResized", {
+    pattern = '*',
+    command = 'lua require("fzf-lua").redraw()'
 })

@@ -4,12 +4,38 @@ return {
 		priority = 1000,
 		lazy = false,
 		---@type snacks.Config
+		keys = {
+			{
+				"<leader>zz",
+				"<cmd>:lua Snacks.zen()<CR>",
+			},
+		},
+
 		opts = {
 			-- your configuration comes here
 			-- or leave it empty to use the default settings
 			-- refer to the configuration section below
+			animate = { enabled = true },
+			bufdelete = { enabled = true },
 			bigfile = { enabled = true },
-			dashboard = { enabled = true },
+			dashboard = {
+				enabled = true,
+
+				sections = {
+					{ section = "header" },
+					{ section = "keys",   gap = 1, padding = 1 },
+					{ section = "startup" },
+					{
+						section = "terminal",
+						cmd = "pokemon-colorscripts -r --no-title; sleep .1",
+						random = 10,
+						pane = 2,
+						indent = 4,
+						height = 30,
+					},
+				},
+
+			},
 			explorer = { enabled = true },
 			indent = { enabled = true },
 			input = { enabled = true },
@@ -18,7 +44,8 @@ return {
 			quickfile = { enabled = true },
 			scope = { enabled = true },
 			scroll = { enabled = true },
-			statuscolumn = { enabled = true },
+			statuscolumn = { enabled = true, folds = { open = true, git_hl = true } },
+			zen = { enabled = true },
 			words = { enabled = true },
 		},
 	},
@@ -58,73 +85,73 @@ return {
 			})
 		end,
 	},
-	{
-		"goolord/alpha-nvim",
-		event = "VimEnter",
-		dependencies = { "nvim-tree/nvim-web-devicons" },
-		opts = function()
-			local dashboard = require("alpha.themes.dashboard")
-			dashboard.section.header.val = {
-				[[———————————No bitches?————————]],
-				[[⠀⣞⢽⢪⢣⢣⢣⢫⡺⡵⣝⡮⣗⢷⢽⢽⢽⣮⡷⡽⣜⣜⢮⢺⣜⢷⢽⢝⡽⣝]],
-				[[⠸⡸⠜⠕⠕⠁⢁⢇⢏⢽⢺⣪⡳⡝⣎⣏⢯⢞⡿⣟⣷⣳⢯⡷⣽⢽⢯⣳⣫⠇]],
-				[[⠀⠀⢀⢀⢄⢬⢪⡪⡎⣆⡈⠚⠜⠕⠇⠗⠝⢕⢯⢫⣞⣯⣿⣻⡽⣏⢗⣗⠏⠀]],
-				[[⠀⠪⡪⡪⣪⢪⢺⢸⢢⢓⢆⢤⢀⠀⠀⠀⠀⠈⢊⢞⡾⣿⡯⣏⢮⠷⠁⠀⠀⠀]],
-				[[⠀⠀⠀⠈⠊⠆⡃⠕⢕⢇⢇⢇⢇⢇⢏⢎⢎⢆⢄⠀⢑⣽⣿⢝⠲⠉⠀⠀⠀⠀]],
-				[[⠀⠀⠀⠀⠀⡿⠂⠠⠀⡇⢇⠕⢈⣀⠀⠁⠡⠣⡣⡫⣂⣿⠯⢪⠰⠂⠀⠀⠀⠀]],
-				[[⠀⠀⠀⠀⡦⡙⡂⢀⢤⢣⠣⡈⣾⡃⠠⠄⠀⡄⢱⣌⣶⢏⢊⠂⠀⠀⠀⠀⠀⠀]],
-				[[⠀⠀⠀⠀⢝⡲⣜⡮⡏⢎⢌⢂⠙⠢⠐⢀⢘⢵⣽⣿⡿⠁⠁⠀⠀⠀⠀⠀⠀⠀]],
-				[[⠀⠀⠀⠀⠨⣺⡺⡕⡕⡱⡑⡆⡕⡅⡕⡜⡼⢽⡻⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀]],
-				[[⠀⠀⠀⠀⣼⣳⣫⣾⣵⣗⡵⡱⡡⢣⢑⢕⢜⢕⡝⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀]],
-				[[⠀⠀⠀⣴⣿⣾⣿⣿⣿⡿⡽⡑⢌⠪⡢⡣⣣⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀]],
-				[[⠀⠀⠀⡟⡾⣿⢿⢿⢵⣽⣾⣼⣘⢸⢸⣞⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀]],
-				[[⠀⠀⠀⠀⠁⠇⠡⠩⡫⢿⣝⡻⡮⣒⢽⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀]],
-				[[——————————————————————————————]],
-
-			}
-
-			dashboard.section.buttons.val = {
-				dashboard.button("f", "󰍉  Find file", ":Telescope find_files <CR>"),
-				dashboard.button("e", "  New file", ":ene <BAR> startinsert <CR>"),
-				dashboard.button("r", "  Recently used files", ":Telescope oldfiles <CR>"),
-				dashboard.button("t", "  Settings", ":e ~/.config/nvim/init.lua<CR>"),
-				dashboard.button("l", "  Load Last Session",
-					":lua require('resession').load()<CR>"),
-				dashboard.button("q", "  Quit Neovim", ":qa<CR>"),
-			}
-			dashboard.section.footer.opts.hl = "Type"
-			dashboard.section.header.opts.hl = "Include"
-			dashboard.section.buttons.opts.hl = "Keyword"
-
-			dashboard.opts.opts.noautocmd = true
-			return dashboard
-		end,
-
-
-		config = function(_, opts)
-			-- Footer
-			require("alpha").setup(opts.config)
-			vim.api.nvim_create_autocmd("User", {
-				pattern = "LazyVimStarted",
-				desc = "Add Alpha dashboard footer",
-				once = true,
-				callback = function()
-					local stats = require("lazy").stats()
-					local ms = math.floor(stats.startuptime * 100 + 0.5) / 100
-					opts.section.footer.val = {
-						" ",
-						" ",
-						" ",
-						"Loaded " .. stats.count .. " plugins  in " .. ms .. "ms",
-						"------cats are awesome------",
-					}
-					opts.section.footer.opts.hl = "DashboardFooter"
-					vim.cmd("highlight DashboardFooter guifg=#D29B68")
-					pcall(vim.cmd.AlphaRedraw)
-				end,
-			})
-		end,
-	},
+	-- {
+	-- 	"goolord/alpha-nvim",
+	-- 	event = "VimEnter",
+	-- 	dependencies = { "nvim-tree/nvim-web-devicons" },
+	-- 	opts = function()
+	-- 		local dashboard = require("alpha.themes.dashboard")
+	-- 		dashboard.section.header.val = {
+	-- 			[[———————————No bitches?————————]],
+	-- 			[[⠀⣞⢽⢪⢣⢣⢣⢫⡺⡵⣝⡮⣗⢷⢽⢽⢽⣮⡷⡽⣜⣜⢮⢺⣜⢷⢽⢝⡽⣝]],
+	-- 			[[⠸⡸⠜⠕⠕⠁⢁⢇⢏⢽⢺⣪⡳⡝⣎⣏⢯⢞⡿⣟⣷⣳⢯⡷⣽⢽⢯⣳⣫⠇]],
+	-- 			[[⠀⠀⢀⢀⢄⢬⢪⡪⡎⣆⡈⠚⠜⠕⠇⠗⠝⢕⢯⢫⣞⣯⣿⣻⡽⣏⢗⣗⠏⠀]],
+	-- 			[[⠀⠪⡪⡪⣪⢪⢺⢸⢢⢓⢆⢤⢀⠀⠀⠀⠀⠈⢊⢞⡾⣿⡯⣏⢮⠷⠁⠀⠀⠀]],
+	-- 			[[⠀⠀⠀⠈⠊⠆⡃⠕⢕⢇⢇⢇⢇⢇⢏⢎⢎⢆⢄⠀⢑⣽⣿⢝⠲⠉⠀⠀⠀⠀]],
+	-- 			[[⠀⠀⠀⠀⠀⡿⠂⠠⠀⡇⢇⠕⢈⣀⠀⠁⠡⠣⡣⡫⣂⣿⠯⢪⠰⠂⠀⠀⠀⠀]],
+	-- 			[[⠀⠀⠀⠀⡦⡙⡂⢀⢤⢣⠣⡈⣾⡃⠠⠄⠀⡄⢱⣌⣶⢏⢊⠂⠀⠀⠀⠀⠀⠀]],
+	-- 			[[⠀⠀⠀⠀⢝⡲⣜⡮⡏⢎⢌⢂⠙⠢⠐⢀⢘⢵⣽⣿⡿⠁⠁⠀⠀⠀⠀⠀⠀⠀]],
+	-- 			[[⠀⠀⠀⠀⠨⣺⡺⡕⡕⡱⡑⡆⡕⡅⡕⡜⡼⢽⡻⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀]],
+	-- 			[[⠀⠀⠀⠀⣼⣳⣫⣾⣵⣗⡵⡱⡡⢣⢑⢕⢜⢕⡝⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀]],
+	-- 			[[⠀⠀⠀⣴⣿⣾⣿⣿⣿⡿⡽⡑⢌⠪⡢⡣⣣⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀]],
+	-- 			[[⠀⠀⠀⡟⡾⣿⢿⢿⢵⣽⣾⣼⣘⢸⢸⣞⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀]],
+	-- 			[[⠀⠀⠀⠀⠁⠇⠡⠩⡫⢿⣝⡻⡮⣒⢽⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀]],
+	-- 			[[——————————————————————————————]],
+	--
+	-- 		}
+	--
+	-- 		dashboard.section.buttons.val = {
+	-- 			dashboard.button("f", "󰍉  Find file", ":Telescope find_files <CR>"),
+	-- 			dashboard.button("e", "  New file", ":ene <BAR> startinsert <CR>"),
+	-- 			dashboard.button("r", "  Recently used files", ":Telescope oldfiles <CR>"),
+	-- 			dashboard.button("t", "  Settings", ":e ~/.config/nvim/init.lua<CR>"),
+	-- 			dashboard.button("l", "  Load Last Session",
+	-- 				":lua require('resession').load()<CR>"),
+	-- 			dashboard.button("q", "  Quit Neovim", ":qa<CR>"),
+	-- 		}
+	-- 		dashboard.section.footer.opts.hl = "Type"
+	-- 		dashboard.section.header.opts.hl = "Include"
+	-- 		dashboard.section.buttons.opts.hl = "Keyword"
+	--
+	-- 		dashboard.opts.opts.noautocmd = true
+	-- 		return dashboard
+	-- 	end,
+	--
+	--
+	-- 	config = function(_, opts)
+	-- 		-- Footer
+	-- 		require("alpha").setup(opts.config)
+	-- 		vim.api.nvim_create_autocmd("User", {
+	-- 			pattern = "LazyVimStarted",
+	-- 			desc = "Add Alpha dashboard footer",
+	-- 			once = true,
+	-- 			callback = function()
+	-- 				local stats = require("lazy").stats()
+	-- 				local ms = math.floor(stats.startuptime * 100 + 0.5) / 100
+	-- 				opts.section.footer.val = {
+	-- 					" ",
+	-- 					" ",
+	-- 					" ",
+	-- 					"Loaded " .. stats.count .. " plugins  in " .. ms .. "ms",
+	-- 					"------cats are awesome------",
+	-- 				}
+	-- 				opts.section.footer.opts.hl = "DashboardFooter"
+	-- 				vim.cmd("highlight DashboardFooter guifg=#D29B68")
+	-- 				pcall(vim.cmd.AlphaRedraw)
+	-- 			end,
+	-- 		})
+	-- 	end,
+	-- },
 	{
 		{
 			"akinsho/toggleterm.nvim",
@@ -139,7 +166,7 @@ return {
 					vim.keymap.set("t", "<esc>", [[<C-\><C-n>]], opts)
 					vim.keymap.set("t", "jk", [[<C-\><C-n>]], opts)
 					vim.keymap.set("t", "<C-w>", [[<C-\><C-n><C-w>]], opts)
-					vim.keymap.set({ "n", "t" }, "<C-c>", '<Cmd>TermExec cmd="<C-c>"<CR>')
+					--vim.keymap.set({ "n", "t" }, "<C-c>", '<Cmd>TermExec cmd="<C-c>"<CR>')
 				end
 
 				-- if you only want these mappings for toggle term use term://*toggleterm#* instead
@@ -167,34 +194,34 @@ return {
 		},
 	},
 	-- Lua
-	{
-		"folke/zen-mode.nvim",
-		cmd = { "ZenMode" },
-		dependencies = "folke/twilight.nvim",
-		opts = {
-			window = {
-				width = 120,
-			},
-			plugins = {
-				alacritty = {
-					enabled = true,
-					font = "14"
-				}
-			}
-		},
-		keys = {
-			{
-				"<leader>zZ",
-				'<cmd>:lua require("zen-mode").toggle({plugins = {twilight = {enabled = false}}})<CR>',
-				{ desc = "Zen Mode" },
-			},
-			{
-				"<leader>zz",
-				"<cmd>ZenMode<CR>",
-				{ desc = "Zen Mode /twilight" },
-			},
-		},
-	},
+	-- {
+	-- 	"folke/zen-mode.nvim",
+	-- 	cmd = { "ZenMode" },
+	-- 	dependencies = "folke/twilight.nvim",
+	-- 	opts = {
+	-- 		window = {
+	-- 			width = 120,
+	-- 		},
+	-- 		plugins = {
+	-- 			alacritty = {
+	-- 				enabled = true,
+	-- 				font = "14"
+	-- 			}
+	-- 		}
+	-- 	},
+	-- 	keys = {
+	-- 		{
+	-- 			"<leader>zZ",
+	-- 			'<cmd>:lua require("zen-mode").toggle({plugins = {twilight = {enabled = false}}})<CR>',
+	-- 			{ desc = "Zen Mode" },
+	-- 		},
+	-- 		{
+	-- 			"<leader>zz",
+	-- 			"<cmd>ZenMode<CR>",
+	-- 			{ desc = "Zen Mode /twilight" },
+	-- 		},
+	-- 	},
+	-- },
 	{
 		"folke/noice.nvim",
 		event = "VeryLazy",

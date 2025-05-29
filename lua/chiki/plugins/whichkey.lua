@@ -3,7 +3,7 @@ return {
 		"folke/which-key.nvim",
 		init = function()
 			vim.o.timeout = true
-			vim.o.timeoutlen = 40
+			vim.o.timeoutlen = 300
 		end,
 		opts = {},
 		config = function()

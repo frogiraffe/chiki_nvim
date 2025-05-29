@@ -307,10 +307,30 @@ return {
 	},
 
 	{ "cpea2506/relative-toggle.nvim" },
+	-- {
+	-- 	'stevearc/resession.nvim',
+	-- 	lazy = false,
+	-- 	opts = {},
+	-- },
 	{
-		'stevearc/resession.nvim',
-		lazy = false,
-		opts = {},
-	}
+		"folke/persistence.nvim",
+		event = "BufReadPre", -- this will only start session saving when an actual file was opened
+		opts = {
+			-- add any custom options here
+		}
+	},
 
+	{ "m4xshen/hardtime.nvim", lazy = false, dependencies = { "MunifTanjim/nui.nvim" }, opts = {}, },
+	{ "nvzone/volt",           lazy = true },
+	{ "nvzone/menu",           lazy = true },
+	{
+		"OXY2DEV/markview.nvim",
+		lazy = false,
+
+		-- For blink.cmp's completion
+		-- source
+		-- dependencies = {
+		--     "saghen/blink.cmp"
+		-- },
+	}
 }
