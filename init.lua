@@ -16,7 +16,7 @@ end
 if vim.g.neovide then
 	vim.o.guifont = "Mononoki Nerd Font:h14"
 	vim.g.neovide_cursor_animate_in_insert_mode = true
-	vim.g.neovide_transparency = 0.8
+	vim.g.neovide_opacity = 0.8
 	vim.keymap.set('v', '<D-c>', '"+y')      -- Copy
 	vim.keymap.set('n', '<C-S-v>', '"+P')    -- Paste normal mode
 	vim.keymap.set('v', '<C-S-v>', '"+P')    -- Paste visual mode

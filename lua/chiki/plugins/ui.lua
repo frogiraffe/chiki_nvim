@@ -43,7 +43,7 @@ return {
 			notifier = { enabled = true },
 			quickfile = { enabled = true },
 			scope = { enabled = true },
-			scroll = { enabled = true },
+			scroll = { enabled = false },
 			statuscolumn = { enabled = true, folds = { open = true, git_hl = true } },
 			zen = { enabled = true },
 			words = { enabled = true },

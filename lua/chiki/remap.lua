@@ -1,5 +1,6 @@
 local keymap = vim.keymap.set
 local opts = { noremap = true, silent = true }
+keymap("n", "<C-q>", ":bd<CR>")
 keymap("v", ">", ">gv")
 keymap("v", "<", "<gv")
 keymap("n", "n", "nzzzv")
