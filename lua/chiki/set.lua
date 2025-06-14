@@ -89,3 +89,11 @@ vim.o.splitright = true
 vim.o.numberwidth = 3
 vim.g.skip_ts_context_commentstring_module = true
 -- vim.g.bigfile_size = 1024 * 1024 * 1.5 -- 1.5 MB
+vim.opt_local.include = [[\v<((do|load)file|require)[^''"]*[''"]\zs[^''"]+]]
+vim.opt_local.includeexpr = "substitute(v:fname,'\\.','/','g')"
+
+for _, path in pairs(vim.api.nvim_list_runtime_paths()) do
+	vim.opt_local.path:append(path .. '/lua')
+end
+
+vim.opt_local.suffixesadd:prepend('.lua')

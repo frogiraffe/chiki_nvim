@@ -5,6 +5,7 @@ return {
     dependencies = { 'rafamadriz/friendly-snippets'
     , 'mgalliou/blink-cmp-tmux'
     },
+    lazy = true,
     version = '1.*',
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
