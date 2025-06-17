@@ -28,7 +28,7 @@ return {
             -- vim.g.molten_cover_empty_lines = true
             -- vim.g.molten_auto_image_popup = false
             vim.g.molten_output_win_max_height = 20
-            vim.keymap.set("n", "<localleader>mi", ":MoltenInit<CR>",
+            vim.keymap.set("n", "<localleader>ri", ":MoltenInit<CR>",
                 { silent = true, desc = "Initialize the plugin" })
             vim.keymap.set("n", "<localleader>e", ":MoltenEvaluateOperator<CR>",
                 { silent = true, desc = "run operator selection" })

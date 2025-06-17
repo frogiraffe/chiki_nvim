@@ -6,7 +6,7 @@ return {
 			{ "<c-j>", "<c-j>", ft = "fzf", mode = "t", nowait = true },
 			{ "<c-k>", "<c-k>", ft = "fzf", mode = "t", nowait = true },
 			{
-				"<leader>,",
+				"<leader>b",
 				"<cmd>FzfLua buffers sort_mru=true sort_lastused=true<cr>",
 				desc = "Switch Buffer",
 			},
@@ -32,7 +32,7 @@ return {
 			{ "<leader>sk",  "<cmd>FzfLua keymaps<cr>",               desc = "Key Maps" },
 			{ "<leader>sl",  "<cmd>FzfLua loclist<cr>",               desc = "Location List" },
 			{ "<leader>sM",  "<cmd>FzfLua man_pages<cr>",             desc = "Man Pages" },
-			{ "<leader>sm",  "<cmd>FzfLua marks<cr>",                 desc = "Jump to Mark" },
+			{ "<leader>,",   "<cmd>FzfLua marks<cr>",                 desc = "Jump to Mark" },
 			{ "<leader>sR",  "<cmd>FzfLua resume<cr>",                desc = "Resume" },
 			{ "<leader>sq",  "<cmd>FzfLua quickfix<cr>",              desc = "Quickfix List" },
 			{

@@ -1,6 +1,6 @@
 local keymap = vim.keymap.set
 local opts = { noremap = true, silent = true }
-keymap("n", "<C-q>", ":bd<CR>")
+keymap("n", "<C-q>", function() vim.cmd.bdelete() end, opts)
 keymap("v", ">", ">gv")
 keymap("v", "<", "<gv")
 keymap("n", "n", "nzzzv")
@@ -51,12 +51,12 @@ vim.api.nvim_set_keymap("n", "<F6>", "<cmd>CompilerOpen<cr>", { noremap = true, 
 
 -- Toggle compiler results
 vim.api.nvim_set_keymap("n", "<F7>", "<cmd>CompilerToggleResults<cr>", { noremap = true, silent = true })
-keymap('n', '<S-h>', '<Cmd>BufferPrevious<CR>', opts)
-keymap('n', '<S-l>', '<Cmd>BufferNext<CR>', opts)
-keymap('n', '<A-<>', '<Cmd>BufferMovePrevious<CR>', opts)
-keymap('n', '<A->>', '<Cmd>BufferMoveNext<CR>', opts)
+-- keymap('n', '<S-h>', '<Cmd>BufferPrevious<CR>', opts)
+-- keymap('n', '<S-l>', '<Cmd>BufferNext<CR>', opts)
+-- keymap('n', '<A-<>', '<Cmd>BufferMovePrevious<CR>', opts)
+-- keymap('n', '<A->>', '<Cmd>BufferMoveNext<CR>', opts)
 -- Pin/unpin buffer
-keymap('n', '<A-p>', '<Cmd>BufferPin<CR>', opts)
+-- keymap('n', '<A-p>', '<Cmd>BufferPin<CR>', opts)
 -- Wipeout buffer
 --                 :BufferWipeout
 -- Close commands
@@ -66,13 +66,13 @@ keymap('n', '<A-p>', '<Cmd>BufferPin<CR>', opts)
 --                 :BufferCloseBuffersLeft
 --                 :BufferCloseBuffersRight
 -- Magic buffer-picking mode
-keymap('n', '<C-p>', '<Cmd>BufferPick<CR>', opts)
+-- keymap('n', '<C-p>', '<Cmd>BufferPick<CR>', opts)
 -- Sort automatically by...
-keymap('n', '<Space>bb', '<Cmd>BufferOrderByBufferNumber<CR>', opts)
-keymap('n', '<Space>bn', '<Cmd>BufferOrderByName<CR>', opts)
-keymap('n', '<Space>bd', '<Cmd>BufferOrderByDirectory<CR>', opts)
-keymap('n', '<Space>bl', '<Cmd>BufferOrderByLanguage<CR>', opts)
-keymap('n', '<Space>bw', '<Cmd>BufferOrderByWindowNumber<CR>', opts)
+-- keymap('n', '<Space>bb', '<Cmd>BufferOrderByBufferNumber<CR>', opts)
+-- keymap('n', '<Space>bn', '<Cmd>BufferOrderByName<CR>', opts)
+-- keymap('n', '<Space>bd', '<Cmd>BufferOrderByDirectory<CR>', opts)
+-- keymap('n', '<Space>bl', '<Cmd>BufferOrderByLanguage<CR>', opts)
+-- keymap('n', '<Space>bw', '<Cmd>BufferOrderByWindowNumber<CR>', opts)
 
 -- Other:
 -- :BarbarEnable - enables barbar (enabled by default)
