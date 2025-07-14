@@ -1,6 +1,7 @@
 return {
     {
         "3rd/image.nvim",
+        lazy = true,
         build = false, -- so that it doesn't build the rock https://github.com/3rd/image.nvim/issues/91#issuecomment-2453430239
         opts = {
             backend = "kitty",
@@ -19,6 +20,7 @@ return {
         version = "^1.0.0", -- use version <2.0.0 to avoid breaking changes
         dependencies = { "3rd/image.nvim" },
         build = ":UpdateRemotePlugins",
+        lazy = true,
         init = function()
             -- these are examples, not defaults. Please see the readme
             vim.g.molten_image_provider = "image.nvim"

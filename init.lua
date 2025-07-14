@@ -34,6 +34,10 @@ end
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
 	{ import = "chiki.plugins" },
+}, {
+	experimental = {
+		check_rtp_message = false
+	}
 })
 require("chiki.remap")
 require("chiki.autocommand")

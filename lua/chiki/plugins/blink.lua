@@ -2,8 +2,9 @@ return {
   {
     'saghen/blink.cmp',
     -- optional: provides snippets for the snippet source
-    dependencies = { 'rafamadriz/friendly-snippets'
-    , 'mgalliou/blink-cmp-tmux'
+    dependencies = {
+      'rafamadriz/friendly-snippets',
+      'mgalliou/blink-cmp-tmux',
     },
     lazy = true,
     version = '1.*',
@@ -27,11 +28,10 @@ return {
       appearance = {
         -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
         -- Adjusts spacing to ensure icons are aligned
-        nerd_font_variant = 'mono'
+        nerd_font_variant = 'mono',
       },
 
       -- (Default) Only show the documentation popup when manually triggered
-      completion = {},
       completion = {
         documentation = { auto_show = true },
         menu = {
@@ -66,18 +66,15 @@ return {
                   end
                   return hl
                 end,
-              }
-            }
-          }
-        }
-      },
-      signature = { enabled = true },
-      completion = {
-        menu = {
+              },
+            },
+          },
           draw = {
-            treesitter = { 'lsp' } }
+            treesitter = { 'lsp' },
+          },
         },
       },
+      signature = { enabled = true },
 
       -- Default list of enabled providers defined so that you can extend it
       -- elsewhere in your config, without redefining it, due to `opts_extend`
@@ -87,7 +84,7 @@ return {
           path = {
             opts = {
               trailing_slash = false,
-            }
+            },
           },
           tmux = {
             module = "blink-cmp-tmux",
@@ -99,10 +96,10 @@ return {
               -- only suggest completions from `tmux` if the `trigger_chars` are
               -- used
               triggere_only = false,
-              trigger_chars = { "." }
+              trigger_chars = { "." },
             },
-          }
-        }
+          },
+        },
       },
 
       -- (Default) Rust fuzzy matcher for typo resistance an significantly better performance
@@ -110,9 +107,9 @@ return {
       -- when the Rust fuzzy matcher is not available, by using `implementation = "prefer_rust"`
       --
       -- See the fuzzy documentation for more information
-      fuzzy = { implementation = "prefer_rust_with_warning" }
+      fuzzy = { implementation = "prefer_rust_with_warning" },
     },
 
-    opts_extend = { "sources.default" }
-  }
+    opts_extend = { "sources.default" },
+  },
 }

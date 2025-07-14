@@ -2,27 +2,31 @@ return {
     {
         "mfussenegger/nvim-lint",
         opts = {
-            -- Event to trigger linters
+            -- Events to trigger linters
             events = { "BufWritePost", "BufReadPost", "InsertLeave" },
             linters_by_ft = {
                 fish = { "fish" },
-                -- Use the "*" filetype to run linters on all filetypes.
-                -- ['*'] = { 'global linter' },
-                -- Use the "_" filetype to run linters on filetypes that don't have other linters configured.
-                -- ['_'] = { 'fallback linter' },
-                -- ["*"] = { "typos" },
-            },
-        },
-        config = function()
-            require("lint").linters_by_ft = {
                 lua = { "luacheck" },
                 go = { "golangcilint" },
-                -- markdown = { "markdownlint" --[[ "write-good" ]] },
                 javascript = { "eslint_d" },
                 typescript = { "eslint_d" },
+                -- Add more filetypes and linters as needed
+                -- ["*"] = { "typos" }, -- Example: global linter for all filetypes
+                -- ["_"] = { "fallback linter" }, -- Fallback for unconfigured filetypes
+            },
+        },
+        config = function(_, opts)
+            local lint = require("lint")
+            lint.linters_by_ft = opts.linters_by_ft
 
-
-            }
+            -- Automatically trigger linting on the specified events
+            for _, event in ipairs(opts.events) do
+                vim.api.nvim_create_autocmd(event, {
+                    callback = function()
+                        lint.try_lint()
+                    end,
+                })
+            end
         end,
     },
 }

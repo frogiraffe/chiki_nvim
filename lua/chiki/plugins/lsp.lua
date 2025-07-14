@@ -6,22 +6,20 @@ return {
 	},
 	{
 		"williamboman/mason.nvim",
-		-- No 'build' or 'event' here directly for mason.nvim itself
-		-- The 'config' function below will ensure it's set up
 		config = function()
 			require("mason").setup()
 		end,
 	},
 	{
 		"williamboman/mason-lspconfig.nvim",
-		-- This plugin depends on mason.nvim, which is now configured separately
+		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
-			"williamboman/mason.nvim", -- Explicitly list mason as a dependency if not already handled by your plugin manager
+			"williamboman/mason.nvim",
 			{
 				"neovim/nvim-lspconfig",
 				event = { "BufReadPre", "BufNewFile" },
 				opts = function()
-					local ret = {
+					return {
 						diagnostics = {
 							underline = true,
 							update_in_insert = false,
@@ -70,50 +68,32 @@ return {
 									},
 								},
 							},
-							html = {}, -- Add any specific settings if needed
+							html = {},
 							cssls = {},
 							basedpyright = {
 								settings = {
 									["basedpyright"] = {
 										analysis = {
-
-											typeCheckingMode = "basic"
-										}
-
+											typeCheckingMode = "basic",
+										},
 									},
 								},
 							},
 						},
 						setup = {},
 					}
-					return ret
 				end,
 				config = function(_, opts)
 					local lspconfig = require("lspconfig")
 					local mason_lspconfig = require("mason-lspconfig")
 
-					vim.lsp.config["basedpyright"] = {
-							settings = {
-								basedpyright = {
-									analysis = {
-										typeCheckingMode = "basic"
-									}
-								}
-
-							},
-						},
-						-- Ensure mason.nvim is set up before mason-lspconfig.setup()
-						-- Although we moved the setup, it's good practice to ensure.
-						-- However, with the structural change above, this line isn't strictly necessary here.
-						-- require("mason").setup() -- This should be handled by the mason.nvim plugin definition
-
-						mason_lspconfig.setup({
-							ensure_installed = vim.tbl_keys(opts.servers),
-							automatic_installation = false,
-						})
+					-- Ensure mason.nvim is set up before mason-lspconfig.setup()
+					mason_lspconfig.setup({
+						ensure_installed = vim.tbl_keys(opts.servers),
+						automatic_installation = false,
+					})
 
 					for server, config in pairs(opts.servers) do
-						-- Assuming 'blink.cmp' exists and provides get_lsp_capabilities
 						config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities or {})
 						lspconfig[server].setup(config)
 					end
@@ -123,7 +103,7 @@ return {
 	},
 	config = function()
 		require("mason-lspconfig").setup({
-			automatic_enable = true
+			automatic_enable = true,
 		})
 	end,
 	{

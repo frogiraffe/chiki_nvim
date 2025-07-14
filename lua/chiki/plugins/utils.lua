@@ -12,7 +12,6 @@ return {
 				"s",
 				mode = { "n", "x", "o" },
 				function()
-					-- default options: exact mode, multi window, all directions, with a backdrop
 					require("flash").jump()
 				end,
 				desc = "Flash",
@@ -21,7 +20,6 @@ return {
 				"M",
 				mode = { "n", "o", "x" },
 				function()
-					-- show labeled treesitter nodes around the cursor
 					require("flash").treesitter()
 				end,
 				desc = "Flash Treesitter",
@@ -30,7 +28,6 @@ return {
 				"r",
 				mode = "o",
 				function()
-					-- jump to a remote location to execute the operator
 					require("flash").remote()
 				end,
 				desc = "Remote Flash",
@@ -39,7 +36,6 @@ return {
 				"R",
 				mode = { "n", "o", "x" },
 				function()
-					-- show labeled treesitter nodes around the search matches
 					require("flash").treesitter_search()
 				end,
 				desc = "Treesitter Search",
@@ -59,25 +55,10 @@ return {
 					},
 				},
 			})
-			-- 	local Config = require("flash.config")
-			-- 	local Char = require("flash.plugins.char")
-			-- 	for _, motion in ipairs({ "f", "t", "F", "T" }) do
-			-- 		vim.keymap.set({ "n", "x", "o" }, motion, function()
-			-- 			require("flash").jump(Config.get({
-			-- 				mode = "char",
-			-- 				search = {
-			-- 					mode = Char.mode(motion),
-			-- 					max_length = 1,
-			-- 				},
-			-- 				label = { after = { 0, 0 }, style = "overlay", rainbow = { enabled = false } },
-			-- 			}, Char.motions[motion]))
-			-- 		end) end
 		end,
 	},
 	{
 		"echasnovski/mini.nvim",
-		-- event = "BufReadPost",
-		-- version = false,
 		config = function()
 			require("mini.ai").setup()
 			require("mini.move").setup({
@@ -93,7 +74,6 @@ return {
 	{
 		"folke/todo-comments.nvim",
 		lazy = true,
-		-- event = { "BufReadPost", "BufNewFile" },
 		dependencies = { "nvim-lua/plenary.nvim" },
 		keys = {
 			{
@@ -139,7 +119,6 @@ return {
 		"andymass/vim-matchup",
 		event = { "BufRead" },
 		config = function()
-			-- may set any options here
 			vim.g.matchup_matchparen_offscreen = { method = "popup" }
 		end,
 	},
@@ -148,9 +127,7 @@ return {
 		event = "BufReadPost",
 		opts = {},
 		config = function()
-			require("Comment").setup({
-				-- pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
-			})
+			require("Comment").setup()
 		end,
 	},
 	{
@@ -166,28 +143,27 @@ return {
 					changedelete = { text = "~" },
 					untracked = { text = "┆" },
 				},
-				signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
-				numhl = true, -- Toggle with `:Gitsigns toggle_numhl`
-				linehl = false, -- Toggle with `:Gitsigns toggle_linehl`
-				word_diff = false, -- Toggle with `:Gitsigns toggle_word_diff`
+				signcolumn = true,
+				numhl = true,
+				linehl = false,
+				word_diff = false,
 				watch_gitdir = {
 					follow_files = true,
 				},
 				attach_to_untracked = true,
-				current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
+				current_line_blame = false,
 				current_line_blame_opts = {
 					virt_text = true,
-					virt_text_pos = "eol", -- 'eol' | 'overlay' | 'right_align'
+					virt_text_pos = "eol",
 					delay = 1000,
 					ignore_whitespace = false,
 				},
 				current_line_blame_formatter = "<author>, <author_time:%Y-%m-%d> - <summary>",
 				sign_priority = 6,
 				update_debounce = 100,
-				status_formatter = nil, -- Use default
-				max_file_length = 40000, -- Disable if file is longer than this (in lines)
+				status_formatter = nil,
+				max_file_length = 40000,
 				preview_config = {
-					-- Options passed to nvim_open_win
 					border = "single",
 					style = "minimal",
 					relative = "cursor",
@@ -230,7 +206,6 @@ return {
 						local hlGroup = chunk[2]
 						table.insert(newVirtText, { chunkText, hlGroup })
 						chunkWidth = vim.fn.strdisplaywidth(chunkText)
-						-- str width returned from truncate() may less than 2nd argument, need padding
 						if curWidth + chunkWidth < targetWidth then
 							suffix = suffix .. (" "):rep(targetWidth - curWidth - chunkWidth)
 						end
@@ -242,7 +217,7 @@ return {
 				return newVirtText
 			end
 			require("ufo").setup({
-				provider_selector = function(bufnr, filetype, buftype)
+				provider_selector = function()
 					return { "treesitter", "indent" }
 				end,
 				fold_virt_text_handler = handler,
@@ -275,13 +250,13 @@ return {
 			})
 		end,
 	},
-	{ -- This plugin
+	{
 		"Zeioth/compiler.nvim",
 		cmd = { "CompilerOpen", "CompilerToggleResults", "CompilerRedo" },
 		dependencies = { "stevearc/overseer.nvim", "nvim-telescope/telescope.nvim" },
 		opts = {},
 	},
-	{ -- The task runner we use
+	{
 		"stevearc/overseer.nvim",
 		commit = "6271cab7ccc4ca840faa93f54440ffae3a3918bd",
 		cmd = { "CompilerOpen", "CompilerToggleResults", "CompilerRedo" },
@@ -290,7 +265,7 @@ return {
 				direction = "bottom",
 				min_height = 25,
 				max_height = 25,
-				default_detail = 1
+				default_detail = 1,
 			},
 		},
 	},
@@ -298,39 +273,32 @@ return {
 		'MagicDuck/grug-far.nvim',
 		config = function()
 			vim.keymap.set("n", "<leader>G", "<cmd>GrugFar<CR>", { desc = "Grug" })
-			require('grug-far').setup({
-				-- options, see Configuration section below
-				-- there are no required options atm
-				-- engine = 'ripgrep' is default, but 'astgrep' can be specified
-			});
-		end
+			require('grug-far').setup({})
+		end,
 	},
-
 	{ "cpea2506/relative-toggle.nvim" },
-	-- {
-	-- 	'stevearc/resession.nvim',
-	-- 	lazy = false,
-	-- 	opts = {},
-	-- },
 	{
 		"folke/persistence.nvim",
-		event = "BufReadPre", -- this will only start session saving when an actual file was opened
-		opts = {
-			-- add any custom options here
-		}
+		event = "BufReadPre",
+		opts = {},
 	},
-
-	{ "m4xshen/hardtime.nvim", lazy = false, dependencies = { "MunifTanjim/nui.nvim" }, opts = {}, },
-	{ "nvzone/volt",           lazy = true },
-	{ "nvzone/menu",           lazy = true },
+	{ "nvzone/volt", lazy = true },
+	{ "nvzone/menu", lazy = true },
 	{
 		"OXY2DEV/markview.nvim",
-		lazy = false,
-
-		-- For blink.cmp's completion
-		-- source
+		lazy = true,
 		-- dependencies = {
 		--     "saghen/blink.cmp"
 		-- },
-	}
+	},
+	{
+		"amitds1997/remote-nvim.nvim",
+		version = "*",              -- Pin to GitHub releases
+		dependencies = {
+			"nvim-lua/plenary.nvim", -- For standard functions
+			"MunifTanjim/nui.nvim", -- To build the plugin UI
+			"nvim-telescope/telescope.nvim", -- For picking b/w different remote methods
+		},
+		config = true,
+	},
 }

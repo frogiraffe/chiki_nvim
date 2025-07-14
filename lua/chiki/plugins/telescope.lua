@@ -1,7 +1,7 @@
 return {
 	{
-		'ibhagwan/fzf-lua',
-		dependencies = { 'nvim-web-devicons' },
+		"ibhagwan/fzf-lua",
+		dependencies = { "nvim-web-devicons" },
 		keys = {
 			{ "<c-j>", "<c-j>", ft = "fzf", mode = "t", nowait = true },
 			{ "<c-k>", "<c-k>", ft = "fzf", mode = "t", nowait = true },
@@ -38,18 +38,14 @@ return {
 			{
 				"<leader>ss",
 				function()
-					require("fzf-lua").lsp_document_symbols({
-						regex_filter = symbols_filter,
-					})
+					require("fzf-lua").lsp_document_symbols()
 				end,
 				desc = "Goto Symbol",
 			},
 			{
 				"<leader>sS",
 				function()
-					require("fzf-lua").lsp_live_workspace_symbols({
-						regex_filter = symbols_filter,
-					})
+					require("fzf-lua").lsp_live_workspace_symbols()
 				end,
 				desc = "Goto Symbol (Workspace)",
 			},
@@ -74,7 +70,7 @@ return {
 				},
 			},
 			grep = {
-				-- One thing I missed from Telescope was the ability to live_grep and the
+				-- One thing I missed from Telescope was the ability to live_grep and then
 				-- run a filter on the filenames.
 				-- Ex: Find all occurrences of "enable" but only in the "plugins" directory.
 				-- With this change, I can sort of get the same behaviour in live_grep.
@@ -86,8 +82,7 @@ return {
 			},
 		},
 		config = function()
-			require("fzf-lua").setup({
-			})
+			require("fzf-lua").setup({})
 		end,
-	}
+	},
 }
