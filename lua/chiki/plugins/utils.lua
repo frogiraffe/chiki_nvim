@@ -1,7 +1,12 @@
 return {
 	{
-		"norcalli/nvim-colorizer.lua",
-		opts = {},
+		'brenoprata10/nvim-highlight-colors',
+		config = function()
+			require('nvim-highlight-colors').setup({})
+		end
+	},
+	{
+		"RRethy/vim-illuminate",
 	},
 	{
 		"folke/flash.nvim",
@@ -68,6 +73,9 @@ return {
 					right = "<S-l>",
 					down = "<S-j>",
 				},
+			})
+			require("mini.icons").setup({
+				require("mini.icons").mock_nvim_web_devicons()
 			})
 		end,
 	},

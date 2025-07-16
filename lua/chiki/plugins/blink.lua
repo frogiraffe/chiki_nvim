@@ -38,33 +38,32 @@ return {
           draw = {
             components = {
               kind_icon = {
+                ellipsis = false,
                 text = function(ctx)
-                  local lspkind = require("lspkind")
+                  -- default kind icon
                   local icon = ctx.kind_icon
-                  if vim.tbl_contains({ "Path" }, ctx.source_name) then
-                    local dev_icon, _ = require("nvim-web-devicons").get_icon(ctx.label)
-                    if dev_icon then
-                      icon = dev_icon
+                  -- if LSP source, check for color derived from documentation
+                  if ctx.item.source_name == "LSP" then
+                    local color_item = require("nvim-highlight-colors").format(ctx.item.documentation,
+                      { kind = ctx.kind })
+                    if color_item and color_item.abbr ~= "" then
+                      icon = color_item.abbr
                     end
-                  else
-                    icon = require("lspkind").symbolic(ctx.kind, {
-                      mode = "symbol",
-                    })
                   end
-
                   return icon .. ctx.icon_gap
                 end,
-
-                -- Optionally, use the highlight groups from nvim-web-devicons
                 highlight = function(ctx)
-                  local hl = ctx.kind_hl
-                  if vim.tbl_contains({ "Path" }, ctx.source_name) then
-                    local dev_icon, dev_hl = require("nvim-web-devicons").get_icon(ctx.label)
-                    if dev_icon then
-                      hl = dev_hl
+                  -- default highlight group
+                  local highlight = "BlinkCmpKind" .. ctx.kind
+                  -- if LSP source, check for color derived from documentation
+                  if ctx.item.source_name == "LSP" then
+                    local color_item = require("nvim-highlight-colors").format(ctx.item.documentation,
+                      { kind = ctx.kind })
+                    if color_item and color_item.abbr_hl_group then
+                      highlight = color_item.abbr_hl_group
                     end
                   end
-                  return hl
+                  return highlight
                 end,
               },
             },

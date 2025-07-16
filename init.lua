@@ -15,7 +15,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 
 if vim.g.neovide then
-	vim.o.guifont = "Mononoki Nerd Font:h14"
+	vim.o.guifont = "Iosevka:h14"
 	vim.g.neovide_cursor_animate_in_insert_mode = true
 	vim.g.neovide_opacity = 0.8
 	vim.keymap.set('v', '<D-c>', '"+y')      -- Copy
@@ -39,6 +39,5 @@ require("lazy").setup({
 		check_rtp_message = false
 	}
 })
-require("chiki.remap")
 require("chiki.autocommand")
 require("chiki.set")
