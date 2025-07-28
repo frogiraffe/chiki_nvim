@@ -1,6 +1,7 @@
 return {
 	{
 		"abecodes/tabout.nvim",
+		event = "VeryLazy",
 		opts = {
 			tabkey = "<Tab>",
 			backwards_tabkey = "<S-Tab>",
