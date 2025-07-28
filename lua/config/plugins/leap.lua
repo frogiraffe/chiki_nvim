@@ -1,5 +1,11 @@
 return {
 	"ggandor/leap.nvim",
+	dependencies = {
+		{
+			"ggandor/flit.nvim",
+		},
+	},
+	lazy = true,
 	keys = {
 		{
 			"ga",
@@ -8,6 +14,12 @@ return {
 			end,
 			mode = { "n", "x", "o" },
 			desc = "Leap remote action",
+		},
+		{
+			"<C-Space>",
+			function()
+				require("leap.treesitter").select()
+			end,
 		},
 	},
 	config = function()
