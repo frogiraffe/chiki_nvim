@@ -2,14 +2,50 @@ return {
 	{
 		-- Main LSP Configuration
 		"neovim/nvim-lspconfig",
+		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
 			{ "mason-org/mason.nvim", opts = {} },
 			"mason-org/mason-lspconfig.nvim",
 			"WhoIsSethDaniel/mason-tool-installer.nvim",
 			{ "j-hui/fidget.nvim", opts = {} },
-			"saghen/blink.cmp", -- veya cmp_nvim_lsp kullanıyorsan değiştirebilirsin
+			"saghen/blink.cmp",
+		},
+		opts = {
+			servers = {
+				basedpyright = {
+					settings = {
+						basedpyright = {
+							analysis = {
+								typeCheckingMode = "standard",
+							},
+						},
+					},
+				},
+			},
 		},
 		config = function()
+			-- local lspconfig = require("lspconfig")
+			-- lspconfig.basedpyright.setup({
+			-- 	settings = {
+			-- 		basedpyright = {
+			-- 			-- reportImplicitOverride = false,
+			-- 			reportMissingSuperCall = "none",
+			-- 			-- reportUnusedImport = false,
+			-- 			-- basedpyright very intrusive with errors, this calms it down
+			-- 			typeCheckingMode = "standard",
+			-- 			-- works, if pyproject.toml is used
+			-- 			reportAttributeAccessIssue = false,
+			-- 			-- doesn't work, even if pyproject.toml is used
+			-- 			analysis = {
+			-- 				inlayHints = {
+			-- 					callArgumentNames = true, -- = basedpyright.analysis.inlayHints.callArgumentNames
+			-- 				},
+			-- 			},
+			-- 		},
+			-- 	},
+			-- 	on_attach = on_attach,
+			-- 	capabilities = capabilities,
+			-- })
 			local capabilities = require("blink.cmp").get_lsp_capabilities()
 			local servers = {
 				lua_ls = {
