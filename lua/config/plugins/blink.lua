@@ -1,9 +1,10 @@
 return {
 	{ -- Autocompletion
 		"saghen/blink.cmp",
-		event = "VimEnter",
+		event = "InsertEnter",
 		version = "1.*",
 		dependencies = {
+
 			-- Snippet Engine
 			{
 				"L3MON4D3/LuaSnip",
@@ -70,15 +71,25 @@ return {
 			},
 
 			completion = {
+				ghost_text = {
+					enabled = true,
+				},
 				-- By default, you may press `<c-space>` to show the documentation.
 				-- Optionally, set `auto_show = true` to show the documentation after a delay.
 				documentation = { auto_show = false, auto_show_delay_ms = 500 },
 			},
 
 			sources = {
+				per_filetype = {
+					org = { "orgmode" },
+				},
 				default = { "lsp", "path", "snippets", "lazydev" },
 				providers = {
 					lazydev = { module = "lazydev.integrations.blink", score_offset = 100 },
+					orgmode = {
+						name = "Orgmode",
+						module = "orgmode.org.autocompletion.blink",
+					},
 				},
 			},
 
