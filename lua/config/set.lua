@@ -20,6 +20,7 @@ vim.opt.tabstop = 4
 -- vim.opt.showmode      = false
 vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
+vim.opt.swapfile = false
 vim.opt.numberwidth = 2
 vim.opt.wrap = true
 vim.schedule(function()
@@ -56,3 +57,6 @@ vim.o.smartcase = true
 vim.o.signcolumn = "yes"
 vim.o.inccommand = "split"
 -- vim.o.confirm = true
+vim.keymap.set({ "n", "v" }, "<leader>w", "<cmd>:w<CR>", { desc = "Save Buffer" })
+vim.keymap.set({ "n", "v" }, "<leader>y", '"+y', { desc = "Yank to System Clipboard" })
+vim.opt.relativenumber = true
