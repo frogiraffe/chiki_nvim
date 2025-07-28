@@ -8,15 +8,15 @@ return {
 		dashboard = {
 			enabled = true,
 			preset = {
-				header = [[ ▄████████    ▄█    █▄     ▄█     ▄█   ▄█▄  ▄█  
-███    ███   ███    ███   ███    ███ ▄███▀ ███  
-███    █▀    ███    ███   ███▌   ███▐██▀   ███▌ 
-███         ▄███▄▄▄▄███▄▄ ███▌  ▄█████▀    ███▌ 
-███        ▀▀███▀▀▀▀███▀  ███▌ ▀▀█████▄    ███▌ 
-███    █▄    ███    ███   ███    ███▐██▄   ███  
-███    ███   ███    ███   ███    ███ ▀███▄ ███  
-████████▀    ███    █▀    █▀     ███   ▀█▀ █▀   
-                                 ▀              ]],
+				-- 			header = [[ ▄████████    ▄█    █▄     ▄█     ▄█   ▄█▄  ▄█
+				-- ███    ███   ███    ███   ███    ███ ▄███▀ ███
+				-- ███    █▀    ███    ███   ███▌   ███▐██▀   ███▌
+				-- ███         ▄███▄▄▄▄███▄▄ ███▌  ▄█████▀    ███▌
+				-- ███        ▀▀███▀▀▀▀███▀  ███▌ ▀▀█████▄    ███▌
+				-- ███    █▄    ███    ███   ███    ███▐██▄   ███
+				-- ███    ███   ███    ███   ███    ███ ▀███▄ ███
+				-- ████████▀    ███    █▀    █▀     ███   ▀█▀ █▀
+				--                                  ▀              ]],
 			},
 			sections = {
 				{ section = "header" },
@@ -28,7 +28,14 @@ return {
 					padding = 1,
 				},
 				{ section = "keys", gap = 1, padding = 1 },
-				{ pane = 2, icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
+				{
+					pane = 2,
+					icon = " ",
+					title = "Recent Files",
+					section = "recent_files",
+					indent = 2,
+					padding = 1,
+				},
 				{ pane = 2, icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1 },
 				{
 					pane = 2,
@@ -89,6 +96,7 @@ return {
 		statuscolumn = { enabled = true },
 		words = { enabled = true },
 	},
+
 	keys = {
 		{
 			"<leader><space>",
@@ -119,7 +127,7 @@ return {
 			desc = "Command History",
 		},
 		{
-			"<leader>n",
+			"<leader>N",
 			function()
 				Snacks.picker.notifications()
 			end,
@@ -491,7 +499,7 @@ return {
 			desc = "Select Scratch Buffer",
 		},
 		{
-			"<leader>n",
+			"<leader>Nh",
 			function()
 				Snacks.notifier.show_history()
 			end,
@@ -565,7 +573,7 @@ return {
 			mode = { "n", "t" },
 		},
 		{
-			"<leader>N",
+			"<leader>Nn",
 			desc = "Neovim News",
 			function()
 				Snacks.win({
@@ -612,6 +620,8 @@ return {
 				Snacks.toggle.inlay_hints():map("<leader>uh")
 				Snacks.toggle.indent():map("<leader>ug")
 				Snacks.toggle.dim():map("<leader>uD")
+				Snacks.toggle.profiler():map("<leader>pp")
+				Snacks.toggle.profiler_highlights():map("<leader>ph")
 			end,
 		})
 		local highlight = {
