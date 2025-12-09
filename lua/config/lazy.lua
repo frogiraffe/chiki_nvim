@@ -23,9 +23,10 @@ vim.g.maplocalleader = "\\"
 -- Setup lazy.nvim
 require("lazy").setup({
 	spec = {
-		{ import = "config.plugins.aerial" },
 		{ import = "config.plugins.blink" },
+		{ import = "config.plugins.copilot" },
 		{ import = "config.plugins.colorizer" },
+		{ import = "config.plugins.aerial" },
 		{ import = "config.plugins.comment" },
 		{ import = "config.plugins.conform" },
 		{ import = "config.plugins.leap" },
@@ -47,6 +48,8 @@ require("lazy").setup({
 		{ import = "config.plugins.ultimate-autopairs" },
 		{ import = "config.plugins.vim-repeat" },
 		{ import = "config.plugins.whichkey" },
+		{ import = "config.plugins.noice" },
+		{ import = "config.plugins.todo-comments" },
 	},
 	install = { colorscheme = { "habamax" } },
 	checker = { enabled = true },

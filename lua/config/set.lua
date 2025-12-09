@@ -60,3 +60,4 @@ vim.o.inccommand = "split"
 vim.keymap.set({ "n", "v" }, "<leader>w", "<cmd>:w<CR>", { desc = "Save Buffer" })
 vim.keymap.set({ "n", "v" }, "<leader>y", '"+y', { desc = "Yank to System Clipboard" })
 vim.opt.relativenumber = true
+vim.opt.laststatus = 3
