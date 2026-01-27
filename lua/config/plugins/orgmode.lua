@@ -11,7 +11,7 @@ return {
 				ft = { "org" },
 				config = function()
 					require("org-roam").setup({
-						directory = "~/sync/orgfiles/",
+						-- directory = "~/sync/orgfiles/",
 						-- org_files = {
 						-- 	"~/sync/orgfiles/roam/",
 						-- },
@@ -22,18 +22,18 @@ return {
 		config = function()
 			-- Setup orgmode
 			require("orgmode").setup({
-				org_agenda_files = "~/sync/orgfiles/**/*",
-				org_default_notes_file = "~/sync/orgfiles/refile.org",
+				-- org_agenda_files = "~/sync/orgfiles/**/*",
+				-- org_default_notes_file = "~/sync/orgfiles/refile.org",
 				org_capture_templates = {
 					T = {
 						description = "Todo",
 						template = "* TODO %?\n %u",
-						target = "~/sync/orgfiles/todo.org",
+						-- target = "~/sync/orgfiles/todo.org",
 					},
 					J = {
 						description = "Journal",
 						template = "\n*** %<%Y-%m-%d> %<%A>\n**** %U\n\n%?",
-						target = "~/sync/orgfiles/journal/%<%Y-%m>.org",
+						-- target = "~/sync/orgfiles/journal/%<%Y-%m>.org",
 					},
 					e = {
 						description = "Event",
@@ -41,13 +41,13 @@ return {
 							r = {
 								description = "recurring",
 								template = "** %?\n %T",
-								target = "~/sync/orgfiles/calendar.org",
+								-- target = "~/sync/orgfiles/calendar.org",
 								headline = "recurring",
 							},
 							o = {
 								description = "one-time",
 								template = "** %?\n %T",
-								target = "~/sync/orgfiles/calendar.org",
+								-- target = "~/sync/orgfiles/calendar.org",
 								headline = "one-time",
 							},
 						},

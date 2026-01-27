@@ -46,8 +46,17 @@ return {
 			-- Document existing key chains
 			spec = {
 				{ "<leader>s", group = "[S]earch" },
-				{ "<leader>t", group = "[T]oggle" },
+				{ "<leader>t", group = "[T]oggle/Terminal" },
 				{ "<leader>h", group = "Git [H]unk", mode = { "n", "v" } },
+				{ "<leader>f", group = "[F]ind" },
+				{ "<leader>g", group = "[G]it" },
+				{ "<leader>b", group = "[B]uffer" },
+				{ "<leader>u", group = "[U]I Toggle" },
+				{ "<leader>c", group = "[C]ode" },
+				{ "<leader>cc", group = "[C]opilot [C]hat" },
+				{ "<leader>N", group = "[N]otification" },
+				{ "<leader>p", group = "[P]rofiler" },
+				{ "<leader>j", group = "Split/[J]oin" },
 			},
 		},
 	},
