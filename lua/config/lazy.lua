@@ -24,7 +24,6 @@ vim.g.maplocalleader = "\\"
 require("lazy").setup({
 	spec = {
 		{ import = "config.plugins.blink" },
-		{ import = "config.plugins.copilot" },
 		{ import = "config.plugins.colorizer" },
 		{ import = "config.plugins.aerial" },
 		{ import = "config.plugins.comment" },
@@ -51,6 +50,7 @@ require("lazy").setup({
 		{ import = "config.plugins.whichkey" },
 		{ import = "config.plugins.rustacean" },
 		{ import = "config.plugins.todo-comments" },
+		{ import = "config.plugins.trouble" },
 	},
 	install = { colorscheme = { "habamax" } },
 	checker = { enabled = true },

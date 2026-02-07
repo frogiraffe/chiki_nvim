@@ -1,10 +1,9 @@
 return {
 	{
-		"EdenEast/nightfox.nvim",
-		name = "nighftox",
+		"folke/tokyonight.nvim",
 		priority = 1000,
 		config = function()
-			vim.cmd.colorscheme("carbonfox")
+			vim.cmd.colorscheme("tokyonight-night")
 		end,
 	},
 }

@@ -82,6 +82,7 @@ return {
 			sources = {
 				per_filetype = {
 					org = { "orgmode" },
+					codecompanion = { "codecompanion" },
 				},
 				default = { --[[ "copilot", ]]
 					"lsp",

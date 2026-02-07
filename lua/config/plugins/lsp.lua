@@ -58,22 +58,22 @@ return {
 						},
 					},
 				},
-				rust_analyzer = {
-					settings = {
-						["rust-analyzer"] = {
-							diagnostics = {
-								enable = false,
-							},
-							checkOnSave = { enable = false },
-						},
-					},
-				},
-				bacon_ls = {
-					init_options = {
-						updateOnSave = true,
-						updateOnSaveWaitMilis = 1000,
-					},
-				},
+				-- rust_analyzer = {
+				-- 	settings = {
+				-- 		["rust-analyzer"] = {
+				-- 			diagnostics = {
+				-- 				enable = false,
+				-- 			},
+				-- 			checkOnSave = { enable = false },
+				-- 		},
+				-- 	},
+				-- },
+				-- bacon_ls = {
+				-- 	init_options = {
+				-- 		updateOnSave = true,
+				-- 		updateOnSaveWaitMilis = 1000,
+				-- 	},
+				-- },
 			}
 
 			local ensure_installed = vim.tbl_keys(servers or {})
