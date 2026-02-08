@@ -62,7 +62,12 @@ return {
 				{ section = "startup" },
 			},
 		},
-		explorer = { enabled = true, scope = { enabled = true } },
+		explorer = {
+			enabled = true,
+			scope = { enabled = true },
+			hidden = true,
+			ignored = false,
+		},
 		indent = {
 			indent = {
 				enabled = false,
@@ -88,7 +93,34 @@ return {
 		},
 		image = { enabled = true },
 		input = { enabled = true },
-		picker = { enabled = true },
+		picker = {
+			enabled = true,
+			exclude = {
+				".cache",
+				".cargo",
+				".gemini",
+				".ipython",
+				".jupyter",
+				".pki",
+				".rustup",
+				".steam",
+				".streamlit",
+				".stremio-server",
+				".var",
+				".antigravity",
+				".mozilla",
+				".android",
+				".nv",
+				".vscode-oss",
+				".zen",
+				"R",
+			},
+		},
+	},
+	sources = {
+		explorer = {
+			hidden = true,
+		},
 		notifier = { enabled = true },
 		quickfile = { enabled = true },
 		scope = { enabled = true },
@@ -165,7 +197,7 @@ return {
 		{
 			"<leader>ff",
 			function()
-				Snacks.picker.files()
+				Snacks.picker.files({})
 			end,
 			desc = "Find Files",
 		},
