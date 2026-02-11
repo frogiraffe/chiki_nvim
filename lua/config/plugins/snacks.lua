@@ -114,6 +114,7 @@ return {
 				".vscode-oss",
 				".zen",
 				"R",
+				".local",
 			},
 		},
 	},
