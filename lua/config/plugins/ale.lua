@@ -5,6 +5,8 @@ return {
 			-- Configuration goes here.
 			local g = vim.g
 			g.ale_disable_lsp = 1
+		g.ale_lsp_show_message_severity = "disabled"
+		g.ale_echo_cursor = 0
 
 			g.ale_ruby_rubocop_auto_correct_all = 1
 

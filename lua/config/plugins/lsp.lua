@@ -58,16 +58,20 @@ return {
 						},
 					},
 				},
-				-- rust_analyzer = {
-				-- 	settings = {
-				-- 		["rust-analyzer"] = {
-				-- 			diagnostics = {
-				-- 				enable = false,
-				-- 			},
-				-- 			checkOnSave = { enable = false },
-				-- 		},
-				-- 	},
-				-- },
+				rust_analyzer = {
+				settings = {
+					["rust-analyzer"] = {
+						inlayHints = {
+							typeHints = { enable = true },
+							parameterHints = { enable = true },
+							chainingHints = { enable = true },
+							closingBraceHints = { enable = true },
+						},
+						-- diagnostics = { enable = false },
+						-- checkOnSave = { enable = false },
+					},
+				},
+			},
 				-- bacon_ls = {
 				-- 	init_options = {
 				-- 		updateOnSave = true,
@@ -95,6 +99,7 @@ return {
 					end,
 				},
 			})
+
 			vim.diagnostic.config({
 				severity_sort = true,
 				float = { border = "rounded", source = "if_many" },
@@ -166,7 +171,24 @@ return {
 							end,
 						})
 					end
-				end,
+
+				if
+					client
+					and client_supports_method(
+						client,
+						vim.lsp.protocol.Methods.textDocument_inlayHint,
+						event.buf
+					)
+				then
+					vim.lsp.inlay_hint.enable(true, { bufnr = event.buf })
+					map("<leader>th", function()
+						vim.lsp.inlay_hint.enable(
+							not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }),
+							{ bufnr = event.buf }
+						)
+					end, "[T]oggle Inlay [H]ints")
+				end
+			end,
 			})
 		end,
 	},

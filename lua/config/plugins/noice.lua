@@ -22,7 +22,11 @@ return -- lazy.nvim
 					["vim.lsp.util.stylize_markdown"] = true,
 					["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
 				},
+				signature = {
+					enabled = false, -- blink.cmp handles signature help
+				},
 			},
+			routes = {},
 			-- you can enable a preset for easier configuration
 			presets = {
 				bottom_search = true, -- use a classic bottom cmdline for search
