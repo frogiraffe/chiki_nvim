@@ -54,6 +54,7 @@ require("lazy").setup({
 		{ import = "config.plugins.gx" },
 		{ import = "config.plugins.ale" },
 		{ import = "config.plugins.cord" },
+		{ import = "config.plugins.vimtex" },
 	},
 	install = { colorscheme = { "habamax" } },
 	checker = { enabled = true },
