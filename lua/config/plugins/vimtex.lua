@@ -11,17 +11,17 @@ return {
 		-- Use latexmk as the compiler backend (default, but explicit is better)
 		vim.g.vimtex_compiler_method = "latexmk"
 
-		-- latexmk compiler options
-		vim.g.vimtex_compiler_latexmk = {
-			options = {
-				"-pdf",
-				"-shell-escape",
-				"-verbose",
-				"-file-line-error",
-				"-synctex=1",
-				"-interaction=nonstopmode",
-			},
-		}
+		-- -- latexmk compiler options
+		-- vim.g.vimtex_compiler_latexmk = {
+		-- 	options = {
+		-- 		"-pdf",
+		-- 		"-shell-escape",
+		-- 		"-verbose",
+		-- 		"-file-line-error",
+		-- 		"-synctex=1",
+		-- 		"-interaction=nonstopmode",
+		-- 	},
+		-- }
 
 		-- Don't open QuickFix on warnings, only on errors
 		vim.g.vimtex_quickfix_mode = 2

@@ -128,6 +128,7 @@ return {
 		scroll = { enabled = true },
 		statuscolumn = { enabled = true },
 		words = { enabled = true },
+		comment = { enabled = true },
 	},
 
 	keys = {
@@ -160,7 +161,7 @@ return {
 			desc = "Command History",
 		},
 		{
-			"<leader>N",
+			"<leader>sn",
 			function()
 				Snacks.picker.notifications()
 			end,
@@ -438,6 +439,13 @@ return {
 			desc = "Resume",
 		},
 		{
+			"<leader>st",
+			function()
+				Snacks.picker.todo_comments()
+			end,
+			desc = "Todo Comments",
+		},
+		{
 			"<leader>su",
 			function()
 				Snacks.picker.undo()
@@ -504,14 +512,14 @@ return {
 		},
 		-- Other
 		{
-			"<leader>z",
+			"<leader>zz",
 			function()
 				Snacks.zen()
 			end,
 			desc = "Toggle Zen Mode",
 		},
 		{
-			"<leader>Z",
+			"<leader>zZ",
 			function()
 				Snacks.zen.zoom()
 			end,
@@ -532,7 +540,7 @@ return {
 			desc = "Select Scratch Buffer",
 		},
 		{
-			"<leader>Nh",
+			"<leader>nh",
 			function()
 				Snacks.notifier.show_history()
 			end,
@@ -573,6 +581,22 @@ return {
 				Snacks.notifier.hide()
 			end,
 			desc = "Dismiss All Notifications",
+		},
+		{
+			"<c-/>",
+			mode = { "t", "i", "n" },
+			function()
+				Snacks.terminal()
+			end,
+			desc = "Toggle Terminal",
+		},
+		{
+			"<c-_>",
+			mode = { "t", "i", "n" },
+			function()
+				Snacks.terminal()
+			end,
+			desc = "Toggle Terminal",
 		},
 		-- {
 		-- 	"<c-/>",

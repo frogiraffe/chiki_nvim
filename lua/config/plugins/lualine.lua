@@ -16,12 +16,12 @@ return {
 					ignore_focus = {},
 					always_divide_middle = true,
 					always_show_tabline = true,
-					globalstatus = false,
+					globalstatus = true,
 					refresh = {
 						statusline = 1000,
 						tabline = 1000,
 						winbar = 1000,
-						refresh_time = 16, -- ~60fps
+						refresh_time = 100, -- More reasonable refresh rate
 						events = {
 							"WinEnter",
 							"BufEnter",
@@ -30,8 +30,8 @@ return {
 							"FileChangedShellPost",
 							"VimResized",
 							"Filetype",
-							"CursorMoved",
-							"CursorMovedI",
+							-- "CursorMoved",
+							-- "CursorMovedI",
 							"ModeChanged",
 						},
 					},

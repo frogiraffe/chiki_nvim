@@ -1,7 +1,7 @@
 return {
 	{
 		"echasnovski/mini.nvim",
-		lazy = false,
+		event = "VeryLazy",
 		version = false,
 		config = function()
 			require("mini.operators").setup()

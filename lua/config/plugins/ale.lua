@@ -12,7 +12,6 @@ return {
 
 			g.ale_linters = {
 				ruby = { "rubocop", "ruby" },
-				lua = { "lua_language_server" },
 				text = { "proselint" },
 				markdown = { "proselint" },
 				-- rust = { "clippy" },

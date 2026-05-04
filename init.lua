@@ -12,5 +12,6 @@ if vim.env.PROF then
   })
 end
 require("config.lazy")
-require("config.set")
-require("config.autocommands")
+require("config.options")
+require("config.keymaps")
+require("config.autocmds")

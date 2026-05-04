@@ -58,26 +58,12 @@ return {
 						},
 					},
 				},
-				rust_analyzer = {
-				settings = {
-					["rust-analyzer"] = {
-						inlayHints = {
-							typeHints = { enable = true },
-							parameterHints = { enable = true },
-							chainingHints = { enable = true },
-							closingBraceHints = { enable = true },
-						},
-						-- diagnostics = { enable = false },
-						-- checkOnSave = { enable = false },
+				bacon_ls = {
+					init_options = {
+						updateOnSave = true,
+						updateOnSaveWaitMilis = 100,
 					},
 				},
-			},
-				-- bacon_ls = {
-				-- 	init_options = {
-				-- 		updateOnSave = true,
-				-- 		updateOnSaveWaitMilis = 1000,
-				-- 	},
-				-- },
 			}
 
 			local ensure_installed = vim.tbl_keys(servers or {})
@@ -93,6 +79,10 @@ return {
 				automatic_installation = false,
 				handlers = {
 					function(server_name)
+						-- Explicitly ignore rust_analyzer to let rustaceanvim handle it
+						if server_name == "rust_analyzer" then
+							return
+						end
 						local server = servers[server_name] or {}
 						server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
 						require("lspconfig")[server_name].setup(server)
@@ -102,6 +92,7 @@ return {
 
 			vim.diagnostic.config({
 				severity_sort = true,
+				update_in_insert = false,
 				float = { border = "rounded", source = "if_many" },
 				underline = { severity = vim.diagnostic.severity.ERROR },
 				signs = vim.g.have_nerd_font and {
@@ -115,7 +106,12 @@ return {
 				virtual_text = {
 					source = "if_many",
 					spacing = 2,
+					prefix = "●",
+					-- AstroNvim style: only show virtual text for the current line
 					format = function(diagnostic)
+						if diagnostic.lnum ~= vim.api.nvim_win_get_cursor(0)[1] - 1 then
+							return ""
+						end
 						return diagnostic.message
 					end,
 				},
@@ -130,6 +126,14 @@ return {
 					end
 
 					map("gra", vim.lsp.buf.code_action, "[G]oto Code [A]ction", { "n", "x" })
+					-- Modern diagnostic navigation (Neovim 0.12+ style)
+					map("]d", function()
+						vim.diagnostic.jump({ count = 1, float = true })
+					end, "Next Diagnostic")
+					map("[d", function()
+						vim.diagnostic.jump({ count = -1, float = true })
+					end, "Prev Diagnostic")
+					map("<leader>cd", vim.diagnostic.open_float, "Line Diagnostics")
 
 					local client = vim.lsp.get_client_by_id(event.data.client_id)
 					local function client_supports_method(client, method, bufnr)
