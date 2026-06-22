@@ -16,12 +16,9 @@ return {
 			})
 			-- You probably also want to set a keymap to toggle aerial
 			vim.keymap.set("n", "<leader>oa", "<cmd>AerialToggle!<CR>", { desc = "Toggle Aerial (Outline)" })
-			vim.keymap.set(
-				"n",
-				"<leader>os",
-				"<cmd>require('aerial').snacks_picker()<CR>",
-				{ desc = "Search Symbols (Aerial)" }
-			)
+			vim.keymap.set("n", "<leader>os", function()
+				require("aerial").snacks_picker()
+			end, { desc = "Search Symbols (Aerial)" })
 		end,
 	},
 }

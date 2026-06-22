@@ -10,19 +10,6 @@ return {
 			{ "j-hui/fidget.nvim", opts = {} },
 			"saghen/blink.cmp",
 		},
-		opts = {
-			servers = {
-				basedpyright = {
-					settings = {
-						basedpyright = {
-							analysis = {
-								typeCheckingMode = "standard",
-							},
-						},
-					},
-				},
-			},
-		},
 		config = function()
 			-- local lspconfig = require("lspconfig")
 			-- lspconfig.basedpyright.setup({
@@ -62,6 +49,15 @@ return {
 					init_options = {
 						updateOnSave = true,
 						updateOnSaveWaitMilis = 100,
+					},
+				},
+				basedpyright = {
+					settings = {
+						basedpyright = {
+							analysis = {
+								typeCheckingMode = "standard",
+							},
+						},
 					},
 				},
 			}
@@ -185,12 +181,7 @@ return {
 					)
 				then
 					vim.lsp.inlay_hint.enable(true, { bufnr = event.buf })
-					map("<leader>th", function()
-						vim.lsp.inlay_hint.enable(
-							not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }),
-							{ bufnr = event.buf }
-						)
-					end, "[T]oggle Inlay [H]ints")
+					-- Inlay-hint toggle lives under <leader>uh (snacks UI toggles, see snacks.lua)
 				end
 			end,
 			})

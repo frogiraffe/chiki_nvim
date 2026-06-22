@@ -1,22 +1,17 @@
 return {
 	{
 		"chrishrb/gx.nvim",
-		keys = { { "gX", "<cmd>Browse<cr>", mode = { "n", "x" } } },
+		keys = { { "gX", "<cmd>Browse<cr>", mode = { "n", "x" }, desc = "Open URL/link under cursor" } },
 		cmd = { "Browse" },
 		init = function()
 			vim.g.netrw_nogx = 1 -- disable netrw gx
 		end,
 		dependencies = { "nvim-lua/plenary.nvim" }, -- Required for Neovim < 0.10.0
-		config = true, -- default settings
-		submodules = false, -- not needed, submodules are required only for tests
-
-		-- you can specify also another config if you want
 		config = function()
 			require("gx").setup({
 				open_browser_app = "xdg-open", -- specify your browser app; default for macOS is "open", Linux "xdg-open" and Windows "powershell.exe"
 				open_browser_args = {}, -- specify any arguments, such as --background for macOS' "open".
 
-				open_callback = false, -- optional callback function to be called with the selected url on open
 				open_callback = function(url)
 					vim.fn.setreg("+", url) -- for example, you can set the url to clipboard here
 				end,

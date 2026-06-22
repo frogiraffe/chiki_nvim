@@ -2,6 +2,7 @@ return {
 	{
 		"mrjones2014/smart-splits.nvim",
 		event = "VeryLazy",
+		dependencies = { "kwkarlwang/bufresize.nvim" },
 		keys = {
 			{
 				"<A-C-h>",
@@ -69,6 +70,14 @@ return {
 				desc = "Move right",
 			},
 			{
+				"<C-\\>",
+				function()
+					require("smart-splits").move_cursor_previous()
+				end,
+				mode = "n",
+				desc = "Move to previous split",
+			},
+			{
 				"<leader>bh",
 				function()
 					require("smart-splits").swap_buf_left()
@@ -114,6 +123,7 @@ return {
 	},
 	{
 		"kwkarlwang/bufresize.nvim",
+		lazy = true,
 		config = function()
 			require("bufresize").setup({
 				resize = {

@@ -18,7 +18,9 @@ vim.opt.rtp:prepend(lazypath)
 -- loading lazy.nvim so that mappings are correct.
 -- This is also a good place to setup other settings (vim.opt)
 vim.g.mapleader = " "
-vim.g.maplocalleader = "\\"
+-- localleader = ',' (NOT '\\': '\\' is mapped to the file explorer in snacks.lua,
+-- which would shadow every <localleader> sequence, e.g. vimtex's <localleader>l*)
+vim.g.maplocalleader = ","
 
 -- Setup lazy.nvim
 require("lazy").setup({
@@ -51,7 +53,8 @@ require("lazy").setup({
 		{ import = "config.plugins.gx" },
 		{ import = "config.plugins.ale" },
 		{ import = "config.plugins.vimtex" },
+		-- { import = "plugins" }, -- Noctalia dinamik palet (lua/plugins/base16.lua -> matugen)
 	},
-	install = { colorscheme = { "habamax" } },
+	-- install = { colorscheme = { "habamax" } },
 	checker = { enabled = true },
 })

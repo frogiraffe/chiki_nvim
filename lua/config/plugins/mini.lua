@@ -1,7 +1,8 @@
 return {
 	{
 		"echasnovski/mini.nvim",
-		event = "VeryLazy",
+		lazy = false,
+		priority = 1000,
 		version = false,
 		config = function()
 			require("mini.operators").setup()
@@ -23,6 +24,7 @@ return {
 			require("mini.bracketed").setup()
 			require("mini.cursorword").setup()
 			require("mini.icons").setup()
+			vim.cmd.colorscheme("minisummer")
 			-- require("mini.trailspace").setup({
 			-- 	only_in_normal_buffers = true,
 			-- })

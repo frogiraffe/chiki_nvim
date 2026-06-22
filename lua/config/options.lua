@@ -14,7 +14,6 @@ vim.opt.whichwrap = "<,>,[,]"
 vim.opt.encoding = "UTF-8"
 vim.log.level = "warn"
 vim.opt.number = true
-vim.opt.syntax = "enable"
 vim.opt.termguicolors = true
 vim.opt.tabstop = 4
 -- vim.opt.showmode      = false
@@ -33,7 +32,7 @@ vim.opt.incsearch = true
 vim.opt.hidden = true
 vim.opt.foldlevel = 99
 vim.opt.list = true
-vim.opt.spell = true
+-- Spell is enabled per-filetype (prose) in autocmds.lua, not globally on code.
 vim.opt.listchars = {
 	-- Replace tab whitespace with -->
 	tab = "   ",
