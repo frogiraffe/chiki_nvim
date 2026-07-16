@@ -93,6 +93,26 @@ return {
 		},
 		image = { enabled = true },
 		input = { enabled = true },
+		notifier = { enabled = true },
+		quickfile = { enabled = true },
+		scope = { enabled = true },
+		scroll = { enabled = true },
+		statuscolumn = { enabled = true },
+		words = { enabled = true },
+		styles = {
+			terminal = {
+				keys = {
+					term_normal = {
+						"<esc>",
+						function(self)
+							vim.cmd("stopinsert")
+						end,
+						mode = "t",
+						desc = "Exit terminal mode",
+					},
+				},
+			},
+		},
 		picker = {
 			enabled = true,
 			exclude = {
@@ -118,19 +138,6 @@ return {
 			},
 		},
 	},
-	sources = {
-		explorer = {
-			hidden = true,
-		},
-		notifier = { enabled = true },
-		quickfile = { enabled = true },
-		scope = { enabled = true },
-		scroll = { enabled = true },
-		statuscolumn = { enabled = true },
-		words = { enabled = true },
-		comment = { enabled = true },
-	},
-
 	keys = {
 		{
 			"<leader><space>",
