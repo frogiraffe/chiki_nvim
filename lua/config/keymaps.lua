@@ -2,9 +2,6 @@
 vim.keymap.set({ "n", "v" }, "<leader>w", "<cmd>:w<CR>", { desc = "Save Buffer" })
 vim.keymap.set({ "n", "v" }, "<leader>y", '"+y', { desc = "Yank to System Clipboard" })
 
--- gf split'te ac (terminal kapanmasin)
-vim.keymap.set("n", "gf", "<cmd>split<CR>gf", { desc = "Open file in split" })
-
 -- Terminal modunda split navigasyonu (Snacks.terminal icin)
 vim.keymap.set("t", "<C-h>", function()
 	require("smart-splits").move_cursor_left()

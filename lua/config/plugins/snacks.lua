@@ -102,6 +102,37 @@ return {
 		styles = {
 			terminal = {
 				keys = {
+					gf = {
+						"gf",
+						function(self)
+							local f = vim.fn.findfile(vim.fn.expand("<cfile>"), "**")
+							if f == "" then
+								Snacks.notify.warn("No file under cursor")
+								return
+							end
+							local target
+							local wins = vim.api.nvim_tabpage_list_wins(0)
+							table.insert(wins, 1, vim.fn.win_getid(vim.fn.winnr("#")))
+							for _, win in ipairs(wins) do
+								if
+									win ~= 0
+									and vim.api.nvim_win_is_valid(win)
+									and vim.api.nvim_win_get_config(win).relative == ""
+									and vim.bo[vim.api.nvim_win_get_buf(win)].buftype == ""
+								then
+									target = win
+									break
+								end
+							end
+							if target then
+								vim.api.nvim_set_current_win(target)
+								vim.cmd("edit " .. vim.fn.fnameescape(f))
+							else
+								vim.cmd("topleft split " .. vim.fn.fnameescape(f))
+							end
+						end,
+						desc = "Open file in existing split",
+					},
 					term_normal = {
 						"<esc>",
 						function(self)
