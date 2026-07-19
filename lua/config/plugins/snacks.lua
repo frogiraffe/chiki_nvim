@@ -146,6 +146,17 @@ return {
 		},
 		picker = {
 			enabled = true,
+			sources = {
+				explorer = {
+					actions = {
+						explorer_focus = function(picker)
+							picker:set_cwd(picker:dir())
+							picker:find()
+							vim.cmd.cd(picker:cwd())
+						end,
+					},
+				},
+			},
 			exclude = {
 				".cache",
 				".cargo",
