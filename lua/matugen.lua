@@ -2,21 +2,21 @@
 
 function M.setup()
   require('base16-colorscheme').setup({
-    base00 = '#1a1111',
-    base01 = '#271d1c',
-    base02 = '#322727',
-    base03 = '#a48b89',
-    base04 = '#dcc0be',
-    base05 = '#f1dedd',
-    base06 = '#f1dedd',
-    base07 = '#f1dedd',
+    base00 = '#101416',
+    base01 = '#1d2022',
+    base02 = '#272a2c',
+    base03 = '#899297',
+    base04 = '#bfc8cd',
+    base05 = '#e0e3e5',
+    base06 = '#e0e3e5',
+    base07 = '#e0e3e5',
     base08 = '#ffb4ab',
-    base09 = '#f7bb6e',
-    base0A = '#f7b6b2',
-    base0B = '#ffb3af',
-    base0C = '#f7bb6e',
-    base0D = '#ffb3af',
-    base0E = '#f7b6b2',
+    base09 = '#e2b7f6',
+    base0A = '#afcbd8',
+    base0B = '#87d0ef',
+    base0C = '#e2b7f6',
+    base0D = '#87d0ef',
+    base0E = '#afcbd8',
     base0F = '#93000a',
   })
 
@@ -24,18 +24,18 @@ function M.setup()
     vim.api.nvim_set_hl(0, group, opts)
   end
 
-  hi('TelescopeNormal',         { fg = '#f1dedd',          bg = '#1a1111' })
-  hi('TelescopeBorder',         { fg = '#a48b89',             bg = '#1a1111' })
-  hi('TelescopePromptNormal',   { fg = '#f1dedd',          bg = '#1a1111' })
-  hi('TelescopePromptBorder',   { fg = '#a48b89',             bg = '#1a1111' })
-  hi('TelescopePromptPrefix',   { fg = '#ffb3af',             bg = '#1a1111' })
-  hi('TelescopePromptCounter',  { fg = '#dcc0be',  bg = '#1a1111' })
-  hi('TelescopePromptTitle',    { fg = '#1a1111',             bg = '#ffb3af' })
-  hi('TelescopePreviewTitle',   { fg = '#1a1111',             bg = '#f7b6b2' })
-  hi('TelescopeResultsTitle',   { fg = '#1a1111',             bg = '#f7bb6e' })
-  hi('TelescopeSelection',      { fg = '#f1dedd',          bg = '#322727' })
-  hi('TelescopeSelectionCaret', { fg = '#ffb3af',             bg = '#322727' })
-  hi('TelescopeMatching',       { fg = '#ffb3af',             bold = true })
+  hi('TelescopeNormal',         { fg = '#e0e3e5',          bg = '#101416' })
+  hi('TelescopeBorder',         { fg = '#899297',             bg = '#101416' })
+  hi('TelescopePromptNormal',   { fg = '#e0e3e5',          bg = '#101416' })
+  hi('TelescopePromptBorder',   { fg = '#899297',             bg = '#101416' })
+  hi('TelescopePromptPrefix',   { fg = '#87d0ef',             bg = '#101416' })
+  hi('TelescopePromptCounter',  { fg = '#bfc8cd',  bg = '#101416' })
+  hi('TelescopePromptTitle',    { fg = '#101416',             bg = '#87d0ef' })
+  hi('TelescopePreviewTitle',   { fg = '#101416',             bg = '#afcbd8' })
+  hi('TelescopeResultsTitle',   { fg = '#101416',             bg = '#e2b7f6' })
+  hi('TelescopeSelection',      { fg = '#e0e3e5',          bg = '#272a2c' })
+  hi('TelescopeSelectionCaret', { fg = '#87d0ef',             bg = '#272a2c' })
+  hi('TelescopeMatching',       { fg = '#87d0ef',             bold = true })
 end
 
  -- Register a signal handler for SIGUSR1 (matugen updates)

@@ -58,3 +58,7 @@ vim.o.inccommand = "split"
 -- vim.o.confirm = true
 vim.opt.relativenumber = true
 vim.opt.laststatus = 3
+
+-- GUI Launchers like Rofi do not load ~/.cargo/bin into PATH
+-- We inject it here so rust-analyzer and cargo can be found unconditionally
+vim.env.PATH = vim.env.PATH .. ":" .. vim.fn.expand("~/.cargo/bin")
