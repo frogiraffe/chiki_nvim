@@ -11,6 +11,8 @@ if vim.env.PROF then
 		},
 	})
 end
+vim.opt.guifont = "JetBrainsMonoNerdFontMono:h12"
+
 require("config.lazy")
 require("config.options")
 require("config.keymaps")
