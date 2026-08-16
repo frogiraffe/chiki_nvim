@@ -5,85 +5,128 @@ return {
 		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
 			{ "mason-org/mason.nvim", opts = {} },
-			"mason-org/mason-lspconfig.nvim",
-			"WhoIsSethDaniel/mason-tool-installer.nvim",
+			{
+				"mason-org/mason-lspconfig.nvim",
+				opts = {
+					automatic_enable = false,
+				},
+			},
+			{
+				"WhoIsSethDaniel/mason-tool-installer.nvim",
+				opts = {
+					ensure_installed = {
+						-- LSP servers
+						"lua_ls",
+						"basedpyright",
+						"bacon_ls",
+						"ts_ls",
+						"eslint",
+						"html",
+						"cssls",
+						"jsonls",
+						"emmet_language_server",
+						"bashls",
+						"yamlls",
+						"clangd",
+						"gopls",
+						"sqls",
+						"dockerls",
+						"docker_compose_language_service",
+						-- Formatters & Linters
+						"stylua",
+						"ruff",
+					},
+				},
+			},
 			{ "j-hui/fidget.nvim", opts = {} },
 			"saghen/blink.cmp",
 		},
 		config = function()
-			-- local lspconfig = require("lspconfig")
-			-- lspconfig.basedpyright.setup({
-			-- 	settings = {
-			-- 		basedpyright = {
-			-- 			-- reportImplicitOverride = false,
-			-- 			reportMissingSuperCall = "none",
-			-- 			-- reportUnusedImport = false,
-			-- 			-- basedpyright very intrusive with errors, this calms it down
-			-- 			typeCheckingMode = "standard",
-			-- 			-- works, if pyproject.toml is used
-			-- 			reportAttributeAccessIssue = false,
-			-- 			-- doesn't work, even if pyproject.toml is used
-			-- 			analysis = {
-			-- 				inlayHints = {
-			-- 					callArgumentNames = true, -- = basedpyright.analysis.inlayHints.callArgumentNames
-			-- 				},
-			-- 			},
-			-- 		},
-			-- 	},
-			-- 	on_attach = on_attach,
-			-- 	capabilities = capabilities,
-			-- })
 			local capabilities = require("blink.cmp").get_lsp_capabilities()
-			local servers = {
-				lua_ls = {
-					settings = {
-						Lua = {
-							completion = {
-								callSnippet = "Replace",
-							},
-							diagnostics = { disable = { "missing-fields" } },
+
+			-- Default capabilities across all LSP servers
+			vim.lsp.config("*", {
+				capabilities = capabilities,
+			})
+
+			-- Server configurations using modern vim.lsp.config
+			vim.lsp.config("lua_ls", {
+				settings = {
+					Lua = {
+						completion = {
+							callSnippet = "Replace",
+						},
+						diagnostics = { disable = { "missing-fields" } },
+					},
+				},
+			})
+
+			vim.lsp.config("bacon_ls", {
+				settings = {
+					bacon_ls = {
+						backend = "cargo",
+						cargo = {
+							command = "check",
+							checkOnSave = true,
 						},
 					},
 				},
-				bacon_ls = {
-					init_options = {
-						updateOnSave = true,
-						updateOnSaveWaitMilis = 100,
-					},
-				},
-				basedpyright = {
-					settings = {
-						basedpyright = {
-							analysis = {
-								typeCheckingMode = "standard",
-							},
+			})
+
+			vim.lsp.config("basedpyright", {
+				settings = {
+					basedpyright = {
+						analysis = {
+							typeCheckingMode = "standard",
 						},
 					},
 				},
-			}
-
-			local ensure_installed = vim.tbl_keys(servers or {})
-			vim.list_extend(ensure_installed, {
-				"stylua",
 			})
 
-			require("mason-tool-installer").setup({
-				ensure_installed = ensure_installed,
-			})
-
-			require("mason-lspconfig").setup({
-				automatic_installation = false,
-				handlers = {
-					function(server_name)
-						-- Explicitly ignore rust_analyzer to let rustaceanvim handle it
-						if server_name == "rust_analyzer" then
-							return
-						end
-						local server = servers[server_name] or {}
-						server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-						require("lspconfig")[server_name].setup(server)
-					end,
+			-- Web / JS ecosystem
+			vim.lsp.config("ts_ls", {
+				filetypes = {
+					"javascript",
+					"javascriptreact",
+					"typescript",
+					"typescriptreact",
 				},
+			})
+			vim.lsp.config("eslint", {})
+			vim.lsp.config("html", {})
+			vim.lsp.config("cssls", {})
+			vim.lsp.config("jsonls", {})
+			vim.lsp.config("emmet_language_server", {})
+
+			-- General
+			vim.lsp.config("bashls", {})
+			vim.lsp.config("yamlls", {})
+			vim.lsp.config("clangd", {})
+			vim.lsp.config("gopls", {})
+
+			-- Data / config
+			vim.lsp.config("sqls", {})
+			vim.lsp.config("dockerls", {})
+			vim.lsp.config("docker_compose_language_service", {})
+
+			-- Deterministically enable the servers we want
+			vim.lsp.enable({
+				"lua_ls",
+				"basedpyright",
+				"bacon_ls",
+				"ts_ls",
+				"eslint",
+				"html",
+				"cssls",
+				"jsonls",
+				"emmet_language_server",
+				"bashls",
+				"yamlls",
+				"clangd",
+				"gopls",
+				"sqls",
+				"dockerls",
+				"docker_compose_language_service",
 			})
 
 			vim.diagnostic.config({
@@ -132,18 +175,10 @@ return {
 					map("<leader>cd", vim.diagnostic.open_float, "Line Diagnostics")
 
 					local client = vim.lsp.get_client_by_id(event.data.client_id)
-					local function client_supports_method(client, method, bufnr)
-						if vim.fn.has("nvim-0.11") == 1 then
-							return client:supports_method(method, bufnr)
-						else
-							return client.supports_method(method, { bufnr = bufnr })
-						end
-					end
 
 					if
 						client
-						and client_supports_method(
-							client,
+						and client:supports_method(
 							vim.lsp.protocol.Methods.textDocument_documentHighlight,
 							event.buf
 						)
@@ -172,18 +207,17 @@ return {
 						})
 					end
 
-				if
-					client
-					and client_supports_method(
-						client,
-						vim.lsp.protocol.Methods.textDocument_inlayHint,
-						event.buf
-					)
-				then
-					vim.lsp.inlay_hint.enable(true, { bufnr = event.buf })
-					-- Inlay-hint toggle lives under <leader>uh (snacks UI toggles, see snacks.lua)
-				end
-			end,
+					if
+						client
+						and client:supports_method(
+							vim.lsp.protocol.Methods.textDocument_inlayHint,
+							event.buf
+						)
+					then
+						vim.lsp.inlay_hint.enable(true, { bufnr = event.buf })
+						-- Inlay-hint toggle lives under <leader>uh (snacks UI toggles, see snacks.lua)
+					end
+				end,
 			})
 		end,
 	},

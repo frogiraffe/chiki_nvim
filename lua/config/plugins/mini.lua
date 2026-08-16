@@ -23,6 +23,7 @@ return {
 			-- require("mini.ai").setup()
 			require("mini.bracketed").setup()
 			require("mini.cursorword").setup()
+			require("mini.diff").setup()
 			require("mini.icons").setup()
 			vim.cmd.colorscheme("minisummer")
 			-- require("mini.trailspace").setup({

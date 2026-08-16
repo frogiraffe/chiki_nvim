@@ -42,7 +42,6 @@ require("lazy").setup({
 		{ import = "config.plugins.noice" },
 		{ import = "config.plugins.splitjoin" },
 		{ import = "config.plugins.theme" },
-		-- { import = "config.plugins.toggleterm" },
 		{ import = "config.plugins.treesitter" },
 		{ import = "config.plugins.ultimate-autopairs" },
 		{ import = "config.plugins.vim-repeat" },
@@ -53,6 +52,7 @@ require("lazy").setup({
 		{ import = "config.plugins.gx" },
 		{ import = "config.plugins.ale" },
 		{ import = "config.plugins.vimtex" },
+		{ import = "config.plugins.r" },
 		-- { import = "plugins" }, -- Noctalia dinamik palet (lua/plugins/base16.lua -> matugen)
 	},
 	-- install = { colorscheme = { "habamax" } },
