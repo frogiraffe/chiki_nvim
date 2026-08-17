@@ -13,6 +13,7 @@ return {
 					mode = { "n", "v" },
 					{ "<leader>b", group = "󰓩 [B]uffer" },
 					{ "<leader>c", group = "󰅩 [C]ode" },
+					{ "<leader>d", group = "󰆼 [D]atabase" },
 					{ "<leader>f", group = "󰍉 [F]ind" },
 					{ "<leader>g", group = "󰊢 [G]it" },
 					{ "<leader>n", group = "󰵅 [N]otifications" },
