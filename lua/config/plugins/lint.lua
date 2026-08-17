@@ -19,15 +19,25 @@ return {
 				"-",
 			}
 
+			local function lint_sql(buf)
+				if vim.api.nvim_buf_is_valid(buf) and vim.tbl_contains(sql_ft, vim.bo[buf].filetype) then
+					lint.try_lint()
+				end
+			end
+
 			local group = vim.api.nvim_create_augroup("chiki_sql_lint", { clear = true })
 			vim.api.nvim_create_autocmd({ "BufReadPost", "BufWritePost", "InsertLeave" }, {
 				group = group,
 				callback = function(event)
-					if vim.tbl_contains(sql_ft, vim.bo[event.buf].filetype) then
-						lint.try_lint()
-					end
+					lint_sql(event.buf)
 				end,
 			})
+
+			-- Depending on event ordering, the FileType trigger may load nvim-lint
+			-- after BufReadPost. Cover that first buffer explicitly.
+			vim.schedule(function()
+				lint_sql(vim.api.nvim_get_current_buf())
+			end)
 		end,
 	},
 }
