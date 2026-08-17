@@ -27,7 +27,11 @@ return {
 			end,
 			formatters = {
 				sqlfluff = {
-					args = { "format", "--dialect=ansi", "-" },
+					args = function(_, ctx)
+						local args = require("config.sql").sqlfluff_args(ctx.buf, "format")
+						table.insert(args, "-")
+						return args
+					end,
 				},
 			},
 			formatters_by_ft = {
