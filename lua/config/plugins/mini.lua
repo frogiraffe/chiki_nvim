@@ -41,6 +41,13 @@ return {
 				},
 			})
 
+			-- mini.pairs is enough for this config's bracket/quote workflow and is
+			-- maintained alongside the rest of mini.nvim. Command-line pairing keeps
+			-- the useful cmap behavior from the previous autopair plugin.
+			require("mini.pairs").setup({
+				modes = { insert = true, command = true, terminal = false },
+			})
+
 			require("mini.bracketed").setup()
 			require("mini.diff").setup()
 
