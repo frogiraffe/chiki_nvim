@@ -14,14 +14,17 @@ return {
 				if not vim.api.nvim_buf_is_valid(buf) or not vim.tbl_contains(sql_ft, vim.bo[buf].filetype) then
 					return
 				end
+				-- Mason may still be installing SQLFluff when the first SQL buffer is
+				-- opened. Missing tooling should degrade quietly instead of producing
+				-- an ENOENT notification every time the query buffer is entered.
+				if vim.fn.executable("sqlfluff") ~= 1 then
+					return
+				end
 
 				local args = require("config.sql").sqlfluff_args(buf, "lint")
 				vim.list_extend(args, { "--format=json", "-" })
 				lint.linters.sqlfluff.args = args
 
-				-- nvim-lint resolves filetype and buffer input from the current buffer.
-				-- buf_call keeps autocmd/scheduled executions tied to the buffer that
-				-- actually triggered the lint request.
 				vim.api.nvim_buf_call(buf, function()
 					lint.try_lint()
 				end)
@@ -35,8 +38,6 @@ return {
 				end,
 			})
 
-			-- Depending on event ordering, the FileType trigger may load nvim-lint
-			-- after BufReadPost. Cover that first buffer explicitly.
 			vim.schedule(function()
 				lint_sql(vim.api.nvim_get_current_buf())
 			end)
