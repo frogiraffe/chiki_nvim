@@ -43,6 +43,32 @@ return {
 			-- Saving a query buffer should never execute it implicitly. Dadbod UI's
 			-- buffer-local <leader>S remains the explicit execution path.
 			vim.g.db_ui_execute_on_save = false
+
+			-- Dadbod UI intentionally avoids `nofile` windows when looking for an
+			-- editor target. Snacks' startup dashboard is a `nofile` buffer, so with
+			-- only DBUI + dashboard visible Dadbod creates a third split and leaves
+			-- the dashboard in the middle. Once a real DBUI query opens, close that
+			-- startup-only dashboard so the query naturally occupies the work area.
+			local group = vim.api.nvim_create_augroup("chiki_dadbod_dashboard", { clear = true })
+			vim.api.nvim_create_autocmd("FileType", {
+				group = group,
+				pattern = sql_ft,
+				callback = function(event)
+					if not vim.b[event.buf].dbui_db_key_name then
+						return
+					end
+					vim.schedule(function()
+						for _, win in ipairs(vim.api.nvim_list_wins()) do
+							if vim.api.nvim_win_is_valid(win) then
+								local buf = vim.api.nvim_win_get_buf(win)
+								if vim.bo[buf].filetype == "snacks_dashboard" then
+									pcall(vim.api.nvim_win_close, win, true)
+								end
+							end
+						end
+					end)
+				end,
+			})
 		end,
 	},
 }
