@@ -49,12 +49,11 @@ local function config_has_dialect(path)
 end
 
 -- If a project explicitly configures a SQLFluff dialect, do not pass a CLI
--- dialect at all: command-line flags have higher precedence than .sqlfluff,
--- setup.cfg, tox.ini and pyproject.toml.
+-- dialect at all: command-line flags have higher precedence than project files.
 function M.has_project_dialect(bufnr)
 	bufnr = bufnr or 0
 	local start = dirname(bufnr)
-	local candidates = vim.fs.find({ ".sqlfluff", "pyproject.toml", "setup.cfg", "tox.ini" }, {
+	local candidates = vim.fs.find({ ".sqlfluff", "pyproject.toml", "setup.cfg", "tox.ini", "pep8.ini" }, {
 		path = start,
 		upward = true,
 		stop = vim.uv.os_homedir(),
