@@ -1,17 +1,13 @@
+local markdown_filetypes = { "markdown", "markdown.mdx", "rmd", "quarto", "codecompanion" }
+
 return {
 	{
 		"MeanderingProgrammer/render-markdown.nvim",
-		event = "VeryLazy",
+		ft = markdown_filetypes,
 		---@module 'render-markdown'
 		---@type render.md.UserConfig
-		opts = {},
-		config = function()
-			-- require("render-markdown").setup({
-			-- 	completions = { lsp = { enabled = true } },
-			-- })
-			require("render-markdown").setup({
-				completions = { blink = { enabled = true } },
-			})
-		end,
+		opts = {
+			completions = { blink = { enabled = true } },
+		},
 	},
 }
