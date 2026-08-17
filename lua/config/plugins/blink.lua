@@ -74,8 +74,8 @@ return {
 
 			completion = {
 				ghost_text = {
-				enabled = true,
-			},
+					enabled = true,
+				},
 				-- By default, you may press `<c-space>` to show the documentation.
 				-- Optionally, set `auto_show = true` to show the documentation after a delay.
 				documentation = { auto_show = false, auto_show_delay_ms = 500 },
@@ -84,6 +84,9 @@ return {
 			sources = {
 				per_filetype = {
 					codecompanion = { "codecompanion" },
+					sql = { "snippets", "dadbod", "buffer" },
+					mysql = { "snippets", "dadbod", "buffer" },
+					plsql = { "snippets", "dadbod", "buffer" },
 				},
 				default = { --[[ "copilot", ]]
 					"lsp",
@@ -98,6 +101,7 @@ return {
 					-- 	score_offset = 100,
 					-- 	async = true,
 					-- },
+					dadbod = { name = "Dadbod", module = "vim_dadbod_completion.blink" },
 					lazydev = { module = "lazydev.integrations.blink", score_offset = 100 },
 				},
 			},
