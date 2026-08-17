@@ -10,19 +10,21 @@ return {
 			lint.linters_by_ft.mysql = { "sqlfluff" }
 			lint.linters_by_ft.plsql = { "sqlfluff" }
 
-			-- Use a portable default; projects can override the dialect in their
-			-- own .sqlfluff configuration when vendor-specific SQL is required.
-			lint.linters.sqlfluff.args = {
-				"lint",
-				"--dialect=ansi",
-				"--format=json",
-				"-",
-			}
-
 			local function lint_sql(buf)
-				if vim.api.nvim_buf_is_valid(buf) and vim.tbl_contains(sql_ft, vim.bo[buf].filetype) then
-					lint.try_lint()
+				if not vim.api.nvim_buf_is_valid(buf) or not vim.tbl_contains(sql_ft, vim.bo[buf].filetype) then
+					return
 				end
+
+				local args = require("config.sql").sqlfluff_args(buf, "lint")
+				vim.list_extend(args, { "--format=json", "-" })
+				lint.linters.sqlfluff.args = args
+
+				-- nvim-lint resolves filetype and buffer input from the current buffer.
+				-- buf_call keeps autocmd/scheduled executions tied to the buffer that
+				-- actually triggered the lint request.
+				vim.api.nvim_buf_call(buf, function()
+					lint.try_lint()
+				end)
 			end
 
 			local group = vim.api.nvim_create_augroup("chiki_sql_lint", { clear = true })
