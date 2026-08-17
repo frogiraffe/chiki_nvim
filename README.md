@@ -109,11 +109,11 @@ The config intentionally consolidates overlapping functionality:
 <leader>js    Split arguments
 ```
 
-`mini.operators` keeps Neovim 0.11+'s native `gr*` LSP mappings intact. Its replace operator uses `cr` instead:
+`mini.operators` keeps Neovim 0.11+'s native `gr*` LSP mappings and core editing prefixes intact. Its replace operator uses the leader namespace:
 
 ```text
-cr{motion}    Replace text covered by a motion with a register
-crr           Replace the current line
+<leader>r{motion}    Replace text covered by a motion with a register
+<leader>rr           Replace the current line
 ```
 
 Project-wide interactive search/replace:
