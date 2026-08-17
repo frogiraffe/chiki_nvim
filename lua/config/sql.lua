@@ -26,12 +26,22 @@ local function dirname(bufnr)
 end
 
 local function config_has_dialect(path)
-	local ok, lines = pcall(vim.fn.readfile, path, "", 300)
+	local ok, lines = pcall(vim.fn.readfile, path, "", 500)
 	if not ok then
 		return false
 	end
+
+	local is_pyproject = vim.fs.basename(path) == "pyproject.toml"
+	local in_sqlfluff_section = false
 	for _, line in ipairs(lines) do
-		if line:match("^%s*dialect%s*=") then
+		local section = line:match("^%s*%[([^%]]+)%]%s*$")
+		if section then
+			if is_pyproject then
+				in_sqlfluff_section = section:match("^tool%.sqlfluff") ~= nil
+			else
+				in_sqlfluff_section = section:match("^sqlfluff") ~= nil
+			end
+		elseif in_sqlfluff_section and line:match("^%s*dialect%s*=") then
 			return true
 		end
 	end
