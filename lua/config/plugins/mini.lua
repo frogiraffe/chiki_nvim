@@ -23,9 +23,10 @@ return {
 			})
 
 			-- Keep Neovim 0.11+'s `gr*` LSP namespace intact. mini.operators uses
-			-- `gr` for replace by default, so move only that operator to `gR`.
+			-- `gr` for replace by default; `cr` is intentionally unused by Vim as
+			-- a motion sequence and also preserves the built-in `gR` Virtual Replace.
 			require("mini.operators").setup({
-				replace = { prefix = "gR" },
+				replace = { prefix = "cr" },
 			})
 
 			require("mini.move").setup({
