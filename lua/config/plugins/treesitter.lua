@@ -18,6 +18,7 @@ return {
 
 			local ensure_installed = {
 				"bash",
+				"bibtex",
 				"c",
 				"cpp",
 				"css",
@@ -76,19 +77,20 @@ return {
 				end
 
 				local ft = vim.bo[buf].filetype
+				-- VimTeX owns LaTeX syntax highlighting. The parser is still installed
+				-- for consumers that need it, but attaching two highlighters is noisy.
+				if ft == "tex" or ft == "plaintex" or ft == "latex" then
+					return
+				end
+
 				local lang = ft ~= "" and vim.treesitter.language.get_lang(ft) or nil
 				if not lang or not installed[lang] then
 					return
 				end
 
-				-- Snacks.bigfile handles the rest of the editor; avoid parser cost for
-				-- large source/data files as well.
-				local name = vim.api.nvim_buf_get_name(buf)
-				local ok, stats = pcall(vim.uv.fs_stat, name)
-				if ok and stats and stats.size > 100 * 1024 then
-					return
-				end
-
+				-- Snacks.bigfile is the single large-file gate. It changes oversized
+				-- buffers to the `bigfile` filetype and prevents LSP/Treesitter work,
+				-- avoiding a second, much lower size threshold here.
 				if pcall(vim.treesitter.start, buf, lang) then
 					set_folds(buf)
 				end
