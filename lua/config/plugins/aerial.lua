@@ -1,24 +1,25 @@
 return {
 	{
 		"stevearc/aerial.nvim",
-		opts = {},
-		dependencies = {
-			"nvim-treesitter/nvim-treesitter",
-			"nvim-tree/nvim-web-devicons",
-		},
-		config = function()
-			require("aerial").setup({
-				on_attach = function(bufnr)
-					-- Jump forwards/backwards with '{' and '}'
-					vim.keymap.set("n", "{", "<cmd>AerialPrev<CR>", { buffer = bufnr, desc = "Aerial Prev" })
-					vim.keymap.set("n", "}", "<cmd>AerialNext<CR>", { buffer = bufnr, desc = "Aerial Next" })
+		cmd = { "AerialToggle", "AerialOpen", "AerialClose", "AerialNavToggle" },
+		keys = {
+			{ "<leader>oa", "<cmd>AerialToggle!<cr>", desc = "Toggle Aerial (Outline)" },
+			{
+				"<leader>os",
+				function()
+					require("aerial").snacks_picker()
 				end,
-			})
-			-- You probably also want to set a keymap to toggle aerial
-			vim.keymap.set("n", "<leader>oa", "<cmd>AerialToggle!<CR>", { desc = "Toggle Aerial (Outline)" })
-			vim.keymap.set("n", "<leader>os", function()
-				require("aerial").snacks_picker()
-			end, { desc = "Search Symbols (Aerial)" })
-		end,
+				desc = "Search Symbols (Aerial)",
+			},
+		},
+		dependencies = { "nvim-treesitter/nvim-treesitter" },
+		opts = {
+			attach_mode = "global",
+			backends = { "lsp", "treesitter", "markdown", "man" },
+			show_guides = true,
+			layout = {
+				resize_to_content = false,
+			},
+		},
 	},
 }
