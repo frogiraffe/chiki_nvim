@@ -48,7 +48,7 @@ function M.has_project_dialect(bufnr)
 		path = start,
 		upward = true,
 		stop = vim.uv.os_homedir(),
-		limit = math.huge,
+		limit = 20,
 	})
 	for _, path in ipairs(candidates) do
 		if config_has_dialect(path) then
