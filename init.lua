@@ -1,19 +1,23 @@
 if vim.env.PROF then
-	-- example for lazy.nvim
-	-- change this to the correct path for your plugin manager
+	-- Add Snacks to the runtime path early so startup profiling can begin
+	-- before lazy.nvim has loaded the rest of the plugin graph.
 	local snacks = vim.fn.stdpath("data") .. "/lazy/snacks.nvim"
 	vim.opt.rtp:append(snacks)
 	require("snacks.profiler").startup({
 		startup = {
-			event = "VimEnter", -- stop profiler on this event. Defaults to `VimEnter`
-			-- event = "UIEnter",
-			-- event = "VeryLazy",
+			event = "VimEnter",
 		},
 	})
 end
-vim.opt.guifont = "JetBrainsMonoNerdFontMono:h12"
 
-require("config.lazy")
+-- Leaders and core options must exist before lazy.nvim evaluates plugin specs.
+vim.g.mapleader = " "
+vim.g.maplocalleader = ","
+vim.g.have_nerd_font = true
+
+-- Configure Neovim itself before eager plugins initialise. This keeps plugin
+-- setup deterministic (PATH, UI options, clipboard behaviour, etc.).
 require("config.options")
+require("config.lazy")
 require("config.keymaps")
 require("config.autocmds")
