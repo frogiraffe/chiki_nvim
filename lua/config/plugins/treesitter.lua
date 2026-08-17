@@ -2,6 +2,9 @@ return {
 	{
 		"nvim-treesitter/nvim-treesitter",
 		branch = "main",
+		-- LazyVim currently pins the last compatible main-branch commit on
+		-- Neovim 0.11; Neovim 0.12+ can track current main safely.
+		commit = vim.fn.has("nvim-0.12") == 0 and "7caec274fd19c12b55902a5b795100d21531391f" or nil,
 		version = false,
 		-- Load Treesitter when a real file is opened instead of on the dashboard
 		-- hot path. The current buffer is attached explicitly below because its
