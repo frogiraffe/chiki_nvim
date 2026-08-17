@@ -27,6 +27,15 @@ return {
 			end,
 			formatters = {
 				sqlfluff = {
+					-- Conform's built-in SQLFluff formatter requires a discovered config
+					-- directory. This custom definition also supports ad-hoc SQL buffers
+					-- by supplying a dialect inferred from Dadbod/filetype when needed.
+					inherit = false,
+					command = "sqlfluff",
+					stdin = true,
+					cwd = function(_, ctx)
+						return ctx.dirname
+					end,
 					args = function(_, ctx)
 						local args = require("config.sql").sqlfluff_args(ctx.buf, "format")
 						table.insert(args, "-")
