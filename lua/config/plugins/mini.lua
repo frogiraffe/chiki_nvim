@@ -22,7 +22,12 @@ return {
 				},
 			})
 
-			require("mini.operators").setup()
+			-- Keep Neovim 0.11+'s `gr*` LSP namespace intact. mini.operators uses
+			-- `gr` for replace by default, so move only that operator to `gR`.
+			require("mini.operators").setup({
+				replace = { prefix = "gR" },
+			})
+
 			require("mini.move").setup({
 				mappings = {
 					left = "<A-S-h>",
@@ -35,11 +40,28 @@ return {
 					line_up = "<A-S-k>",
 				},
 			})
-			require("mini.bracketed").setup()
-			require("mini.cursorword").setup()
-			require("mini.diff").setup()
-			require("mini.icons").setup()
 
+			require("mini.bracketed").setup()
+			require("mini.diff").setup()
+
+			-- treesj was only used for split/join. mini.splitjoin covers the same
+			-- everyday workflow without another plugin and keeps the old keymaps.
+			require("mini.splitjoin").setup({
+				mappings = {
+					toggle = "<leader>jm",
+					join = "<leader>jj",
+					split = "<leader>js",
+				},
+			})
+
+			local icons = require("mini.icons")
+			icons.setup()
+			-- Supply the devicons API to plugins that still expect it without
+			-- carrying nvim-web-devicons as a second icon provider.
+			icons.mock_nvim_web_devicons()
+
+			-- Snacks.words owns cursor/LSP reference highlighting. Keeping
+			-- mini.cursorword enabled here would duplicate that work.
 			vim.cmd.colorscheme("minisummer")
 		end,
 	},
