@@ -16,12 +16,16 @@ return {
 		opts = {
 			notify_on_error = false,
 			format_on_save = function(bufnr)
+				local ft = vim.bo[bufnr].filetype
 				local disable_filetypes = { c = true, cpp = true }
-				if disable_filetypes[vim.bo[bufnr].filetype] then
+				if disable_filetypes[ft] then
 					return nil
 				end
+				local sql_filetypes = { sql = true, mysql = true, plsql = true }
 				return {
-					timeout_ms = 500,
+					-- SQLFluff is a Python CLI and can take noticeably longer to start than
+					-- Stylua/Ruff/Rustfmt, especially on its first invocation.
+					timeout_ms = sql_filetypes[ft] and 3000 or 500,
 					lsp_format = "fallback",
 				}
 			end,
