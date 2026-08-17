@@ -15,6 +15,7 @@ return {
 						-- LSP servers
 						"lua_ls",
 						"basedpyright",
+						"ruff",
 						"bacon_ls",
 						"bacon",
 						"ts_ls",
@@ -27,16 +28,17 @@ return {
 						"yamlls",
 						"clangd",
 						"gopls",
-						"sqls",
 						"dockerls",
 						"docker_compose_language_service",
+						"marksman",
+						"texlab",
+						"taplo",
 						-- Formatters & linters
 						"stylua",
-						"ruff",
+						"sqlfluff",
 					},
 				},
 			},
-			{ "j-hui/fidget.nvim", opts = {} },
 			"saghen/blink.cmp",
 		},
 		config = function()
@@ -79,25 +81,85 @@ return {
 				},
 			})
 
+			-- Ruff handles lint/code actions while basedpyright remains the source
+			-- of Python type information and hover documentation.
+			vim.lsp.config("ruff", {
+				init_options = {
+					settings = { logLevel = "error" },
+				},
+				on_attach = function(client)
+					client.server_capabilities.hoverProvider = false
+				end,
+			})
+
 			vim.lsp.config("ts_ls", {
 				filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
 			})
 			vim.lsp.config("eslint", {})
 			vim.lsp.config("html", {})
 			vim.lsp.config("cssls", {})
-			vim.lsp.config("jsonls", {})
+
+			vim.lsp.config("jsonls", {
+				before_init = function(_, new_config)
+					local ok, schemastore = pcall(require, "schemastore")
+					if not ok then
+						return
+					end
+					new_config.settings = new_config.settings or {}
+					new_config.settings.json = new_config.settings.json or {}
+					new_config.settings.json.schemas = new_config.settings.json.schemas or {}
+					vim.list_extend(new_config.settings.json.schemas, schemastore.json.schemas())
+				end,
+				settings = {
+					json = {
+						format = { enable = true },
+						validate = { enable = true },
+					},
+				},
+			})
+
+			vim.lsp.config("yamlls", {
+				before_init = function(_, new_config)
+					local ok, schemastore = pcall(require, "schemastore")
+					if not ok then
+						return
+					end
+					new_config.settings = new_config.settings or {}
+					new_config.settings.yaml = new_config.settings.yaml or {}
+					new_config.settings.yaml.schemas = vim.tbl_deep_extend(
+						"force",
+						new_config.settings.yaml.schemas or {},
+						schemastore.yaml.schemas()
+					)
+				end,
+				settings = {
+					redhat = { telemetry = { enabled = false } },
+					yaml = {
+						keyOrdering = false,
+						format = { enable = true },
+						validate = true,
+						schemaStore = {
+							enable = false,
+							url = "",
+						},
+					},
+				},
+			})
+
 			vim.lsp.config("emmet_language_server", {})
 			vim.lsp.config("bashls", {})
-			vim.lsp.config("yamlls", {})
 			vim.lsp.config("clangd", {})
 			vim.lsp.config("gopls", {})
-			vim.lsp.config("sqls", {})
 			vim.lsp.config("dockerls", {})
 			vim.lsp.config("docker_compose_language_service", {})
+			vim.lsp.config("marksman", {})
+			vim.lsp.config("texlab", {})
+			vim.lsp.config("taplo", {})
 
 			vim.lsp.enable({
 				"lua_ls",
 				"basedpyright",
+				"ruff",
 				"bacon_ls",
 				"ts_ls",
 				"eslint",
@@ -109,9 +171,11 @@ return {
 				"yamlls",
 				"clangd",
 				"gopls",
-				"sqls",
 				"dockerls",
 				"docker_compose_language_service",
+				"marksman",
+				"texlab",
+				"taplo",
 			})
 
 			vim.diagnostic.config({
@@ -140,10 +204,9 @@ return {
 				},
 			})
 
+			-- Snacks.words already owns document-reference highlighting/navigation,
+			-- so LspAttach only configures actions that are not duplicated elsewhere.
 			local attach_group = vim.api.nvim_create_augroup("chiki_lsp_attach", { clear = true })
-			local highlight_group = vim.api.nvim_create_augroup("chiki_lsp_highlight", { clear = true })
-			local detach_group = vim.api.nvim_create_augroup("chiki_lsp_detach", { clear = true })
-
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = attach_group,
 				callback = function(event)
@@ -161,33 +224,7 @@ return {
 					map("<leader>cd", vim.diagnostic.open_float, "Line Diagnostics")
 
 					local client = vim.lsp.get_client_by_id(event.data.client_id)
-					if not client then
-						return
-					end
-
-					if client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
-						vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-							buffer = event.buf,
-							group = highlight_group,
-							callback = vim.lsp.buf.document_highlight,
-						})
-						vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-							buffer = event.buf,
-							group = highlight_group,
-							callback = vim.lsp.buf.clear_references,
-						})
-						vim.api.nvim_create_autocmd("LspDetach", {
-							buffer = event.buf,
-							group = detach_group,
-							once = true,
-							callback = function(detach_event)
-								vim.lsp.buf.clear_references()
-								vim.api.nvim_clear_autocmds({ group = highlight_group, buffer = detach_event.buf })
-							end,
-						})
-					end
-
-					if client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
+					if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
 						vim.lsp.inlay_hint.enable(true, { bufnr = event.buf })
 					end
 				end,
