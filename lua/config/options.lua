@@ -1,40 +1,52 @@
+local opt = vim.opt
+local o = vim.o
+
+-- Persistent undo
 local undo_dir = vim.fn.stdpath("cache") .. "/undo/"
 vim.fn.mkdir(undo_dir, "p")
-vim.opt.undodir = undo_dir
-vim.opt.undofile = true
-vim.opt.undolevels = 1000
-vim.opt.splitkeep = "screen"
--- vim.opt.fillchars:append(',eob: ')
-vim.opt.scrolloff = 10
-vim.opt.scrollback = 5000
-vim.opt.mouse = "a"
-vim.opt.guicursor =
-	"n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175"
-vim.opt.whichwrap = "<,>,[,]"
-vim.opt.encoding = "UTF-8"
-vim.log.level = "warn"
-vim.opt.number = true
-vim.opt.termguicolors = true
-vim.opt.tabstop = 4
--- vim.opt.showmode      = false
-vim.opt.shiftwidth = 4
-vim.opt.softtabstop = 4
-vim.opt.swapfile = false
-vim.opt.numberwidth = 2
-vim.opt.wrap = true
-vim.schedule(function()
-	vim.o.clipboard = "unnamedplus"
-end)
-vim.opt.background = "dark"
-vim.opt.hlsearch = true
-vim.opt.ignorecase = true
-vim.opt.incsearch = true
-vim.opt.hidden = true
-vim.opt.foldlevel = 99
-vim.opt.list = true
--- Spell is enabled per-filetype (prose) in autocmds.lua, not globally on code.
-vim.opt.listchars = {
-	-- Replace tab whitespace with -->
+opt.undodir = undo_dir
+opt.undofile = true
+opt.undolevels = 10000
+
+-- Editing
+opt.expandtab = true
+opt.tabstop = 4
+opt.shiftwidth = 4
+opt.softtabstop = 4
+opt.shiftround = true
+opt.smartindent = true
+opt.smarttab = true
+opt.completeopt = "menu,menuone,noselect"
+opt.virtualedit = "block"
+opt.whichwrap = "<,>,[,]"
+opt.swapfile = false
+opt.confirm = true
+
+-- Search and command-line behaviour
+opt.hlsearch = true
+opt.incsearch = true
+opt.ignorecase = true
+opt.smartcase = true
+opt.inccommand = "split"
+opt.wildmode = "longest:full,full"
+opt.jumpoptions = "view"
+
+-- UI
+opt.number = true
+opt.relativenumber = true
+opt.numberwidth = 2
+opt.signcolumn = "yes"
+opt.cursorline = true
+opt.termguicolors = true
+opt.background = "dark"
+opt.laststatus = 3
+opt.showmode = false
+opt.ruler = false
+opt.pumheight = 10
+opt.pumblend = 10
+opt.conceallevel = 2
+opt.list = true
+opt.listchars = {
 	tab = "   ",
 	multispace = " ",
 	trail = "",
@@ -42,26 +54,73 @@ vim.opt.listchars = {
 	precedes = "⟨",
 	nbsp = "␣",
 }
-vim.opt.cursorline = true
-vim.opt.splitright = true
-vim.opt.splitbelow = true
-vim.opt.expandtab = true
-vim.opt.smarttab = true
-vim.g.vimsyn_embed = "alpPrj"
-vim.o.updatetime = 250
-vim.o.timeoutlen = 300
-vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
-vim.g.have_nerd_font = true
-vim.o.smartcase = true
-vim.o.signcolumn = "yes"
-vim.o.inccommand = "split"
--- vim.o.confirm = true
-vim.opt.relativenumber = true
-vim.opt.laststatus = 3
+opt.fillchars = {
+	foldopen = "",
+	foldclose = "",
+	fold = " ",
+	foldsep = " ",
+	diff = "╱",
+	eob = " ",
+}
 
--- GUI Launchers like Rofi do not load ~/.cargo/bin into PATH
--- We inject it here so rust-analyzer and cargo can be found unconditionally
-vim.env.PATH = vim.env.PATH .. ":" .. vim.fn.expand("~/.cargo/bin")
+-- Windows and scrolling
+opt.splitright = true
+opt.splitbelow = true
+opt.splitkeep = "screen"
+opt.scrolloff = 10
+opt.sidescrolloff = 8
+opt.smoothscroll = true
+opt.scrollback = 5000
+opt.winminwidth = 5
+opt.wrap = false
+opt.linebreak = true
+
+-- Folding. Treesitter switches foldmethod/foldexpr for supported buffers.
+opt.foldenable = true
+opt.foldlevel = 99
+opt.foldlevelstart = 99
+
+-- Input / responsiveness
+opt.mouse = "a"
+o.updatetime = 200
+o.timeoutlen = 300
+opt.guicursor =
+	"n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175"
+
+-- Sessions: avoid restoring runtime paths and stale terminal processes while
+-- preserving project buffers, tabs, folds and local window state.
+opt.sessionoptions = {
+	"buffers",
+	"curdir",
+	"tabpages",
+	"winsize",
+	"winpos",
+	"help",
+	"globals",
+	"skiprtp",
+	"folds",
+	"localoptions",
+}
+
+-- Neovim GUI
+opt.guifont = "JetBrainsMonoNerdFontMono:h12"
+
+-- Let Neovim use OSC52 automatically over SSH; use the system clipboard on
+-- the local desktop. Scheduling avoids doing provider work on the hot startup path.
+vim.schedule(function()
+	o.clipboard = vim.env.SSH_CONNECTION and "" or "unnamedplus"
+end)
+
+-- GUI launchers such as Rofi may not inherit ~/.cargo/bin. Prepend it once so
+-- rust-analyzer/cargo resolve consistently without growing PATH every reload.
+local cargo_bin = vim.fn.expand("~/.cargo/bin")
+local path = vim.env.PATH or ""
+local path_entries = vim.split(path, ":", { plain = true, trimempty = true })
+if not vim.tbl_contains(path_entries, cargo_bin) then
+	vim.env.PATH = cargo_bin .. (path == "" and "" or ":" .. path)
+end
+
+vim.g.vimsyn_embed = "alpPrj"
 
 if vim.g.neovide then
 	vim.g.neovide_scale_factor = 1.0
