@@ -29,6 +29,7 @@ require("lazy").setup({
 		{ import = "config.plugins.colorizer" },
 		{ import = "config.plugins.aerial" },
 		{ import = "config.plugins.conform" },
+		{ import = "config.plugins.dadbod" },
 		{ import = "config.plugins.flash" },
 		{ import = "config.plugins.lsp" },
 		{ import = "config.plugins.lualine" },
