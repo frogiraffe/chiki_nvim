@@ -1,16 +1,25 @@
+local color_filetypes = {
+	"css",
+	"html",
+	"javascript",
+	"javascriptreact",
+	"lua",
+	"typescript",
+	"typescriptreact",
+}
+
 return {
 	{
 		"catgoose/nvim-colorizer.lua",
-		event = "BufReadPre",
+		ft = color_filetypes,
 		opts = {
-			filetypes = { "css", "javascript", "html", "lua", "typescript", "typescriptreact", "javascriptreact" },
+			filetypes = color_filetypes,
 			user_default_options = {
-				names = false, -- Disable color names like "Blue" to avoid false positives
+				names = false,
 				RGB = true,
 				RRGGBB = true,
 				AARRGGBB = true,
-				mode = "background", -- "foreground", "background", "virtualtext"
-				-- Large file protection
+				mode = "background",
 				max_lines = 10000,
 			},
 		},
