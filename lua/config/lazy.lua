@@ -14,48 +14,34 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Make sure to setup `mapleader` and `maplocalleader` before
--- loading lazy.nvim so that mappings are correct.
--- This is also a good place to setup other settings (vim.opt)
-vim.g.mapleader = " "
--- localleader = ',' (NOT '\\': '\\' is mapped to the file explorer in snacks.lua,
--- which would shadow every <localleader> sequence, e.g. vimtex's <localleader>l*)
-vim.g.maplocalleader = ","
-
--- Setup lazy.nvim
 require("lazy").setup({
+	-- Import every plugin spec in lua/config/plugins automatically. New plugin
+	-- files no longer require a second edit here.
 	spec = {
-		{ import = "config.plugins.blink" },
-		{ import = "config.plugins.colorizer" },
-		{ import = "config.plugins.aerial" },
-		{ import = "config.plugins.conform" },
-		{ import = "config.plugins.dadbod" },
-		{ import = "config.plugins.flash" },
-		{ import = "config.plugins.lsp" },
-		{ import = "config.plugins.lualine" },
-		{ import = "config.plugins.mini" },
-		{ import = "config.plugins.lazydev" },
-		{ import = "config.plugins.nvim-surround" },
-		{ import = "config.plugins.persisted" },
-		{ import = "config.plugins.render-markdown" },
-		{ import = "config.plugins.smart-splits" },
-		{ import = "config.plugins.snacks" },
-		{ import = "config.plugins.noice" },
-		{ import = "config.plugins.splitjoin" },
-		{ import = "config.plugins.theme" },
-		{ import = "config.plugins.treesitter" },
-		{ import = "config.plugins.ultimate-autopairs" },
-		{ import = "config.plugins.vim-repeat" },
-		{ import = "config.plugins.whichkey" },
-		{ import = "config.plugins.rustacean" },
-		{ import = "config.plugins.todo-comments" },
-		{ import = "config.plugins.trouble" },
-		{ import = "config.plugins.gx" },
-		{ import = "config.plugins.ale" },
-		{ import = "config.plugins.vimtex" },
-		{ import = "config.plugins.r" },
-		-- { import = "plugins" }, -- Noctalia dinamik palet (lua/plugins/base16.lua -> matugen)
+		{ import = "config.plugins" },
 	},
-	-- install = { colorscheme = { "habamax" } },
-	checker = { enabled = true },
+	defaults = {
+		lazy = false,
+		version = false,
+	},
+	install = { colorscheme = { "minisummer", "habamax" } },
+	checker = {
+		enabled = true,
+		notify = false,
+	},
+	change_detection = {
+		notify = false,
+	},
+	performance = {
+		rtp = {
+			disabled_plugins = {
+				"gzip",
+				"netrwPlugin",
+				"tarPlugin",
+				"tohtml",
+				"tutor",
+				"zipPlugin",
+			},
+		},
+	},
 })
