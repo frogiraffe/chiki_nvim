@@ -3,9 +3,9 @@ return {
 		"nvim-treesitter/nvim-treesitter",
 		branch = "main",
 		version = false,
-		-- Unlike the previous eager setup, load Treesitter when a real file is
-		-- opened. The current buffer is attached explicitly below because its
-		-- FileType event may have fired before BufReadPost.
+		-- Load Treesitter when a real file is opened instead of on the dashboard
+		-- hot path. The current buffer is attached explicitly below because its
+		-- FileType event may already have fired before BufReadPost.
 		event = { "BufReadPost", "BufNewFile" },
 		cmd = { "TSUpdate", "TSInstall", "TSLog", "TSUninstall" },
 		build = ":TSUpdate",
@@ -55,6 +55,15 @@ return {
 			end
 			refresh_installed()
 
+			local function set_folds(buf)
+				for _, win in ipairs(vim.api.nvim_list_wins()) do
+					if vim.api.nvim_win_is_valid(win) and vim.api.nvim_win_get_buf(win) == buf then
+						vim.wo[win].foldmethod = "expr"
+						vim.wo[win].foldexpr = "v:lua.vim.treesitter.foldexpr()"
+					end
+				end
+			end
+
 			local function attach(buf)
 				if not vim.api.nvim_buf_is_valid(buf) or not vim.api.nvim_buf_is_loaded(buf) then
 					return
@@ -78,12 +87,11 @@ return {
 				end
 
 				if pcall(vim.treesitter.start, buf, lang) then
-					vim.wo.foldmethod = "expr"
-					vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+					set_folds(buf)
 				end
 			end
 
-			vim.api.nvim_create_autocmd("FileType", {
+			vim.api.nvim_create_autocmd({ "FileType", "BufWinEnter" }, {
 				group = vim.api.nvim_create_augroup("chiki_treesitter", { clear = true }),
 				callback = function(event)
 					attach(event.buf)
