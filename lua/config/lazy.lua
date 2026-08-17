@@ -24,6 +24,9 @@ require("lazy").setup({
 		lazy = false,
 		version = false,
 	},
+	-- None of the current plugins require LuaRocks. Disabling this prevents Lazy
+	-- from provisioning/checking hererocks and keeps :checkhealth clean.
+	rocks = { enabled = false },
 	install = { colorscheme = { "minisummer", "habamax" } },
 	checker = {
 		enabled = true,
