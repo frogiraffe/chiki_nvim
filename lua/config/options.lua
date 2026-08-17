@@ -1,6 +1,14 @@
 local opt = vim.opt
 local o = vim.o
 
+-- This config is Lua-native and none of the installed plugins use Neovim's
+-- legacy Node/Perl/Python/Ruby remote-plugin hosts. Keep those providers off to
+-- avoid unnecessary discovery work and misleading :checkhealth warnings.
+vim.g.loaded_node_provider = 0
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_python3_provider = 0
+vim.g.loaded_ruby_provider = 0
+
 -- Persistent undo
 local undo_dir = vim.fn.stdpath("cache") .. "/undo/"
 vim.fn.mkdir(undo_dir, "p")
