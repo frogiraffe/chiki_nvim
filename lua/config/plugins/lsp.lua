@@ -1,15 +1,12 @@
 return {
 	{
-		-- Main LSP Configuration
 		"neovim/nvim-lspconfig",
 		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
 			{ "mason-org/mason.nvim", opts = {} },
 			{
 				"mason-org/mason-lspconfig.nvim",
-				opts = {
-					automatic_enable = false,
-				},
+				opts = { automatic_enable = false },
 			},
 			{
 				"WhoIsSethDaniel/mason-tool-installer.nvim",
@@ -19,6 +16,7 @@ return {
 						"lua_ls",
 						"basedpyright",
 						"bacon_ls",
+						"bacon",
 						"ts_ls",
 						"eslint",
 						"html",
@@ -32,7 +30,7 @@ return {
 						"sqls",
 						"dockerls",
 						"docker_compose_language_service",
-						-- Formatters & Linters
+						-- Formatters & linters
 						"stylua",
 						"ruff",
 					},
@@ -43,20 +41,20 @@ return {
 		},
 		config = function()
 			local capabilities = require("blink.cmp").get_lsp_capabilities()
+			capabilities.workspace = capabilities.workspace or {}
+			capabilities.workspace.fileOperations = {
+				didRename = true,
+				willRename = true,
+			}
 
-			-- Default capabilities across all LSP servers
-			vim.lsp.config("*", {
-				capabilities = capabilities,
-			})
+			vim.lsp.config("*", { capabilities = capabilities })
 
-			-- Server configurations using modern vim.lsp.config
 			vim.lsp.config("lua_ls", {
 				settings = {
 					Lua = {
-						completion = {
-							callSnippet = "Replace",
-						},
+						completion = { callSnippet = "Replace" },
 						diagnostics = { disable = { "missing-fields" } },
+						workspace = { checkThirdParty = false },
 					},
 				},
 			})
@@ -76,40 +74,27 @@ return {
 			vim.lsp.config("basedpyright", {
 				settings = {
 					basedpyright = {
-						analysis = {
-							typeCheckingMode = "standard",
-						},
+						analysis = { typeCheckingMode = "standard" },
 					},
 				},
 			})
 
-			-- Web / JS ecosystem
 			vim.lsp.config("ts_ls", {
-				filetypes = {
-					"javascript",
-					"javascriptreact",
-					"typescript",
-					"typescriptreact",
-				},
+				filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
 			})
 			vim.lsp.config("eslint", {})
 			vim.lsp.config("html", {})
 			vim.lsp.config("cssls", {})
 			vim.lsp.config("jsonls", {})
 			vim.lsp.config("emmet_language_server", {})
-
-			-- General
 			vim.lsp.config("bashls", {})
 			vim.lsp.config("yamlls", {})
 			vim.lsp.config("clangd", {})
 			vim.lsp.config("gopls", {})
-
-			-- Data / config
 			vim.lsp.config("sqls", {})
 			vim.lsp.config("dockerls", {})
 			vim.lsp.config("docker_compose_language_service", {})
 
-			-- Deterministically enable the servers we want
 			vim.lsp.enable({
 				"lua_ls",
 				"basedpyright",
@@ -146,7 +131,6 @@ return {
 					source = "if_many",
 					spacing = 2,
 					prefix = "●",
-					-- AstroNvim style: only show virtual text for the current line
 					format = function(diagnostic)
 						if diagnostic.lnum ~= vim.api.nvim_win_get_cursor(0)[1] - 1 then
 							return ""
@@ -156,16 +140,18 @@ return {
 				},
 			})
 
+			local attach_group = vim.api.nvim_create_augroup("chiki_lsp_attach", { clear = true })
+			local highlight_group = vim.api.nvim_create_augroup("chiki_lsp_highlight", { clear = true })
+			local detach_group = vim.api.nvim_create_augroup("chiki_lsp_detach", { clear = true })
+
 			vim.api.nvim_create_autocmd("LspAttach", {
-				group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),
+				group = attach_group,
 				callback = function(event)
 					local map = function(keys, func, desc, mode)
-						mode = mode or "n"
-						vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
+						vim.keymap.set(mode or "n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
 					end
 
 					map("gra", vim.lsp.buf.code_action, "[G]oto Code [A]ction", { "n", "x" })
-					-- Modern diagnostic navigation (Neovim 0.12+ style)
 					map("]d", function()
 						vim.diagnostic.jump({ count = 1, float = true })
 					end, "Next Diagnostic")
@@ -175,47 +161,34 @@ return {
 					map("<leader>cd", vim.diagnostic.open_float, "Line Diagnostics")
 
 					local client = vim.lsp.get_client_by_id(event.data.client_id)
+					if not client then
+						return
+					end
 
-					if
-						client
-						and client:supports_method(
-							vim.lsp.protocol.Methods.textDocument_documentHighlight,
-							event.buf
-						)
-					then
-						local highlight_augroup =
-							vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })
-
+					if client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
 						vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
 							buffer = event.buf,
-							group = highlight_augroup,
+							group = highlight_group,
 							callback = vim.lsp.buf.document_highlight,
 						})
-
 						vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
 							buffer = event.buf,
-							group = highlight_augroup,
+							group = highlight_group,
 							callback = vim.lsp.buf.clear_references,
 						})
-
 						vim.api.nvim_create_autocmd("LspDetach", {
-							group = vim.api.nvim_create_augroup("kickstart-lsp-detach", { clear = true }),
-							callback = function(event2)
+							buffer = event.buf,
+							group = detach_group,
+							once = true,
+							callback = function(detach_event)
 								vim.lsp.buf.clear_references()
-								vim.api.nvim_clear_autocmds({ group = "kickstart-lsp-highlight", buffer = event2.buf })
+								vim.api.nvim_clear_autocmds({ group = highlight_group, buffer = detach_event.buf })
 							end,
 						})
 					end
 
-					if
-						client
-						and client:supports_method(
-							vim.lsp.protocol.Methods.textDocument_inlayHint,
-							event.buf
-						)
-					then
+					if client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
 						vim.lsp.inlay_hint.enable(true, { bufnr = event.buf })
-						-- Inlay-hint toggle lives under <leader>uh (snacks UI toggles, see snacks.lua)
 					end
 				end,
 			})
