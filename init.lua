@@ -18,6 +18,8 @@ vim.g.have_nerd_font = true
 -- Configure Neovim itself before eager plugins initialise. This keeps plugin
 -- setup deterministic (PATH, UI options, clipboard behaviour, etc.).
 require("config.options")
+require("config.machine")
 require("config.lazy")
 require("config.keymaps")
 require("config.autocmds")
+require("config.update")
