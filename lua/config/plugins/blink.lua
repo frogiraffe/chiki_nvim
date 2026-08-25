@@ -35,7 +35,33 @@ return {
 		---@module 'blink.cmp'
 		---@type blink.cmp.Config
 		opts = {
-			keymap = { preset = "default" },
+			keymap = {
+				preset = "default",
+				["<Tab>"] = {
+					function()
+						local ls = require("luasnip")
+						if ls.locally_jumpable(1) then
+							vim.schedule(function()
+								ls.jump(1)
+							end)
+							return true
+						end
+					end,
+					"fallback",
+				},
+				["<S-Tab>"] = {
+					function()
+						local ls = require("luasnip")
+						if ls.locally_jumpable(-1) then
+							vim.schedule(function()
+								ls.jump(-1)
+							end)
+							return true
+						end
+					end,
+					"fallback",
+				},
+			},
 			appearance = { nerd_font_variant = "mono" },
 			completion = {
 				ghost_text = { enabled = true },
