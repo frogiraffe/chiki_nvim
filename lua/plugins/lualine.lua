@@ -2,8 +2,9 @@ return {
 	{
 		"nvim-lualine/lualine.nvim",
 		event = "VeryLazy",
-		config = function()
-			require("lualine").setup({
+		-- Replaces LazyVim's statusline with this config's own layout.
+		opts = function()
+			return {
 				options = {
 					icons_enabled = true,
 					theme = "auto",
@@ -56,7 +57,7 @@ return {
 				winbar = {},
 				inactive_winbar = {},
 				extensions = { "aerial", "lazy", "mason" },
-			})
+			}
 		end,
 	},
 }

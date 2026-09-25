@@ -2,11 +2,11 @@
 
 A fast, modular Neovim configuration for statistics, data science, academic research, SQL work, and general software development.
 
-The configuration uses `lazy.nvim` directly. It borrows proven architecture and workflow ideas from current LazyVim without depending on the LazyVim distribution itself.
+The configuration is built on [LazyVim](https://www.lazyvim.org/): LazyVim supplies the core plugins, options, autocmds, keymaps and LSP/format/lint plumbing, and this repo only layers personal settings and keymaps on top. Existing personal keymaps take precedence over LazyVim's defaults wherever the two overlap.
 
 ## Requirements
 
-- **Neovim:** `>= 0.11.4`
+- **Neovim:** `>= 0.12` (the pinned VimTeX and rustaceanvim versions require it)
 - **Install path:** `~/.config/nvim`
 - **Core CLI tools:** `git`, `ripgrep`, `fd`, `lazygit`
 - **Font:** a Nerd Font, e.g. JetBrains Mono Nerd Font
@@ -99,7 +99,7 @@ This means a Chinook-style SQLite connection automatically gets SQLite-aware SQL
 The config intentionally consolidates overlapping functionality:
 
 - `Snacks.words` owns LSP reference highlighting/navigation.
-- `mini.diff` owns lightweight Git hunk visualization.
+- `mini.diff` owns lightweight Git hunk visualization (LazyVim's `editor.mini-diff` extra, replacing gitsigns).
 - `mini.icons` supplies the devicons-compatible API, so a separate `nvim-web-devicons` plugin is unnecessary.
 - `mini.splitjoin` replaces the previous Treesj dependency while keeping the existing mappings:
 
@@ -137,35 +137,51 @@ For LaTeX, `K` is left available to Texlab/LSP hover and VimTeX package docs are
 
 ## Structure
 
+Standard LazyVim starter layout:
+
 ```text
 ~/.config/nvim/
-├── init.lua
+├── init.lua                  # leaders, optional profiler, bootstrap, :NvimUpdate stub
 ├── lua/
 │   ├── config/
-│   │   ├── lazy.lua          # lazy.nvim bootstrap + automatic plugin-spec import
-│   │   ├── options.lua       # Core editor/environment options
-│   │   ├── keymaps.lua       # Global mappings
-│   │   ├── autocmds.lua      # Core lifecycle/filetype behavior
-│   │   ├── sql.lua           # Shared SQLFluff dialect resolution
-│   │   └── plugins/          # Modular lazy.nvim plugin specs
+│   │   ├── lazy.lua          # lazy.nvim bootstrap, LazyVim + extras, plugin import
+│   │   ├── options.lua       # only options that differ from LazyVim (+ machine overrides)
+│   │   ├── keymaps.lua       # personal keymaps (loaded after LazyVim's)
+│   │   ├── autocmds.lua      # only autocmds LazyVim does not already provide
+│   │   ├── machine.lua       # per-host overrides from lua/config/machines/<host>.lua
+│   │   ├── sql.lua           # shared SQLFluff dialect resolution
+│   │   └── update.lua        # :NvimUpdate implementation (required on first use)
+│   ├── plugins/              # personal plugins + overrides of LazyVim specs
+│   │   └── disabled.lua      # LazyVim defaults intentionally turned off
 │   └── snippets/
 │       └── tex.lua           # LuaSnip LaTeX snippets
 └── lazy-lock.json
 ```
 
-Every file under `lua/config/plugins/` is discovered automatically. Adding a plugin spec does not require editing `lazy.lua`.
+LazyVim extras are imported explicitly in `lua/config/lazy.lua` (not through `:LazyExtras` / `lazyvim.json`) so every machine gets the same setup from git:
+`coding.luasnip`, `editor.mini-diff`, `lang.json`, `lang.python`, `lang.sql`, `lang.tex`, `lang.toml`, `lang.yaml`.
+
+Every file under `lua/plugins/` is discovered automatically. A spec with the same plugin name as a LazyVim spec is merged into it, so overrides only need the fields that change.
+
+### What differs from stock LazyVim
+
+- **Kept personal choices:** `minisummer` colorscheme, own lualine layout, stock Snacks dashboard, `persisted.nvim` sessions, `nvim-surround`, `smart-splits.nvim`, which-key `modern` preset, 4-space indentation, blink's default keymap preset with LuaSnip `<Tab>`/`<S-Tab>` jumping.
+- **Disabled LazyVim defaults** (`lua/plugins/disabled.lua`): bufferline, persistence.nvim, tokyonight, catppuccin. gitsigns is replaced by mini.diff (extra).
+- **LazyVim keymaps removed because they collided with personal ones:** `<leader>wd`/`<leader>wm` and the `<leader>w` window group (`<leader>w` saves), insert/select `<Esc>` snippet-unlinking, `<leader>n` (a group here), Noice `<leader>sn*` (`<leader>sn` is notification history), Snacks terminal `<C-h/j/k/l>` (smart-splits owns them), treesitter-textobjects `]f`/`]c`/`]a` moves (mini.bracketed owns them), visual `S` Flash (nvim-surround).
+- LazyVim adds new keymaps that did not collide with anything, e.g. `<leader>l` (Lazy), `<S-h>`/`<S-l>` (prev/next buffer), `<A-j>`/`<A-k>` (move lines), `<leader>-`/`<leader>|` (splits), `<leader><tab>` (tabs), `<leader>ca`/`<leader>cr` (code action/rename), `<leader>uf` (toggle autoformat). See <https://www.lazyvim.org/keymaps>.
 
 ## Performance Design
 
-- Core Neovim options initialize before eager plugins.
-- Plugin specs are auto-imported and expensive plugins are loaded by filetype, command, key, or editing event where practical.
-- `Snacks.bigfile` is the **single** large-file gate; there is no competing low Treesitter size threshold.
-- Treesitter loads only for real files, not the empty dashboard path.
-- VimTeX owns LaTeX syntax highlighting rather than running a second Treesitter highlighter on top of it.
-- Aerial, Colorizer, Render Markdown, Dadbod, SQL linting, venv selection, Crates and Grug Far are demand/filetype loaded.
-- No duplicate Fidget/Noice LSP progress stack.
-- No duplicate cursorword/manual LSP reference-highlighting stack.
-- No duplicate icon provider.
+- Custom plugin specs are lazy by default (`defaults.lazy = true`); each one declares its trigger (filetype, command, key, or event).
+- mini.nvim is no longer loaded as one eager bundle: only the used modules (`mini.ai`, `mini.pairs`, `mini.icons`, `mini.diff`, `mini.operators`, `mini.move`, `mini.bracketed`, `mini.splitjoin`, `mini.hues`) are installed, each lazy-loaded.
+- LazyVim defers clipboard setup, autocmds and keymaps until after the first screen draw, and lazy-loads Treesitter/LSP on file open.
+- LuaSnip Lua snippets are loaded per filetype on demand (the 1,600-line LaTeX snippet file is only read for tex buffers).
+- `:NvimUpdate` is a thin command stub; its implementation is only required when run.
+- ALE was replaced by nvim-lint (proselint for Markdown/text, rubocop/ruby for Ruby), so there is a single linting engine.
+- Dadbod completion is only active in SQL buffers instead of every filetype.
+- `Snacks.bigfile` is the **single** large-file gate.
+- VimTeX owns LaTeX syntax highlighting (Treesitter highlight is disabled for LaTeX).
+- No duplicate Fidget/Noice LSP progress stack, cursorword/LSP reference highlighting, or icon provider.
 - Unused built-in runtime archive/tutorial plugins are disabled.
 
 To inspect startup cost with the existing Snacks profiler hook:

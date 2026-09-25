@@ -1,22 +1,31 @@
 return {
+	-- LazyVim core already enables bigfile, quickfile, input, notifier, scope,
+	-- scroll, words and the statuscolumn. Only personal settings live here.
 	"folke/snacks.nvim",
-	priority = 1000,
-	lazy = false,
 	---@type snacks.Config
 	opts = {
-		bigfile = { enabled = true },
 		dashboard = {
 			enabled = true,
 			preset = {
-				-- 			header = [[ ▄████████    ▄█    █▄     ▄█     ▄█   ▄█▄  ▄█
-				-- ███    ███   ███    ███   ███    ███ ▄███▀ ███
-				-- ███    █▀    ███    ███   ███▌   ███▐██▀   ███▌
-				-- ███         ▄███▄▄▄▄███▄▄ ███▌  ▄█████▀    ███▌
-				-- ███        ▀▀███▀▀▀▀███▀  ███▌ ▀▀█████▄    ███▌
-				-- ███    █▄    ███    ███   ███    ███▐██▄   ███
-				-- ███    ███   ███    ███   ███    ███ ▀███▄ ███
-				-- ████████▀    ███    █▀    █▀     ███   ▀█▀ █▀
-				--                                  ▀              ]],
+				-- Keep the stock Snacks header/keys instead of LazyVim's branding.
+				-- stylua: ignore
+				keys = {
+					{ icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
+					{ icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
+					{ icon = " ", key = "g", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
+					{ icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
+					{ icon = " ", key = "c", desc = "Config", action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})" },
+					{ icon = " ", key = "s", desc = "Restore Session", section = "session" },
+					{ icon = "󰒲 ", key = "L", desc = "Lazy", action = ":Lazy" },
+					{ icon = " ", key = "q", desc = "Quit", action = ":qa" },
+				},
+				header = [[
+███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗
+████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║
+██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║
+██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║
+██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║
+╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝]],
 			},
 			sections = {
 				{ section = "header" },
@@ -92,13 +101,20 @@ return {
 			},
 		},
 		image = { enabled = true },
-		input = { enabled = true },
-		notifier = { enabled = true },
-		quickfile = { enabled = true },
-		scope = { enabled = true },
-		scroll = { enabled = true },
-		statuscolumn = { enabled = true },
-		words = { enabled = true },
+		terminal = {
+			win = {
+				-- smart-splits owns <C-h/j/k/l> in terminal mode and <C-/> toggles
+				-- the terminal (see keys below), so drop LazyVim's terminal overrides.
+				keys = {
+					nav_h = false,
+					nav_j = false,
+					nav_k = false,
+					nav_l = false,
+					hide_slash = false,
+					hide_underscore = false,
+				},
+			},
+		},
 		styles = {
 			terminal = {
 				keys = {
@@ -181,6 +197,7 @@ return {
 		},
 	},
 	keys = {
+		{ "<leader>n", false }, -- keep <leader>n as the notifications group
 		{
 			"<leader><space>",
 			function()
@@ -679,47 +696,28 @@ return {
 		vim.api.nvim_create_autocmd("User", {
 			pattern = "VeryLazy",
 			callback = function()
-				-- Setup some globals for debugging (lazy-loaded)
-				_G.dd = function(...)
+				vim.print = function(...)
 					Snacks.debug.inspect(...)
-				end
-				_G.bt = function()
-					Snacks.debug.backtrace()
-				end
-				vim.print = _G.dd -- Override print to use snacks for `:=` command
+				end -- Override print to use snacks for `:=` command
 
-				-- Create some toggle mappings
-				Snacks.toggle.option("spell", { name = "Spelling" }):map("<leader>us")
-				Snacks.toggle.option("wrap", { name = "Wrap" }):map("<leader>uw")
-				Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>uL")
-				Snacks.toggle.diagnostics():map("<leader>ud")
-				Snacks.toggle.line_number():map("<leader>ul")
-				Snacks.toggle
-					.option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2 })
-					:map("<leader>uc")
-				Snacks.toggle.treesitter():map("<leader>uT")
-				Snacks.toggle
-					.option("background", { off = "light", on = "dark", name = "Dark Background" })
-					:map("<leader>ub")
-				Snacks.toggle.inlay_hints():map("<leader>uh")
-				Snacks.toggle.indent():map("<leader>ug")
-				Snacks.toggle.dim():map("<leader>uD")
+				-- LazyVim maps the other <leader>u toggles; these are personal extras.
 				Snacks.toggle.profiler():map("<leader>pp")
 				Snacks.toggle.profiler_highlights():map("<leader>ph")
 			end,
 		})
-		local highlight = {
-			"SnacksIndent1",
-			"SnacksIndent2",
-			"SnacksIndent3",
-			"SnacksIndent4",
-			"SnacksIndent5",
-		}
 
-		vim.api.nvim_set_hl(0, "SnacksIndent1", { fg = "#E06C75" })
-		vim.api.nvim_set_hl(0, "SnacksIndent2", { fg = "#E5C07B" })
-		vim.api.nvim_set_hl(0, "SnacksIndent3", { fg = "#61AFEF" })
-		vim.api.nvim_set_hl(0, "SnacksIndent4", { fg = "#D19A66" })
-		vim.api.nvim_set_hl(0, "SnacksIndent5", { fg = "#98C379" })
+		-- Re-apply the rainbow chunk colours after every colorscheme change.
+		local function set_indent_hl()
+			vim.api.nvim_set_hl(0, "SnacksIndent1", { fg = "#E06C75" })
+			vim.api.nvim_set_hl(0, "SnacksIndent2", { fg = "#E5C07B" })
+			vim.api.nvim_set_hl(0, "SnacksIndent3", { fg = "#61AFEF" })
+			vim.api.nvim_set_hl(0, "SnacksIndent4", { fg = "#D19A66" })
+			vim.api.nvim_set_hl(0, "SnacksIndent5", { fg = "#98C379" })
+		end
+		set_indent_hl()
+		vim.api.nvim_create_autocmd("ColorScheme", {
+			group = vim.api.nvim_create_augroup("chiki_snacks_indent_hl", { clear = true }),
+			callback = set_indent_hl,
+		})
 	end,
 }
