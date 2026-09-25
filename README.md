@@ -2,7 +2,7 @@
 
 A fast, modular Neovim configuration for statistics, data science, academic research, SQL work, and general software development.
 
-The configuration uses `lazy.nvim` directly. It borrows proven architecture and workflow ideas from current LazyVim without depending on the LazyVim distribution itself.
+The configuration uses `lazy.nvim` directly. It adopts LazyVim's structure and loading techniques (the `lua/plugins/` layout, the `LazyFile` event, lazy-by-default specs, per-module mini.nvim, a single LSP server table, nvim-lint conditions) without depending on the LazyVim distribution itself.
 
 ## Requirements
 
@@ -142,23 +142,34 @@ For LaTeX, `K` is left available to Texlab/LSP hover and VimTeX package docs are
 ├── init.lua
 ├── lua/
 │   ├── config/
-│   │   ├── lazy.lua          # lazy.nvim bootstrap + automatic plugin-spec import
+│   │   ├── lazy.lua          # lazy.nvim bootstrap, LazyFile event, plugin-spec import
 │   │   ├── options.lua       # Core editor/environment options
 │   │   ├── keymaps.lua       # Global mappings
 │   │   ├── autocmds.lua      # Core lifecycle/filetype behavior
+│   │   ├── machine.lua       # Per-host overrides (lua/config/machines/<host>.lua)
 │   │   ├── sql.lua           # Shared SQLFluff dialect resolution
-│   │   └── plugins/          # Modular lazy.nvim plugin specs
+│   │   └── update.lua        # :NvimUpdate (required only when the command runs)
+│   ├── plugins/              # Modular lazy.nvim plugin specs
 │   └── snippets/
 │       └── tex.lua           # LuaSnip LaTeX snippets
 └── lazy-lock.json
 ```
 
-Every file under `lua/config/plugins/` is discovered automatically. Adding a plugin spec does not require editing `lazy.lua`.
+Every file under `lua/plugins/` is discovered automatically. Adding a plugin spec does not require editing `lazy.lua`.
+
+Plugins are **lazy by default** (`defaults.lazy = true`), so every spec must declare what loads it: an `event`, `ft`, `cmd`, `keys`, or `lazy = false` for the few that must start eagerly (Snacks, the colorscheme, VimTeX, R.nvim). Use `event = "LazyFile"` for anything that only matters once a real file is open.
 
 ## Performance Design
 
 - Core Neovim options initialize before eager plugins.
-- Plugin specs are auto-imported and expensive plugins are loaded by filetype, command, key, or editing event where practical.
+- Plugin specs are auto-imported and lazy by default; each one is loaded by filetype, command, key, or event.
+- LazyVim's `LazyFile` event (`BufReadPost`/`BufNewFile`/`BufWritePre`) loads LSP, Treesitter, linting and todo-comments only once a real file is open, never for the dashboard.
+- mini.nvim is installed as separate modules (`mini.ai`, `mini.pairs`, `mini.icons`, `mini.diff`, `mini.operators`, `mini.move`, `mini.bracketed`, `mini.splitjoin`, `mini.hues`), each loaded when needed instead of the whole bundle at startup. `mini.icons` loads on first use and transparently stands in for `nvim-web-devicons`.
+- Language servers are declared once in a single `servers` table in `lua/plugins/lsp.lua`, which drives configuration, enabling, and Mason installation.
+- nvim-lint is the single linting engine (ALE was removed): linters are listed per filetype, skipped quietly when not installed, and run debounced.
+- `nvim-treesitter-textobjects` provides the queries behind mini.ai's `af`/`ac`/`ao` textobjects (no extra keymaps).
+- LuaSnip Lua snippets load per filetype, so the large LaTeX snippet file is only read for tex buffers.
+- `:NvimUpdate` is a small command stub; `config/update.lua` is only required when it runs.
 - `Snacks.bigfile` is the **single** large-file gate; there is no competing low Treesitter size threshold.
 - Treesitter loads only for real files, not the empty dashboard path.
 - VimTeX owns LaTeX syntax highlighting rather than running a second Treesitter highlighter on top of it.

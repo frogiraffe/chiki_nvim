@@ -8,8 +8,8 @@ return {
 		version = false,
 		-- Load Treesitter when a real file is opened instead of on the dashboard
 		-- hot path. The current buffer is attached explicitly below because its
-		-- FileType event may already have fired before BufReadPost.
-		event = { "BufReadPost", "BufNewFile" },
+		-- FileType event may already have fired before the plugin loaded.
+		event = "LazyFile",
 		cmd = { "TSUpdate", "TSInstall", "TSLog", "TSUninstall" },
 		build = ":TSUpdate",
 		config = function()
@@ -124,5 +124,11 @@ return {
 				attach(vim.api.nvim_get_current_buf())
 			end)
 		end,
+	},
+	-- Only provides textobject queries for mini.ai (af/if, ac/ic, ao/io); no
+	-- keymaps are created, so mini.bracketed keeps ]f/]c/... . Loaded by mini.ai.
+	{
+		"nvim-treesitter/nvim-treesitter-textobjects",
+		branch = "main",
 	},
 }

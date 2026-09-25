@@ -2,7 +2,18 @@ return {
 	{
 		"nvim-lualine/lualine.nvim",
 		event = "VeryLazy",
+		init = function()
+			-- LazyVim trick: when a file is opened directly, show an empty
+			-- statusline until lualine loads instead of flashing the default one.
+			vim.g.lualine_laststatus = vim.o.laststatus
+			if vim.fn.argc(-1) > 0 then
+				vim.o.statusline = " "
+			else
+				vim.o.laststatus = 0
+			end
+		end,
 		config = function()
+			vim.o.laststatus = vim.g.lualine_laststatus
 			require("lualine").setup({
 				options = {
 					icons_enabled = true,

@@ -396,8 +396,4 @@ function M.update()
 	end)
 end
 
-vim.api.nvim_create_user_command("NvimUpdate", M.update, {
-	desc = "Safely sync this Neovim config with GitHub without reviving stale machine edits",
-})
-
 return M

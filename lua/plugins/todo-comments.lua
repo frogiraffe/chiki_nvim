@@ -1,6 +1,6 @@
 return {
 	"folke/todo-comments.nvim",
-	event = "VeryLazy",
+	event = "LazyFile",
 	dependencies = { "nvim-lua/plenary.nvim" },
 	opts = {
 		-- your configuration comes here

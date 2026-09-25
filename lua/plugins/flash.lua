@@ -24,7 +24,17 @@ return {
 			},
 			{
 				"S",
-				mode = { "n", "x", "o" },
+				mode = { "n", "o" },
+				function()
+					require("flash").treesitter()
+				end,
+				desc = "Flash Treesitter",
+			},
+			-- Visual S belongs to nvim-surround (wrap selection), so Flash
+			-- Treesitter lives on <leader>v in visual mode.
+			{
+				"<leader>v",
+				mode = "x",
 				function()
 					require("flash").treesitter()
 				end,

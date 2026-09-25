@@ -23,7 +23,9 @@ return {
 								update_events = "TextChanged,TextChangedI",
 							})
 							require("luasnip.loaders.from_vscode").lazy_load()
-							require("luasnip.loaders.from_lua").load({
+							-- Lua snippets load per filetype on demand, so the large
+							-- LaTeX snippet file is only read for tex buffers.
+							require("luasnip.loaders.from_lua").lazy_load({
 								paths = { vim.fn.stdpath("config") .. "/lua/snippets" },
 							})
 						end,

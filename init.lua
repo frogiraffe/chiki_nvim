@@ -22,4 +22,11 @@ require("config.machine")
 require("config.lazy")
 require("config.keymaps")
 require("config.autocmds")
-require("config.update")
+
+-- :NvimUpdate is rarely used, so its implementation is only required on first
+-- invocation instead of being parsed on every startup.
+vim.api.nvim_create_user_command("NvimUpdate", function()
+	require("config.update").update()
+end, {
+	desc = "Safely sync this Neovim config with GitHub without reviving stale machine edits",
+})
