@@ -108,7 +108,20 @@ return {
 		"neovim/nvim-lspconfig",
 		event = "LazyFile",
 		dependencies = {
-			{ "mason-org/mason.nvim", opts = {} },
+			{
+				"mason-org/mason.nvim",
+				-- Mason's bin dir is put on PATH at startup (cheap, no plugin load)
+				-- so Mason-installed tools such as sqlfluff, stylua or
+				-- yaml-language-server are found by nvim-lint, conform and R.nvim
+				-- even before lspconfig has loaded Mason.
+				init = function()
+					local bin = vim.fn.stdpath("data") .. "/mason/bin"
+					if not vim.tbl_contains(vim.split(vim.env.PATH or "", ":", { plain = true }), bin) then
+						vim.env.PATH = bin .. ":" .. (vim.env.PATH or "")
+					end
+				end,
+				opts = { PATH = "skip" },
+			},
 			{
 				"mason-org/mason-lspconfig.nvim",
 				opts = { automatic_enable = false },
