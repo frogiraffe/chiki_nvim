@@ -1,20 +1,64 @@
--- LazyVim already provides mini.ai, mini.pairs, mini.icons and (via the
--- editor.mini-diff extra) mini.diff as standalone, lazy-loaded modules. The
--- remaining modules are split out the same way instead of loading the whole
--- mini.nvim bundle eagerly at startup.
+-- Each mini module is its own lazily loaded plugin (as in LazyVim) instead of
+-- the whole mini.nvim bundle being set up eagerly at startup.
 return {
-	-- Colorscheme (minisummer ships with mini.hues). Loaded by LazyVim at startup.
-	{ "nvim-mini/mini.hues", lazy = false, priority = 1000 },
+	-- Colorscheme (minisummer ships with mini.hues).
+	{
+		"nvim-mini/mini.hues",
+		lazy = false,
+		priority = 1000,
+		config = function()
+			vim.cmd.colorscheme("minisummer")
+		end,
+	},
 
+	-- Icons are loaded on first use. Plugins that still `require("nvim-web-devicons")`
+	-- get mini.icons' compatible API without a second icon provider.
+	{
+		"nvim-mini/mini.icons",
+		opts = {},
+		init = function()
+			package.preload["nvim-web-devicons"] = function()
+				require("mini.icons").mock_nvim_web_devicons()
+				return package.loaded["nvim-web-devicons"]
+			end
+		end,
+	},
+
+	{
+		"nvim-mini/mini.ai",
+		event = "VeryLazy",
+		-- Supplies the @function/@class/@block queries used by af/ac/ao below.
+		dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
+		opts = function()
+			local ai = require("mini.ai")
+			return {
+				n_lines = 500,
+				custom_textobjects = {
+					o = ai.gen_spec.treesitter({
+						a = { "@block.outer", "@conditional.outer", "@loop.outer" },
+						i = { "@block.inner", "@conditional.inner", "@loop.inner" },
+					}),
+					f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }),
+					c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }),
+					t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" },
+					d = { "%f[%d]%d+" },
+					u = ai.gen_spec.function_call(),
+					U = ai.gen_spec.function_call({ name_pattern = "[%w_]" }),
+				},
+			}
+		end,
+	},
+
+	-- Keep Neovim 0.11+'s `gr*` LSP namespace and native editing prefixes
+	-- intact. A leader mapping avoids delaying core operators such as `c`.
 	{
 		"nvim-mini/mini.operators",
 		event = "VeryLazy",
 		opts = {
-			-- Keep Neovim 0.11+'s `gr*` LSP namespace intact. A leader mapping
-			-- avoids delaying core operators such as `c`.
 			replace = { prefix = "<leader>r" },
 		},
 	},
+
 	{
 		"nvim-mini/mini.move",
 		event = "VeryLazy",
@@ -31,13 +75,21 @@ return {
 			},
 		},
 	},
+
+	-- mini.pairs is enough for this config's bracket/quote workflow. Command-line
+	-- pairing keeps the useful cmap behavior from the previous autopair plugin.
 	{
-		"nvim-mini/mini.bracketed",
-		-- Load after LazyVim's default keymaps so mini's [b ]b [q ]q [w ]w ...
-		-- keep precedence over LazyVim's overlapping bracket mappings.
-		event = "User LazyVimKeymaps",
-		opts = {},
+		"nvim-mini/mini.pairs",
+		event = "VeryLazy",
+		opts = {
+			modes = { insert = true, command = true, terminal = false },
+		},
 	},
+
+	{ "nvim-mini/mini.bracketed", event = "VeryLazy", opts = {} },
+	{ "nvim-mini/mini.diff", event = "VeryLazy", opts = {} },
+
+	-- mini.splitjoin replaces treesj and keeps the old keymaps.
 	{
 		"nvim-mini/mini.splitjoin",
 		keys = {
@@ -54,12 +106,6 @@ return {
 		},
 	},
 
-	-- mini.diff replaces gitsigns (editor.mini-diff extra). Keep its default
-	-- sign characters instead of the extra's bar style.
-	{
-		"nvim-mini/mini.diff",
-		opts = function(_, opts)
-			opts.view = nil
-		end,
-	},
+	-- Snacks.words owns cursor/LSP reference highlighting, so mini.cursorword
+	-- stays disabled to avoid duplicating that work.
 }

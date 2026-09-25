@@ -1,23 +1,25 @@
 return {
 	{
 		"folke/noice.nvim",
-		keys = {
-			-- <leader>sn is "Notification History"; LazyVim's <leader>sn* Noice
-			-- keys would turn it into a prefix and delay it.
-			{ "<leader>sn", false },
-			{ "<leader>snl", false },
-			{ "<leader>snh", false },
-			{ "<leader>sna", false },
-			{ "<leader>snd", false },
-			{ "<leader>snt", false },
+		event = "VeryLazy",
+		dependencies = {
+			"MunifTanjim/nui.nvim",
 		},
 		opts = {
 			lsp = {
+				override = {
+					["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+					["vim.lsp.util.stylize_markdown"] = true,
+				},
 				signature = {
 					enabled = false, -- blink.cmp handles signature help
 				},
 			},
 			presets = {
+				bottom_search = true,
+				command_palette = true,
+				long_message_to_split = true,
+				inc_rename = false,
 				lsp_doc_border = true,
 			},
 		},

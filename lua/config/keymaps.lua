@@ -1,19 +1,4 @@
--- Loaded by LazyVim on VeryLazy, after lazyvim.config.keymaps.
--- LazyVim defaults: https://www.lazyvim.org/keymaps
--- Plugin keymaps live in the plugin specs under lua/plugins/.
 local map = vim.keymap.set
-
--- LazyVim defaults that would change existing behaviour:
--- * <leader>wd / <leader>wm turn <leader>w into a prefix and delay "Save Buffer".
--- * insert/select <Esc> would unlink the active LuaSnip snippet.
-for _, m in ipairs({
-	{ "n", "<leader>wd" },
-	{ "n", "<leader>wm" },
-	{ "i", "<esc>" },
-	{ "s", "<esc>" },
-}) do
-	pcall(vim.keymap.del, m[1], m[2])
-end
 
 -- General
 map({ "n", "v" }, "<leader>w", "<cmd>w<CR>", { desc = "Save Buffer" })
@@ -23,16 +8,34 @@ map("n", "<leader>bb", "<cmd>edit #<cr>", { desc = "Switch to Other Buffer" })
 map("n", "<leader>fn", "<cmd>enew<cr>", { desc = "New File" })
 map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit All" })
 map("n", "<Esc>", "<cmd>nohlsearch<cr>", { desc = "Clear Search Highlight" })
-map("", "<leader>cf", function()
-	require("conform").format({ async = true, lsp_format = "fallback" })
-end, { desc = "[F]ormat buffer" })
+
+-- When a prose line is visually wrapped, j/k follow what is on screen. Counts
+-- still use real lines, so 5j keeps standard Vim semantics.
+map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true, desc = "Down" })
+map({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true, desc = "Up" })
 
 -- Keep a visual selection after changing indentation.
 map("x", "<", "<gv", { desc = "Indent Left" })
 map("x", ">", ">gv", { desc = "Indent Right" })
 
--- LazyVim extends <C-s> (save) to select mode; keep Neovim's default there.
-map("s", "<C-s>", vim.lsp.buf.signature_help, { desc = "vim.lsp.buf.signature_help()" })
+-- Create useful undo boundaries while typing prose, code and SQL.
+map("i", ",", ",<C-g>u")
+map("i", ".", ".<C-g>u")
+map("i", ";", ";<C-g>u")
+
+-- Terminal mode split navigation (Snacks.terminal).
+map("t", "<C-h>", function()
+	require("smart-splits").move_cursor_left()
+end, { desc = "Move to left split" })
+map("t", "<C-j>", function()
+	require("smart-splits").move_cursor_down()
+end, { desc = "Move to down split" })
+map("t", "<C-k>", function()
+	require("smart-splits").move_cursor_up()
+end, { desc = "Move to up split" })
+map("t", "<C-l>", function()
+	require("smart-splits").move_cursor_right()
+end, { desc = "Move to right split" })
 
 -- Open a file path from terminal output in an existing editing split.
 map("n", "gF", function()

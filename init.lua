@@ -10,17 +10,21 @@ if vim.env.PROF then
 	})
 end
 
--- Leaders must exist before lazy.nvim evaluates plugin specs (LazyVim resets
--- maplocalleader to "\" in its own options, config/options.lua restores ",").
+-- Leaders and core options must exist before lazy.nvim evaluates plugin specs.
 vim.g.mapleader = " "
 vim.g.maplocalleader = ","
+vim.g.have_nerd_font = true
 
--- Bootstrap lazy.nvim + LazyVim. LazyVim loads config/options.lua before any
--- plugin, then config/autocmds.lua and config/keymaps.lua on VeryLazy.
+-- Configure Neovim itself before eager plugins initialise. This keeps plugin
+-- setup deterministic (PATH, UI options, clipboard behaviour, etc.).
+require("config.options")
+require("config.machine")
 require("config.lazy")
+require("config.keymaps")
+require("config.autocmds")
 
--- :NvimUpdate is rarely used, so its 400-line implementation is only required
--- on first invocation instead of on every startup.
+-- :NvimUpdate is rarely used, so its implementation is only required on first
+-- invocation instead of being parsed on every startup.
 vim.api.nvim_create_user_command("NvimUpdate", function()
 	require("config.update").update()
 end, {

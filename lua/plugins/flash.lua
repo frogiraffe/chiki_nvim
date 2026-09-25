@@ -1,11 +1,7 @@
--- LazyVim already maps s / S / r / R / <c-s> to Flash.
 return {
 	{
 		"folke/flash.nvim",
-		keys = {
-			-- Visual S stays with nvim-surround.
-			{ "S", mode = "x", false },
-		},
+		event = "VeryLazy",
 		---@type Flash.Config
 		opts = {
 			modes = {
@@ -15,6 +11,48 @@ return {
 				search = {
 					enabled = true,
 				},
+			},
+		},
+		keys = {
+			{
+				"s",
+				mode = { "n", "x", "o" },
+				function()
+					require("flash").jump()
+				end,
+				desc = "Flash",
+			},
+			{
+				"S",
+				mode = { "n", "x", "o" },
+				function()
+					require("flash").treesitter()
+				end,
+				desc = "Flash Treesitter",
+			},
+			{
+				"r",
+				mode = "o",
+				function()
+					require("flash").remote()
+				end,
+				desc = "Remote Flash",
+			},
+			{
+				"R",
+				mode = { "o", "x" },
+				function()
+					require("flash").treesitter_search()
+				end,
+				desc = "Treesitter Search",
+			},
+			{
+				"<c-s>",
+				mode = { "c" },
+				function()
+					require("flash").toggle()
+				end,
+				desc = "Toggle Flash Search",
 			},
 		},
 	},

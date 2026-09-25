@@ -1,28 +1,43 @@
--- blink.cmp is LazyVim's default completion engine; LuaSnip comes from the
--- coding.luasnip extra. Only personal behaviour is configured here.
 return {
-	{
-		"L3MON4D3/LuaSnip",
-		version = "2.*",
-		opts = {
-			enable_autosnippets = true,
-			update_events = "TextChanged,TextChangedI",
-		},
-		config = function(_, opts)
-			require("luasnip").setup(opts)
-			-- Lua snippets are loaded per filetype on demand, so the large LaTeX
-			-- snippet file is only read when a tex buffer is opened.
-			require("luasnip.loaders.from_lua").lazy_load({
-				paths = { vim.fn.stdpath("config") .. "/lua/snippets" },
-			})
-		end,
-	},
-	{
+	{ -- Autocompletion
 		"saghen/blink.cmp",
+		event = { "InsertEnter", "CmdlineEnter" },
+		version = "1.*",
+		dependencies = {
+			-- Snippet Engine
+			{
+				"L3MON4D3/LuaSnip",
+				version = "2.*",
+				build = (function()
+					if vim.fn.has("win32") == 1 or vim.fn.executable("make") == 0 then
+						return
+					end
+					return "make install_jsregexp"
+				end)(),
+				dependencies = {
+					{
+						"rafamadriz/friendly-snippets",
+						config = function()
+							require("luasnip").config.setup({
+								enable_autosnippets = true,
+								update_events = "TextChanged,TextChangedI",
+							})
+							require("luasnip.loaders.from_vscode").lazy_load()
+							-- Lua snippets load per filetype on demand, so the large
+							-- LaTeX snippet file is only read for tex buffers.
+							require("luasnip.loaders.from_lua").lazy_load({
+								paths = { vim.fn.stdpath("config") .. "/lua/snippets" },
+							})
+						end,
+					},
+				},
+			},
+			"folke/lazydev.nvim",
+		},
 		---@module 'blink.cmp'
-		---@param opts blink.cmp.Config
-		opts = function(_, opts)
-			opts.keymap = {
+		---@type blink.cmp.Config
+		opts = {
+			keymap = {
 				preset = "default",
 				["<Tab>"] = {
 					function()
@@ -48,31 +63,45 @@ return {
 					end,
 					"fallback",
 				},
-			}
-
-			opts.completion = vim.tbl_deep_extend("force", opts.completion or {}, {
+			},
+			appearance = { nerd_font_variant = "mono" },
+			completion = {
 				ghost_text = { enabled = true },
 				documentation = { auto_show = false, auto_show_delay_ms = 500 },
-			})
-			opts.signature = { enabled = true }
-			-- Stock blink cmdline behaviour/keys (LazyVim unmaps <Left>/<Right>).
-			opts.cmdline = { enabled = true }
-			opts.fuzzy = { implementation = "prefer_rust_with_warning" }
-
-			-- The sql extra adds Dadbod to every filetype; it is only useful in SQL
-			-- buffers, where per_filetype below already enables it.
-			opts.sources.default = vim.tbl_filter(function(source)
-				return source ~= "dadbod"
-			end, opts.sources.default or {})
-
-			local sql_sources = { "snippets", "dadbod", "buffer" }
-			opts.sources.per_filetype = vim.tbl_extend("force", opts.sources.per_filetype or {}, {
-				-- Dadbod owns schema-aware SQL completion.
-				sql = sql_sources,
-				mysql = sql_sources,
-				plsql = sql_sources,
-			})
-			return opts
-		end,
+			},
+			sources = {
+				default = {
+					"lsp",
+					"path",
+					"snippets",
+					"buffer",
+				},
+				per_filetype = {
+					-- LazyDev is useful only for Lua/Neovim APIs. Keeping it out of the
+					-- global provider set avoids needless provider work in every language.
+					lua = { inherit_defaults = true, "lazydev" },
+					codecompanion = { "codecompanion" },
+					-- Dadbod owns schema-aware SQL completion. sqls was intentionally
+					-- removed from the LSP stack to avoid duplicate completion engines.
+					sql = { "snippets", "dadbod", "buffer" },
+					mysql = { "snippets", "dadbod", "buffer" },
+					plsql = { "snippets", "dadbod", "buffer" },
+				},
+				providers = {
+					dadbod = {
+						name = "Dadbod",
+						module = "vim_dadbod_completion.blink",
+					},
+					lazydev = {
+						name = "LazyDev",
+						module = "lazydev.integrations.blink",
+						score_offset = 100,
+					},
+				},
+			},
+			snippets = { preset = "luasnip" },
+			fuzzy = { implementation = "prefer_rust_with_warning" },
+			signature = { enabled = true },
+		},
 	},
 }

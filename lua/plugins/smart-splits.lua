@@ -42,7 +42,7 @@ return {
 				function()
 					require("smart-splits").move_cursor_left()
 				end,
-				mode = { "n", "t" }, -- terminal mode too (Snacks.terminal)
+				mode = "n",
 				desc = "Move left",
 			},
 			{
@@ -50,7 +50,7 @@ return {
 				function()
 					require("smart-splits").move_cursor_down()
 				end,
-				mode = { "n", "t" }, -- terminal mode too (Snacks.terminal)
+				mode = "n",
 				desc = "Move down",
 			},
 			{
@@ -58,7 +58,7 @@ return {
 				function()
 					require("smart-splits").move_cursor_up()
 				end,
-				mode = { "n", "t" }, -- terminal mode too (Snacks.terminal)
+				mode = "n",
 				desc = "Move up",
 			},
 			{
@@ -66,7 +66,7 @@ return {
 				function()
 					require("smart-splits").move_cursor_right()
 				end,
-				mode = { "n", "t" }, -- terminal mode too (Snacks.terminal)
+				mode = "n",
 				desc = "Move right",
 			},
 			{
