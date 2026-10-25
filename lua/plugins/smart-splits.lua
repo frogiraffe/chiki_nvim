@@ -110,16 +110,16 @@ return {
 				desc = "Swap right",
 			},
 		},
-		config = function()
-			require("smart-splits").setup({
-				resize_mode = {
-					quit_key = "<ESC>",
-					hooks = {
-						on_leave = require("bufresize").register,
-					},
-				},
-			})
-		end,
+		-- config = function()
+		-- 	require("smart-splits").setup({
+		-- 		resize_mode = {
+		-- 			quit_key = "<ESC>",
+		-- 			hooks = {
+		-- 				on_leave = require("bufresize").register,
+		-- 			},
+		-- 		},
+		-- 	})
+		-- end,
 	},
 	{
 		"kwkarlwang/bufresize.nvim",
