@@ -153,7 +153,11 @@ return {
 					vim.lsp.config(name, config)
 				end
 			end
-			vim.lsp.enable(vim.tbl_keys(servers))
+			-- Enabling replays FileType on existing buffers. Wait until BufReadPost
+			-- finishes so that replay cannot suppress native filetype detection.
+			vim.schedule(function()
+				vim.lsp.enable(vim.tbl_keys(servers))
+			end)
 
 			vim.diagnostic.config({
 				severity_sort = true,
