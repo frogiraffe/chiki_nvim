@@ -71,9 +71,8 @@ return {
 			},
 			{
 				"<C-\\>",
-				function()
-					require("smart-splits").move_cursor_previous()
-				end,
+				-- smart-splits v3 removed move_cursor_previous(); use the native equivalent.
+				"<cmd>wincmd p<cr>",
 				mode = "n",
 				desc = "Move to previous split",
 			},
@@ -110,16 +109,6 @@ return {
 				desc = "Swap right",
 			},
 		},
-		-- config = function()
-		-- 	require("smart-splits").setup({
-		-- 		resize_mode = {
-		-- 			quit_key = "<ESC>",
-		-- 			hooks = {
-		-- 				on_leave = require("bufresize").register,
-		-- 			},
-		-- 		},
-		-- 	})
-		-- end,
 	},
 	{
 		"kwkarlwang/bufresize.nvim",

@@ -162,7 +162,15 @@ return {
 			vim.diagnostic.config({
 				severity_sort = true,
 				update_in_insert = false,
-				float = { border = "rounded", source = "if_many" },
+				float = { source = "if_many" },
+				-- ]d / [d are Neovim defaults; show the diagnostic after jumping.
+				jump = {
+					on_jump = function(diagnostic, bufnr)
+						if diagnostic then
+							vim.diagnostic.open_float({ bufnr = bufnr, scope = "cursor", focus = false })
+						end
+					end,
+				},
 				underline = { severity = vim.diagnostic.severity.ERROR },
 				signs = vim.g.have_nerd_font and {
 					text = {
@@ -176,12 +184,7 @@ return {
 					source = "if_many",
 					spacing = 2,
 					prefix = "●",
-					format = function(diagnostic)
-						if diagnostic.lnum ~= vim.api.nvim_win_get_cursor(0)[1] - 1 then
-							return ""
-						end
-						return diagnostic.message
-					end,
+					current_line = true,
 				},
 			})
 
@@ -192,19 +195,16 @@ return {
 				group = attach_group,
 				callback = function(event)
 					local map = function(keys, func, desc, mode)
-						vim.keymap.set(mode or "n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
+						vim.keymap.set(mode or "n", keys, func, { buf = event.buf, desc = "LSP: " .. desc })
 					end
 
-					map("gra", vim.lsp.buf.code_action, "[G]oto Code [A]ction", { "n", "x" })
-					map("]d", function()
-						vim.diagnostic.jump({ count = 1, float = true })
-					end, "Next Diagnostic")
-					map("[d", function()
-						vim.diagnostic.jump({ count = -1, float = true })
-					end, "Prev Diagnostic")
+					-- gra, grn, grr, gri, grt, ]d and [d are Neovim defaults.
 					map("<leader>cd", vim.diagnostic.open_float, "Line Diagnostics")
 
 					local client = vim.lsp.get_client_by_id(event.data.client_id)
+					if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_linkedEditingRange, event.buf) then
+						vim.lsp.linked_editing_range.enable(true, { client_id = client.id })
+					end
 					if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
 						vim.lsp.inlay_hint.enable(true, { bufnr = event.buf })
 					end

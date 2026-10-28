@@ -52,6 +52,7 @@ opt.showmode = false
 opt.ruler = false
 opt.pumheight = 10
 opt.pumblend = 10
+opt.winborder = "rounded"
 opt.conceallevel = 2
 opt.list = true
 opt.listchars = {

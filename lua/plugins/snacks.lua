@@ -62,12 +62,7 @@ return {
 				{ section = "startup" },
 			},
 		},
-		explorer = {
-			enabled = true,
-			scope = { enabled = true },
-			hidden = true,
-			ignored = false,
-		},
+		explorer = { enabled = true },
 		indent = {
 			indent = {
 				enabled = false,
@@ -148,6 +143,7 @@ return {
 			enabled = true,
 			sources = {
 				explorer = {
+					hidden = true,
 					actions = {
 						explorer_focus = function(picker)
 							picker:set_cwd(picker:dir())

@@ -7,7 +7,8 @@ return {
 		---@module 'render-markdown'
 		---@type render.md.UserConfig
 		opts = {
-			completions = { blink = { enabled = true } },
+			-- In-process LSP is the recommended source (works with blink.cmp).
+			completions = { lsp = { enabled = true } },
 		},
 	},
 }

@@ -48,7 +48,6 @@ vim.api.nvim_create_autocmd("FileType", {
 		"checkhealth",
 		"dbout",
 		"help",
-		"lspinfo",
 		"notify",
 		"qf",
 		"startuptime",
@@ -62,7 +61,7 @@ vim.api.nvim_create_autocmd("FileType", {
 			vim.keymap.set("n", "q", function()
 				vim.cmd("close")
 				pcall(vim.api.nvim_buf_delete, event.buf, { force = true })
-			end, { buffer = event.buf, silent = true, desc = "Quit buffer" })
+			end, { buf = event.buf, silent = true, desc = "Quit buffer" })
 		end)
 	end,
 })

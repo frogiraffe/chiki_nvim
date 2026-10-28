@@ -18,6 +18,6 @@ return {
 				desc = "Search and Replace",
 			},
 		},
-		opts = { headerMaxWidth = 80 },
+		opts = {},
 	},
 }
