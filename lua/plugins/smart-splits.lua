@@ -2,7 +2,16 @@ return {
 	{
 		"mrjones2014/smart-splits.nvim",
 		event = "VeryLazy",
-		dependencies = { "kwkarlwang/bufresize.nvim" },
+		dependencies = {
+			"kwkarlwang/bufresize.nvim",
+			{ "smart-splits-nvim/backend-tmux", main = "smart-splits-backend-tmux" },
+		},
+		opts = {
+			mux = {
+				backend = "smart-splits-backend-tmux",
+				warn_if_unusable = false,
+			},
+		},
 		keys = {
 			{
 				"<A-C-h>",
