@@ -12,6 +12,26 @@ return {
 				warn_if_unusable = false,
 			},
 		},
+		config = function(_, opts)
+			require("smart-splits").setup(opts)
+			-- tmux never moves out of a floating pane by direction (every pane_at_* reads 0 there),
+			-- so at Neovim's edge in a floating pane go back to the tiled pane you came from, as
+			-- Ctrl+h/j/k/l do outside Neovim (~/.config/tmux/scripts/float-focus.sh).
+			local backend = require("smart-splits-backend-tmux")
+			local move = backend.move
+			backend.move = function(direction, move_opts)
+				local pane = vim.env.TMUX_PANE
+				local script = vim.fn.expand("~/.config/tmux/scripts/float-focus.sh")
+				if pane and vim.fn.executable(script) == 1 then
+					local out = vim.system({ "tmux", "display", "-p", "-t", pane, "#{pane_floating_flag}" }, { text = true }):wait()
+					if vim.trim(out.stdout or "") == "1" then
+						vim.system({ script, "back", pane }):wait()
+						return true
+					end
+				end
+				return move(direction, move_opts)
+			end
+		end,
 		keys = {
 			{
 				"<A-C-h>",
