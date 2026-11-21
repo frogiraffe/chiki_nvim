@@ -2,6 +2,8 @@ return {
 	{
 		"folke/noice.nvim",
 		event = "VeryLazy",
+		-- Neovide renders messages itself via ext_messages; noice can't attach there
+		cond = not vim.g.neovide,
 		dependencies = {
 			"MunifTanjim/nui.nvim",
 		},
